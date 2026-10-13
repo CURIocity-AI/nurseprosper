@@ -218,7 +218,6 @@
       z-index: 2;
     }
 
-    /* Soft outer gradient ring */
     .id-photo-ring {
       position: absolute;
       inset: 0;
@@ -243,7 +242,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Inner white gap for elegance */
     .id-photo-inner {
       position: absolute;
       inset: 2.5px;
@@ -256,7 +254,6 @@
       overflow: hidden;
     }
 
-    /* Actual image circle */
     .id-photo-img {
       position: relative;
       width: 100%;
@@ -300,7 +297,6 @@
       display: none;
     }
 
-    /* Online status indicator */
     .id-photo-status {
       position: absolute;
       bottom: 4px;
@@ -323,7 +319,6 @@
       animation: statusPulse 2s infinite;
     }
 
-    /* Verified badge */
     .id-photo-badge {
       position: absolute;
       top: -2px;
@@ -385,7 +380,6 @@
       color: var(--sky);
     }
 
-    /* License bar */
     .id-license-bar {
       display: flex;
       align-items: center;
@@ -394,6 +388,12 @@
       background: #f8fbfe;
       border-top: 1px solid var(--border);
       gap: 10px;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+
+    .id-license-bar:active {
+      background: var(--primary-light);
     }
 
     .id-license-item {
@@ -416,7 +416,7 @@
       font-size: 0.72rem;
     }
 
-    /* ---------- QUICK ACTIONS ---------- */
+    /* ---------- QUICK ACTIONS (with active highlight) ---------- */
     .quick-actions {
       display: flex;
       gap: 10px;
@@ -432,6 +432,7 @@
     }
 
     .quick-pill {
+      position: relative;
       flex: 0 0 auto;
       display: flex;
       align-items: center;
@@ -439,44 +440,61 @@
       padding: 10px 16px;
       border-radius: 50px;
       background: var(--card);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       color: var(--navy);
       font-family: 'Inter', sans-serif;
       font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.01em;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       white-space: nowrap;
       box-shadow: 0 4px 12px -6px rgba(15, 42, 74, 0.15);
+      outline: none;
     }
 
     .quick-pill i {
       font-size: 0.85rem;
       color: var(--primary);
-      transition: transform 0.3s;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .quick-pill:active {
-      transform: scale(0.95);
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
+    /* Active highlight state */
+    .quick-pill.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+      border-color: var(--primary-dark);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow:
+        0 10px 22px -8px var(--primary-glow),
+        0 0 0 3px rgba(2, 132, 199, 0.15);
     }
 
-    .quick-pill:active i {
-      color: white;
+    .quick-pill.active i {
+      color: #ffffff;
       transform: scale(1.15);
     }
 
-    .quick-pill.is-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      border-color: var(--primary-dark);
+    /* Active ring pulse */
+    .quick-pill.active::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50px;
+      border: 1.5px solid var(--primary);
+      opacity: 0.5;
+      animation: activePulse 2s ease-out infinite;
+      pointer-events: none;
     }
 
-    .quick-pill.is-primary i {
-      color: white;
+    @keyframes activePulse {
+      0% { transform: scale(0.96); opacity: 0.6; }
+      100% { transform: scale(1.08); opacity: 0; }
+    }
+
+    /* Press feedback */
+    .quick-pill:active {
+      transform: scale(0.95);
     }
 
     /* ---------- CLINICAL CHART ---------- */
@@ -1281,19 +1299,10 @@
 
     /* ---------- RESPONSIVE ---------- */
     @media (min-width: 520px) {
-      .page {
-        max-width: 520px;
-      }
-      .top-nav-inner {
-        max-width: 520px;
-      }
-      .bottom-sheet {
-        max-width: 520px;
-        border-radius: 30px 30px 0 0;
-      }
-      .id-info h1 {
-        font-size: 1.7rem;
-      }
+      .page { max-width: 520px; }
+      .top-nav-inner { max-width: 520px; }
+      .bottom-sheet { max-width: 520px; border-radius: 30px 30px 0 0; }
+      .id-info h1 { font-size: 1.7rem; }
     }
 
     @media (max-width: 360px) {
@@ -1310,9 +1319,8 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
-      .id-photo-ring {
-        animation: none;
-      }
+      .id-photo-ring { animation: none; }
+      .quick-pill.active::after { animation: none; opacity: 0.4; }
     }
   </style>
 </head>
@@ -1340,14 +1348,13 @@
     <!-- ID BANNER -->
     <section class="id-banner">
       <div class="id-banner-top">
-        <!-- ELEGANT CIRCULAR PORTRAIT -->
         <div class="id-photo">
           <div class="id-photo-ring"></div>
           <div class="id-photo-inner">
             <div class="id-photo-img">
-        
+    
               <img
-                src="https://cdn.jsdelivr.net/gh/CURIocity-AI/imagery@master/IMG_20261013_151531.jpg"
+                src="https://cdn.jsdelivr.net/gh/CURIocity-AI/imagery@master/Image_20261013_141803_171 (1).jpeg"
                 alt="Prosper Bassey — Registered Nurse"
                 loading="eager"
               >
@@ -1367,7 +1374,7 @@
           </div>
         </div>
       </div>
-      <div class="id-license-bar">
+      <div class="id-license-bar" data-sheet="license">
         <div class="id-license-item">
           <i class="fas fa-id-card"></i>
           <span>#RN-9017297650</span>
@@ -1379,21 +1386,21 @@
       </div>
     </section>
 
-    <!-- QUICK ACTIONS -->
-    <div class="quick-actions">
-      <button class="quick-pill is-primary" data-sheet="message">
+    <!-- QUICK ACTIONS (with active highlight) -->
+    <div class="quick-actions" id="quickActions">
+      <button class="quick-pill active" data-sheet="message" data-action="message">
         <i class="fas fa-comment-medical"></i> Message
       </button>
-      <button class="quick-pill" data-sheet="book">
+      <button class="quick-pill" data-sheet="book" data-action="book">
         <i class="fas fa-calendar-check"></i> Book
       </button>
-      <button class="quick-pill" data-sheet="call">
+      <button class="quick-pill" data-sheet="call" data-action="call">
         <i class="fas fa-phone-alt"></i> Call
       </button>
-      <button class="quick-pill" data-sheet="records">
+      <button class="quick-pill" data-sheet="records" data-action="records">
         <i class="fas fa-file-medical"></i> Records
       </button>
-      <button class="quick-pill" data-sheet="share">
+      <button class="quick-pill" data-sheet="share" data-action="share">
         <i class="fas fa-share-nodes"></i> Share
       </button>
     </div>
@@ -1497,7 +1504,7 @@
       <div class="testimonial-card">
         <div class="testimonial-mark">&ldquo;</div>
         <p class="testimonial-text">
-          Prosper stayed past her shift to sit with my mother through a difficult night. That is not just nursing — that is calling. Our family will never forget it.
+          Nurse Prosper stayed past her shift to sit with my mother through a difficult night. That is not just nursing — that is calling. Our family will never forget it.
         </p>
         <div class="testimonial-author">
           <div class="testimonial-avatar">EN</div>
@@ -1805,7 +1812,29 @@
         touchDelta = 0;
       });
 
-      document.querySelectorAll('[data-sheet]').forEach(function(el) {
+      /* ---------- QUICK ACTION BUTTONS (active highlight) ---------- */
+      var quickPills = document.querySelectorAll('.quick-pill');
+      quickPills.forEach(function(pill) {
+        pill.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Remove active from all pills
+          quickPills.forEach(function(p) {
+            p.classList.remove('active');
+          });
+
+          // Add active to this pill
+          this.classList.add('active');
+
+          // Open the corresponding sheet
+          var key = this.getAttribute('data-sheet');
+          if (key) openSheet(key);
+        });
+      });
+
+      /* ---------- OTHER SHEET TRIGGERS (matrix, contact, license) ---------- */
+      document.querySelectorAll('[data-sheet]:not(.quick-pill)').forEach(function(el) {
         el.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
@@ -1826,10 +1855,6 @@
           var platform = this.getAttribute('data-social');
           showToast('Opening ' + platform + '…', 'fas fa-arrow-up-right-from-square');
         });
-      });
-
-      document.querySelector('.id-license-bar').addEventListener('click', function() {
-        openSheet('license');
       });
 
       function animateBars() {
