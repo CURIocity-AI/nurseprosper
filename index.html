@@ -4,15 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>Prosper Bassey · Registered Nurse</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     :root {
       --primary: #0284c7;
@@ -23,6 +18,8 @@
       --navy-light: #1e3a5f;
       --sky: #7dd3fc;
       --success: #22c55e;
+      --warning: #f59e0b;
+      --offline: #94a3b8;
       --text: #0f172a;
       --text-light: #475569;
       --text-muted: #94a3b8;
@@ -32,9 +29,7 @@
       --border-strong: #b8d1ec;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -49,9 +44,7 @@
     /* ---------- FIXED TOP NAV ---------- */
     .top-nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 80;
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(18px);
@@ -70,79 +63,58 @@
       gap: 12px;
     }
 
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
 
     .nav-monogram {
-      width: 38px;
-      height: 38px;
+      width: 38px; height: 38px;
       border-radius: 12px;
       background: linear-gradient(135deg, var(--primary), var(--navy));
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 800;
-      letter-spacing: 0.02em;
+      font-size: 0.85rem; font-weight: 800;
       box-shadow: 0 6px 14px -6px var(--primary-glow);
       flex-shrink: 0;
     }
 
-    .nav-brand-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.15;
-    }
-
+    .nav-brand-text { display: flex; flex-direction: column; line-height: 1.15; }
     .nav-brand-text strong {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--navy);
+      font-size: 0.85rem; font-weight: 700; color: var(--navy);
       letter-spacing: -0.01em;
     }
-
     .nav-brand-text span {
-      font-size: 0.6rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--primary);
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--primary);
     }
 
     .nav-status {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--navy);
-      background: #dcfce7;
-      border: 1px solid #bbf7d0;
-      padding: 5px 10px;
-      border-radius: 40px;
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 5px 10px; border-radius: 40px;
       white-space: nowrap;
+      border: 1px solid;
+      transition: all 0.35s ease;
     }
 
-    .nav-status i {
-      font-size: 0.5rem;
-      color: var(--success);
-      animation: statusPulse 2s infinite;
-    }
+    .nav-status.duty { color: #166534; background: #dcfce7; border-color: #bbf7d0; }
+    .nav-status.duty i { color: var(--success); animation: statusPulse 2s infinite; }
+
+    .nav-status.away { color: #92400e; background: #fef3c7; border-color: #fde68a; }
+    .nav-status.away i { color: var(--warning); }
+
+    .nav-status.offline { color: #475569; background: #f1f5f9; border-color: #cbd5e1; }
+    .nav-status.offline i { color: var(--offline); }
+
+    .nav-status i { font-size: 0.5rem; }
 
     @keyframes statusPulse {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.5; transform: scale(1.4); }
     }
 
-    /* ---------- MAIN WRAPPER ---------- */
+    /* ---------- PAGE ---------- */
     .page {
       max-width: 480px;
       margin: 0 auto;
@@ -183,10 +155,8 @@
     .id-banner-top::before {
       content: '';
       position: absolute;
-      top: -40px;
-      right: -30px;
-      width: 150px;
-      height: 150px;
+      top: -40px; right: -30px;
+      width: 150px; height: 150px;
       background: radial-gradient(circle, var(--primary-glow), transparent 70%);
       border-radius: 50%;
       animation: blobFloat 8s ease-in-out infinite;
@@ -195,10 +165,8 @@
     .id-banner-top::after {
       content: '';
       position: absolute;
-      bottom: -50px;
-      left: -30px;
-      width: 120px;
-      height: 120px;
+      bottom: -50px; left: -30px;
+      width: 120px; height: 120px;
       background: radial-gradient(circle, rgba(125, 211, 252, 0.2), transparent 70%);
       border-radius: 50%;
       animation: blobFloat 10s ease-in-out infinite reverse;
@@ -209,145 +177,89 @@
       50% { transform: translate(-15px, 15px) scale(1.1); }
     }
 
-    /* ---------- PROFESSIONAL CIRCULAR PORTRAIT ---------- */
-    .id-photo {
-      position: relative;
-      width: 92px;
-      height: 92px;
-      flex-shrink: 0;
-      z-index: 2;
-    }
+    .id-photo { position: relative; width: 92px; height: 92px; flex-shrink: 0; z-index: 2; }
 
     .id-photo-ring {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       border-radius: 50%;
       padding: 2.5px;
-      background: conic-gradient(
-        from 150deg,
-        #7dd3fc 0deg,
-        #0284c7 90deg,
-        #0f2a4a 180deg,
-        #0284c7 270deg,
-        #7dd3fc 360deg
-      );
+      background: conic-gradient(from 150deg, #7dd3fc 0deg, #0284c7 90deg, #0f2a4a 180deg, #0284c7 270deg, #7dd3fc 360deg);
       animation: ringSpin 12s linear infinite;
-      box-shadow:
-        0 0 0 3px rgba(15, 42, 74, 0.6),
-        0 10px 24px -8px rgba(0, 0, 0, 0.5),
-        0 0 20px -4px var(--primary-glow);
+      box-shadow: 0 0 0 3px rgba(15, 42, 74, 0.6), 0 10px 24px -8px rgba(0, 0, 0, 0.5), 0 0 20px -4px var(--primary-glow);
     }
 
-    @keyframes ringSpin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes ringSpin { to { transform: rotate(360deg); } }
 
     .id-photo-inner {
-      position: absolute;
-      inset: 2.5px;
+      position: absolute; inset: 2.5px;
       border-radius: 50%;
       background: #f8fbfe;
       padding: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
 
     .id-photo-img {
       position: relative;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       border-radius: 50%;
       overflow: hidden;
       background: var(--navy-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
 
     .id-photo-img img {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
       display: block;
       filter: saturate(0.98) contrast(1.04);
       transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .id-photo:active .id-photo-img img {
-      transform: scale(1.06);
-    }
-
-    .id-photo-initials {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1.9rem;
-      font-weight: 800;
-      color: var(--sky);
-      letter-spacing: 0.04em;
-      z-index: 1;
-    }
-
-    .id-photo-img img + .id-photo-initials {
-      display: none;
-    }
-
     .id-photo-status {
-      position: absolute;
-      bottom: 4px;
-      right: 4px;
-      width: 16px;
-      height: 16px;
+      position: absolute; bottom: 4px; right: 4px;
+      width: 16px; height: 16px;
       border-radius: 50%;
       background: var(--success);
       border: 2.5px solid var(--navy);
       z-index: 5;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      transition: background 0.35s ease, border-color 0.35s ease;
     }
+
+    .id-photo-status.duty { background: var(--success); }
+    .id-photo-status.away { background: var(--warning); }
+    .id-photo-status.offline { background: var(--offline); }
 
     .id-photo-status::after {
       content: '';
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       border-radius: 50%;
-      background: var(--success);
+      background: inherit;
       animation: statusPulse 2s infinite;
     }
 
+    .id-photo-status.away::after,
+    .id-photo-status.offline::after { animation: none; }
+
     .id-photo-badge {
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 24px;
-      height: 24px;
+      position: absolute; top: -2px; right: -2px;
+      width: 24px; height: 24px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--sky), var(--primary));
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 0.6rem;
       z-index: 5;
       border: 2px solid var(--navy);
       box-shadow: 0 4px 10px -2px rgba(2, 132, 199, 0.6);
     }
 
-    .id-info {
-      flex: 1;
-      min-width: 0;
-      z-index: 2;
-      color: white;
-    }
+    .id-info { flex: 1; min-width: 0; z-index: 2; color: white; }
 
     .id-info h1 {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 800;
+      font-size: 1.5rem; font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1.1;
       margin-bottom: 4px;
@@ -355,24 +267,17 @@
     }
 
     .id-info .id-role {
-      font-size: 0.78rem;
-      font-weight: 600;
+      font-size: 0.78rem; font-weight: 600;
       color: var(--sky);
       letter-spacing: 0.02em;
       margin-bottom: 8px;
     }
 
-    .id-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
+    .id-tags { display: flex; flex-wrap: wrap; gap: 5px; }
 
     .id-tag {
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
       padding: 3px 9px;
       border-radius: 40px;
       background: rgba(125, 211, 252, 0.15);
@@ -381,9 +286,7 @@
     }
 
     .id-license-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       padding: 12px 18px;
       background: #f8fbfe;
       border-top: 1px solid var(--border);
@@ -392,34 +295,21 @@
       transition: background 0.25s;
     }
 
-    .id-license-bar:active {
-      background: var(--primary-light);
-    }
+    .id-license-bar:active { background: var(--primary-light); }
 
     .id-license-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.68rem;
-      font-weight: 600;
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.68rem; font-weight: 600;
       color: var(--navy);
       letter-spacing: 0.02em;
     }
 
-    .id-license-item i {
-      color: var(--primary);
-      font-size: 0.75rem;
-    }
+    .id-license-item i { color: var(--primary); font-size: 0.75rem; }
+    .id-license-item .check { color: var(--success); font-size: 0.72rem; }
 
-    .id-license-item .check {
-      color: var(--success);
-      font-size: 0.72rem;
-    }
-
-    /* ---------- QUICK ACTIONS (with active highlight) ---------- */
+    /* ---------- QUICK ACTIONS ---------- */
     .quick-actions {
-      display: flex;
-      gap: 10px;
+      display: flex; gap: 10px;
       padding: 14px 16px 0;
       overflow-x: auto;
       scrollbar-width: none;
@@ -427,24 +317,19 @@
       animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
     }
 
-    .quick-actions::-webkit-scrollbar {
-      display: none;
-    }
+    .quick-actions::-webkit-scrollbar { display: none; }
 
     .quick-pill {
       position: relative;
       flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      display: flex; align-items: center; gap: 8px;
       padding: 10px 16px;
       border-radius: 50px;
       background: var(--card);
       border: 1.5px solid var(--border);
       color: var(--navy);
       font-family: 'Inter', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
+      font-size: 0.78rem; font-weight: 600;
       letter-spacing: 0.01em;
       cursor: pointer;
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -464,15 +349,10 @@
       color: #ffffff;
       border-color: var(--primary-dark);
       transform: translateY(-2px) scale(1.03);
-      box-shadow:
-        0 10px 22px -8px var(--primary-glow),
-        0 0 0 3px rgba(2, 132, 199, 0.15);
+      box-shadow: 0 10px 22px -8px var(--primary-glow), 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
 
-    .quick-pill.active i {
-      color: #ffffff;
-      transform: scale(1.15);
-    }
+    .quick-pill.active i { color: #ffffff; transform: scale(1.15); }
 
     .quick-pill.active::after {
       content: '';
@@ -490,9 +370,7 @@
       100% { transform: scale(1.08); opacity: 0; }
     }
 
-    .quick-pill:active {
-      transform: scale(0.95);
-    }
+    .quick-pill:active { transform: scale(0.95); }
 
     /* ---------- CLINICAL CHART ---------- */
     .chart-section {
@@ -501,48 +379,33 @@
     }
 
     .chart-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
+      display: flex; align-items: baseline; justify-content: space-between;
       margin-bottom: 14px;
       padding: 0 4px;
     }
 
     .chart-header h2 {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 800;
+      font-size: 1.15rem; font-weight: 800;
       color: var(--navy);
       letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      display: flex; align-items: center; gap: 8px;
     }
 
-    .chart-header h2 i {
-      color: var(--primary);
-      font-size: 0.95rem;
-    }
+    .chart-header h2 i { color: var(--primary); font-size: 0.95rem; }
 
     .chart-header span {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
       color: var(--text-muted);
     }
 
-    .chart-timeline {
-      position: relative;
-      padding-left: 34px;
-    }
+    .chart-timeline { position: relative; padding-left: 34px; }
 
     .chart-timeline::before {
       content: '';
       position: absolute;
-      left: 13px;
-      top: 6px;
-      bottom: 6px;
+      left: 13px; top: 6px; bottom: 6px;
       width: 2px;
       background: linear-gradient(to bottom, var(--primary), var(--sky), var(--border));
       border-radius: 2px;
@@ -573,10 +436,8 @@
     .chart-entry::before {
       content: '';
       position: absolute;
-      left: -27px;
-      top: 20px;
-      width: 10px;
-      height: 10px;
+      left: -27px; top: 20px;
+      width: 10px; height: 10px;
       border-radius: 50%;
       background: var(--card);
       border: 2.5px solid var(--primary);
@@ -603,37 +464,26 @@
     }
 
     .chart-entry-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       gap: 10px;
       margin-bottom: 4px;
     }
 
     .chart-entry-label {
-      font-size: 0.62rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      display: flex; align-items: center; gap: 6px;
     }
 
-    .chart-entry-label i {
-      font-size: 0.7rem;
-    }
+    .chart-entry-label i { font-size: 0.7rem; }
 
     .chart-entry-chevron {
-      width: 22px;
-      height: 22px;
+      width: 22px; height: 22px;
       border-radius: 50%;
       background: var(--primary-light);
       color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 0.6rem;
       transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       flex-shrink: 0;
@@ -647,8 +497,7 @@
 
     .chart-entry-value {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 1rem; font-weight: 700;
       color: var(--navy);
       letter-spacing: -0.01em;
       line-height: 1.35;
@@ -663,12 +512,9 @@
     }
 
     .chart-entry-value .verified {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+      display: inline-flex; align-items: center; gap: 4px;
       color: var(--success);
-      font-size: 0.78rem;
-      font-weight: 700;
+      font-size: 0.78rem; font-weight: 700;
     }
 
     .chart-entry-detail {
@@ -682,14 +528,14 @@
     }
 
     .chart-entry.expanded .chart-entry-detail {
-      max-height: 200px;
+      max-height: 300px;
       opacity: 1;
       margin-top: 10px;
       padding-top: 10px;
       border-top: 1px dashed var(--border-strong);
     }
 
-    /* ---------- COMPETENCY MATRIX ---------- */
+    /* ---------- MATRIX ---------- */
     .matrix-section {
       padding: 24px 16px 0;
       animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
@@ -706,9 +552,7 @@
       border: 1px solid var(--border);
       border-radius: 18px;
       padding: 14px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      display: flex; flex-direction: column; gap: 8px;
       cursor: pointer;
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
@@ -729,9 +573,7 @@
     .matrix-card::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       height: 3px;
       background: linear-gradient(90deg, var(--primary), var(--sky));
       transform: scaleX(0);
@@ -745,19 +587,14 @@
       box-shadow: 0 12px 24px -12px var(--primary-glow);
     }
 
-    .matrix-card:active::after {
-      transform: scaleX(1);
-    }
+    .matrix-card:active::after { transform: scaleX(1); }
 
     .matrix-icon {
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       border-radius: 11px;
       background: var(--primary-light);
       color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 1rem;
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
@@ -770,16 +607,14 @@
 
     .matrix-card h3 {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 0.85rem; font-weight: 700;
       color: var(--navy);
       letter-spacing: -0.01em;
       line-height: 1.25;
     }
 
     .matrix-card .matrix-sub {
-      font-size: 0.68rem;
-      font-weight: 500;
+      font-size: 0.68rem; font-weight: 500;
       color: var(--text-muted);
       letter-spacing: 0.02em;
       line-height: 1.4;
@@ -802,8 +637,7 @@
     }
 
     .matrix-percent {
-      font-size: 0.62rem;
-      font-weight: 700;
+      font-size: 0.62rem; font-weight: 700;
       color: var(--primary);
       letter-spacing: 0.02em;
       margin-top: 1px;
@@ -815,11 +649,7 @@
       animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
     }
 
-    .journal-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+    .journal-list { display: flex; flex-direction: column; gap: 12px; }
 
     .journal-card {
       background: var(--card);
@@ -831,21 +661,13 @@
       position: relative;
       overflow: hidden;
       animation: matrixIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      display: flex; flex-direction: column; gap: 10px;
     }
-
-    .journal-card:nth-child(1) { animation-delay: 0.38s; }
-    .journal-card:nth-child(2) { animation-delay: 0.44s; }
-    .journal-card:nth-child(3) { animation-delay: 0.50s; }
 
     .journal-card::after {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
+      left: 0; top: 0; bottom: 0;
       width: 3px;
       background: linear-gradient(180deg, var(--primary), var(--sky));
       transform: scaleY(0);
@@ -859,22 +681,16 @@
       box-shadow: 0 12px 26px -14px var(--primary-glow);
     }
 
-    .journal-card:active::after {
-      transform: scaleY(1);
-    }
+    .journal-card:active::after { transform: scaleY(1); }
 
     .journal-card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       gap: 10px;
     }
 
     .journal-tag {
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
       padding: 4px 10px;
       border-radius: 40px;
       background: var(--primary-light);
@@ -883,55 +699,59 @@
     }
 
     .journal-meta {
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+      font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase;
       color: var(--text-muted);
     }
 
     .journal-title {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 1rem; font-weight: 700;
       color: var(--navy);
       letter-spacing: -0.015em;
       line-height: 1.3;
     }
 
     .journal-excerpt {
-      font-size: 0.82rem;
-      font-weight: 400;
+      font-size: 0.82rem; font-weight: 400;
       color: var(--text-light);
       line-height: 1.55;
     }
 
     .journal-card-foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       gap: 10px;
       padding-top: 10px;
       border-top: 1px dashed var(--border-strong);
     }
 
     .journal-read {
-      font-size: 0.7rem;
-      font-weight: 700;
+      font-size: 0.7rem; font-weight: 700;
       letter-spacing: 0.04em;
       color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      display: flex; align-items: center; gap: 6px;
     }
 
-    .journal-read i {
-      transition: transform 0.3s;
+    .journal-read i { transition: transform 0.3s; }
+    .journal-card:active .journal-read i { transform: translateX(3px); }
+
+    .journal-empty {
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--text-muted);
+      background: var(--card);
+      border: 1px dashed var(--border-strong);
+      border-radius: 20px;
     }
 
-    .journal-card:active .journal-read i {
-      transform: translateX(3px);
+    .journal-empty i {
+      font-size: 1.8rem;
+      color: var(--border-strong);
+      display: block;
+      margin-bottom: 10px;
     }
+
+    .journal-empty p { font-size: 0.82rem; font-weight: 500; }
 
     /* ---------- TESTIMONIAL ---------- */
     .testimonial-wrap {
@@ -952,10 +772,8 @@
     .testimonial-card::before {
       content: '';
       position: absolute;
-      top: -60px;
-      right: -60px;
-      width: 180px;
-      height: 180px;
+      top: -60px; right: -60px;
+      width: 180px; height: 180px;
       background: radial-gradient(circle, var(--primary-glow), transparent 70%);
       border-radius: 50%;
       animation: blobFloat 7s ease-in-out infinite;
@@ -964,10 +782,8 @@
     .testimonial-card::after {
       content: '';
       position: absolute;
-      bottom: -40px;
-      left: -40px;
-      width: 140px;
-      height: 140px;
+      bottom: -40px; left: -40px;
+      width: 140px; height: 140px;
       background: radial-gradient(circle, rgba(125, 211, 252, 0.15), transparent 70%);
       border-radius: 50%;
       animation: blobFloat 9s ease-in-out infinite reverse;
@@ -975,8 +791,7 @@
 
     .testimonial-mark {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 3rem;
-      font-weight: 800;
+      font-size: 3rem; font-weight: 800;
       line-height: 1;
       color: var(--sky);
       opacity: 0.4;
@@ -987,8 +802,7 @@
 
     .testimonial-text {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1rem;
-      font-weight: 500;
+      font-size: 1rem; font-weight: 500;
       font-style: italic;
       line-height: 1.55;
       color: white;
@@ -999,9 +813,7 @@
     }
 
     .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: flex; align-items: center; gap: 12px;
       padding-top: 14px;
       border-top: 1px solid rgba(125, 211, 252, 0.2);
       position: relative;
@@ -1009,16 +821,12 @@
     }
 
     .testimonial-avatar {
-      width: 42px;
-      height: 42px;
+      width: 42px; height: 42px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--primary), var(--sky));
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 800;
+      font-size: 0.85rem; font-weight: 800;
       color: var(--navy);
       flex-shrink: 0;
       border: 2px solid rgba(125, 211, 252, 0.4);
@@ -1026,17 +834,14 @@
 
     .testimonial-info h4 {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 0.85rem; font-weight: 700;
       color: white;
       letter-spacing: -0.01em;
     }
 
     .testimonial-info span {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
       color: var(--sky);
       opacity: 0.85;
     }
@@ -1055,38 +860,32 @@
     .contact-panel-head {
       padding: 18px 20px 14px;
       border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       gap: 10px;
     }
 
     .contact-panel-head h3 {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 800;
+      font-size: 1.05rem; font-weight: 800;
       color: var(--navy);
       letter-spacing: -0.02em;
     }
 
     .contact-panel-head .contact-badge {
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--success);
-      background: #dcfce7;
-      border: 1px solid #bbf7d0;
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
       padding: 4px 9px;
       border-radius: 40px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      display: flex; align-items: center; gap: 4px;
+      border: 1px solid;
+      transition: all 0.35s ease;
     }
 
-    .contact-panel-head .contact-badge i {
-      font-size: 0.5rem;
-    }
+    .contact-badge.duty { color: var(--success); background: #dcfce7; border-color: #bbf7d0; }
+    .contact-badge.away { color: #92400e; background: #fef3c7; border-color: #fde68a; }
+    .contact-badge.offline { color: #475569; background: #f1f5f9; border-color: #cbd5e1; }
+
+    .contact-panel-head .contact-badge i { font-size: 0.5rem; }
 
     .contact-grid {
       display: grid;
@@ -1097,25 +896,14 @@
       padding: 16px 18px;
       border-right: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      display: flex; flex-direction: column; gap: 4px;
       cursor: pointer;
       transition: background 0.25s;
-      position: relative;
     }
 
-    .contact-cell:nth-child(2n) {
-      border-right: none;
-    }
-
-    .contact-cell:nth-last-child(-n+2) {
-      border-bottom: none;
-    }
-
-    .contact-cell:active {
-      background: var(--primary-light);
-    }
+    .contact-cell:nth-child(2n) { border-right: none; }
+    .contact-cell:nth-last-child(-n+2) { border-bottom: none; }
+    .contact-cell:active { background: var(--primary-light); }
 
     .contact-cell-icon {
       font-size: 0.95rem;
@@ -1124,26 +912,20 @@
     }
 
     .contact-cell-label {
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--text-muted);
     }
 
     .contact-cell-value {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 0.82rem; font-weight: 700;
       color: var(--navy);
       letter-spacing: -0.01em;
       word-break: break-word;
     }
 
-    .contact-cell-value a {
-      color: var(--navy);
-      text-decoration: none;
-    }
+    .contact-cell-value a { color: var(--navy); text-decoration: none; }
 
     /* ---------- COLOPHON ---------- */
     .colophon {
@@ -1153,49 +935,37 @@
     }
 
     .colophon-mark {
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       border-radius: 14px;
       background: linear-gradient(135deg, var(--primary), var(--navy));
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 1.1rem;
       margin: 0 auto 12px;
       box-shadow: 0 8px 20px -10px var(--primary-glow);
     }
 
     .colophon p {
-      font-size: 0.68rem;
-      font-weight: 500;
+      font-size: 0.68rem; font-weight: 500;
       letter-spacing: 0.06em;
       color: var(--text-muted);
       line-height: 1.6;
     }
 
-    .colophon p strong {
-      color: var(--navy);
-      font-weight: 700;
-    }
+    .colophon p strong { color: var(--navy); font-weight: 700; }
 
     .colophon-socials {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
+      display: flex; justify-content: center; gap: 8px;
       margin-top: 14px;
     }
 
     .colophon-socials a {
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       border-radius: 50%;
       background: var(--card);
       border: 1px solid var(--border);
       color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 0.85rem;
       text-decoration: none;
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1211,26 +981,20 @@
 
     /* ---------- BOTTOM SHEET ---------- */
     .modal-overlay {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: rgba(15, 42, 74, 0.5);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
       z-index: 200;
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0; pointer-events: none;
       transition: opacity 0.35s ease;
     }
 
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
 
     .bottom-sheet {
       position: fixed;
-      bottom: 0;
-      left: 50%;
+      bottom: 0; left: 50%;
       transform: translateX(-50%) translateY(100%);
       width: 100%;
       max-width: 480px;
@@ -1245,42 +1009,33 @@
       box-shadow: 0 -20px 50px -15px rgba(0, 0, 0, 0.3);
     }
 
-    .bottom-sheet.active {
-      transform: translateX(-50%) translateY(0);
-    }
+    .bottom-sheet.active { transform: translateX(-50%) translateY(0); }
 
     .sheet-handle {
-      width: 42px;
-      height: 4px;
+      width: 42px; height: 4px;
       background: var(--border-strong);
       border-radius: 3px;
       margin: 0 auto 18px;
     }
 
     .sheet-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
+      display: flex; align-items: flex-start; gap: 14px;
       margin-bottom: 18px;
     }
 
     .sheet-header-icon {
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       border-radius: 14px;
       background: var(--primary-light);
       color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 1.1rem;
       flex-shrink: 0;
     }
 
     .sheet-header-text h2 {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 800;
+      font-size: 1.25rem; font-weight: 800;
       color: var(--navy);
       letter-spacing: -0.02em;
       line-height: 1.2;
@@ -1288,16 +1043,13 @@
     }
 
     .sheet-header-text p {
-      font-size: 0.78rem;
-      font-weight: 500;
+      font-size: 0.78rem; font-weight: 500;
       color: var(--text-light);
       line-height: 1.45;
     }
 
     .sheet-items {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      display: flex; flex-direction: column; gap: 10px;
       margin-bottom: 18px;
     }
 
@@ -1306,9 +1058,7 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 13px 14px;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
+      display: flex; gap: 12px; align-items: flex-start;
       transition: all 0.3s;
     }
 
@@ -1319,30 +1069,25 @@
     }
 
     .sheet-item-icon {
-      width: 34px;
-      height: 34px;
+      width: 34px; height: 34px;
       border-radius: 10px;
       background: var(--primary-light);
       color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 0.9rem;
       flex-shrink: 0;
     }
 
     .sheet-item-body h4 {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 0.85rem; font-weight: 700;
       color: var(--navy);
       letter-spacing: -0.01em;
       margin-bottom: 2px;
     }
 
     .sheet-item-body p {
-      font-size: 0.78rem;
-      font-weight: 400;
+      font-size: 0.78rem; font-weight: 400;
       color: var(--text-light);
       line-height: 1.5;
     }
@@ -1353,25 +1098,19 @@
       text-decoration: none;
     }
 
-    .sheet-item-body a:hover {
-      text-decoration: underline;
-    }
+    .sheet-item-body a:hover { text-decoration: underline; }
 
-    /* ---------- ARTICLE SHEET (Journal) ---------- */
     .article-sheet-body {
       font-size: 0.88rem;
       line-height: 1.65;
       color: var(--text);
     }
 
-    .article-sheet-body p {
-      margin-bottom: 14px;
-    }
+    .article-sheet-body p { margin-bottom: 14px; }
 
     .article-sheet-body h3 {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.98rem;
-      font-weight: 700;
+      font-size: 0.98rem; font-weight: 700;
       color: var(--navy);
       letter-spacing: -0.01em;
       margin: 18px 0 8px;
@@ -1395,10 +1134,8 @@
     .article-sheet-body ul li::before {
       content: '';
       position: absolute;
-      left: 2px;
-      top: 9px;
-      width: 6px;
-      height: 6px;
+      left: 2px; top: 9px;
+      width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--primary);
     }
@@ -1428,18 +1165,15 @@
     .article-sheet-body .signoff {
       margin-top: 14px;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 0.85rem; font-weight: 700;
       color: var(--navy);
     }
 
     .article-sheet-body .signoff span {
       display: block;
       font-family: 'Inter', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
       color: var(--primary);
       margin-top: 2px;
     }
@@ -1451,52 +1185,17 @@
       background: var(--navy);
       color: white;
       font-family: 'Inter', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
+      font-size: 0.88rem; font-weight: 700;
       letter-spacing: 0.02em;
       border: none;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
 
     .sheet-close-btn:active {
       background: var(--primary-dark);
       transform: scale(0.97);
-    }
-
-    .sheet-cta-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .sheet-cta-secondary {
-      flex: 1;
-      padding: 14px;
-      border-radius: 50px;
-      background: var(--primary-light);
-      color: var(--primary-dark);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      border: 1px solid var(--border-strong);
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-    }
-
-    .sheet-cta-secondary:active {
-      background: white;
-      transform: scale(0.97);
-      border-color: var(--primary);
     }
 
     /* ---------- TOAST ---------- */
@@ -1510,32 +1209,21 @@
       padding: 12px 22px;
       border-radius: 50px;
       font-family: 'Inter', sans-serif;
-      font-size: 0.76rem;
-      font-weight: 600;
+      font-size: 0.76rem; font-weight: 600;
       letter-spacing: 0.02em;
       z-index: 300;
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0; pointer-events: none;
       transition: opacity 0.3s, transform 0.3s;
       box-shadow: 0 12px 28px -8px rgba(15, 42, 74, 0.5);
       white-space: nowrap;
       max-width: 90vw;
       overflow: hidden;
       text-overflow: ellipsis;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      display: flex; align-items: center; gap: 8px;
     }
 
-    .toast i {
-      color: var(--sky);
-      font-size: 0.85rem;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast i { color: var(--sky); font-size: 0.85rem; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     /* ---------- RESPONSIVE ---------- */
     @media (min-width: 520px) {
@@ -1571,19 +1259,18 @@
   <nav class="top-nav">
     <div class="top-nav-inner">
       <div class="nav-brand">
-        <div class="nav-monogram">PB</div>
+        <div class="nav-monogram" id="navMonogram">PB</div>
         <div class="nav-brand-text">
-          <strong>Prosper Bassey</strong>
-          <span>RN · Critical Care</span>
+          <strong id="navName">Prosper Bassey</strong>
+          <span id="navRole">RN · Critical Care</span>
         </div>
       </div>
-      <div class="nav-status">
-        <i class="fas fa-circle"></i> On Duty
+      <div class="nav-status duty" id="navStatus">
+        <i class="fas fa-circle"></i> <span id="navStatusText">On Duty</span>
       </div>
     </div>
   </nav>
 
-  <!-- PAGE -->
   <main class="page">
 
     <!-- ID BANNER -->
@@ -1600,50 +1287,30 @@
               >
             </div>
           </div>
-          <div class="id-photo-status"></div>
+          <div class="id-photo-status duty" id="photoStatus"></div>
           <div class="id-photo-badge"><i class="fas fa-check"></i></div>
         </div>
 
         <div class="id-info">
-          <h1>Prosper Bassey</h1>
-          <div class="id-role">BSN, RN · Critical Care Nurse</div>
-          <div class="id-tags">
-            <span class="id-tag">ACLS</span>
-            <span class="id-tag">PALS</span>
-            <span class="id-tag">BLS</span>
-          </div>
+          <h1 id="heroName">Prosper Bassey</h1>
+          <div class="id-role" id="heroRole">BSN, RN · Critical Care Nurse</div>
+          <div class="id-tags" id="heroTags"></div>
         </div>
       </div>
       <div class="id-license-bar" data-sheet="license">
         <div class="id-license-item">
           <i class="fas fa-id-card"></i>
-          <span>#RN-9017297650</span>
+          <span id="licenseNumber">#RN-9017297650</span>
         </div>
         <div class="id-license-item">
           <i class="fas fa-check-circle check"></i>
-          <span>Verified Active</span>
+          <span id="licenseStatus">Verified Active</span>
         </div>
       </div>
     </section>
 
-    <!-- QUICK ACTIONS (with active highlight) -->
-    <div class="quick-actions" id="quickActions">
-      <button class="quick-pill active" data-sheet="message" data-action="message">
-        <i class="fas fa-comment-medical"></i> Message
-      </button>
-      <button class="quick-pill" data-sheet="book" data-action="book">
-        <i class="fas fa-calendar-check"></i> Book
-      </button>
-      <button class="quick-pill" data-sheet="call" data-action="call">
-        <i class="fas fa-phone-alt"></i> Call
-      </button>
-      <button class="quick-pill" data-sheet="records" data-action="records">
-        <i class="fas fa-file-medical"></i> Records
-      </button>
-      <button class="quick-pill" data-sheet="share" data-action="share">
-        <i class="fas fa-share-nodes"></i> Share
-      </button>
-    </div>
+    <!-- QUICK ACTIONS -->
+    <div class="quick-actions" id="quickActions"></div>
 
     <!-- CLINICAL CHART -->
     <section class="chart-section">
@@ -1652,19 +1319,16 @@
         <span>Tap to expand</span>
       </div>
       <div class="chart-timeline">
-
         <article class="chart-entry" data-expandable>
           <div class="chart-entry-head">
             <span class="chart-entry-label"><i class="fas fa-id-card"></i> RN License</span>
             <span class="chart-entry-chevron"><i class="fas fa-chevron-down"></i></span>
           </div>
           <div class="chart-entry-value">
-            <span class="verified"><i class="fas fa-check-circle"></i> Active</span>
-            &nbsp;#RN-9017297650
+            <span class="verified"><i class="fas fa-check-circle"></i> <span id="chartLicenseStatus">Active</span></span>
+            &nbsp;<span id="chartLicenseNumber">#RN-9017297650</span>
           </div>
-          <div class="chart-entry-detail">
-            Licensed by the Nursing and Midwifery Council of Nigeria. Current in good standing with continuing education credits completed for 2025. Valid through December 2026.
-          </div>
+          <div class="chart-entry-detail" id="chartLicenseDetail"></div>
         </article>
 
         <article class="chart-entry" data-expandable>
@@ -1672,12 +1336,8 @@
             <span class="chart-entry-label"><i class="fas fa-quote-left"></i> Philosophy of Care</span>
             <span class="chart-entry-chevron"><i class="fas fa-chevron-down"></i></span>
           </div>
-          <div class="chart-entry-value quote">
-            "What God cannot do, does not exist. I bring that same faith and dedication to every patient I serve."
-          </div>
-          <div class="chart-entry-detail">
-            I believe in holistic, patient-centered care that addresses physical, emotional, and spiritual needs. Every patient deserves dignity, compassion, and my full attention — regardless of circumstance.
-          </div>
+          <div class="chart-entry-value quote" id="chartPhilosophy"></div>
+          <div class="chart-entry-detail" id="chartPhilosophyDetail"></div>
         </article>
 
         <article class="chart-entry" data-expandable>
@@ -1685,14 +1345,9 @@
             <span class="chart-entry-label"><i class="fas fa-graduation-cap"></i> Education & Background</span>
             <span class="chart-entry-chevron"><i class="fas fa-chevron-down"></i></span>
           </div>
-          <div class="chart-entry-value">
-            BSN · Ikot Apkaden, Akwa Ibom
-          </div>
-          <div class="chart-entry-detail">
-            Bachelor of Science in Nursing. Specialized training in critical care, Pediatric Advanced Life Support (PALS), and Advanced Cardiac Life Support (ACLS). Based in Akwa Ibom State, Nigeria.
-          </div>
+          <div class="chart-entry-value" id="chartEducation"></div>
+          <div class="chart-entry-detail" id="chartEducationDetail"></div>
         </article>
-
       </div>
     </section>
 
@@ -1700,43 +1355,9 @@
     <section class="matrix-section">
       <div class="chart-header">
         <h2><i class="fas fa-chart-simple"></i> Competencies</h2>
-        <span>Proficiency</span>
+        <span>Tap to explore</span>
       </div>
-      <div class="matrix-grid">
-
-        <div class="matrix-card" data-sheet="critical">
-          <div class="matrix-icon"><i class="fas fa-heart-pulse"></i></div>
-          <h3>Critical Care</h3>
-          <div class="matrix-sub">ICU · Ventilators · ACLS</div>
-          <div class="matrix-bar"><div class="matrix-bar-fill" data-width="95%"></div></div>
-          <div class="matrix-percent">95%</div>
-        </div>
-
-        <div class="matrix-card" data-sheet="pediatric">
-          <div class="matrix-icon"><i class="fas fa-child"></i></div>
-          <h3>Pediatric & Maternal</h3>
-          <div class="matrix-sub">NICU · Postpartum · PALS</div>
-          <div class="matrix-bar"><div class="matrix-bar-fill" data-width="88%"></div></div>
-          <div class="matrix-percent">88%</div>
-        </div>
-
-        <div class="matrix-card" data-sheet="community">
-          <div class="matrix-icon"><i class="fas fa-house-medical"></i></div>
-          <h3>Community Health</h3>
-          <div class="matrix-sub">Public Health · Education</div>
-          <div class="matrix-bar"><div class="matrix-bar-fill" data-width="82%"></div></div>
-          <div class="matrix-percent">82%</div>
-        </div>
-
-        <div class="matrix-card" data-sheet="all-specialties">
-          <div class="matrix-icon"><i class="fas fa-brain"></i></div>
-          <h3>Mental Health</h3>
-          <div class="matrix-sub">Crisis · Psychiatric Care</div>
-          <div class="matrix-bar"><div class="matrix-bar-fill" data-width="76%"></div></div>
-          <div class="matrix-percent">76%</div>
-        </div>
-
-      </div>
+      <div class="matrix-grid" id="matrixGrid"></div>
     </section>
 
     <!-- MY JOURNAL -->
@@ -1745,62 +1366,19 @@
         <h2><i class="fas fa-book-medical"></i> My Journal</h2>
         <span>Reflections & Guidance</span>
       </div>
-      <div class="journal-list">
-
-        <article class="journal-card" data-article="icu-family">
-          <div class="journal-card-top">
-            <span class="journal-tag">Patient Care</span>
-            <span class="journal-meta">5 min read</span>
-          </div>
-          <h3 class="journal-title">What I Wish Every Family Knew Before an ICU Admission</h3>
-          <p class="journal-excerpt">The monitors, the tubes, the beeping — it can feel overwhelming. Here is what actually matters in those first hours.</p>
-          <div class="journal-card-foot">
-            <span class="journal-read">Read entry <i class="fas fa-arrow-right"></i></span>
-            <span class="journal-meta">Oct 2025</span>
-          </div>
-        </article>
-
-        <article class="journal-card" data-article="bp-numbers">
-          <div class="journal-card-top">
-            <span class="journal-tag">Prevention</span>
-            <span class="journal-meta">4 min read</span>
-          </div>
-          <h3 class="journal-title">The Blood Pressure Numbers You Should Never Ignore</h3>
-          <p class="journal-excerpt">Most people wait too long. A few simple thresholds can tell you when it's time to seek care — and when it isn't.</p>
-          <div class="journal-card-foot">
-            <span class="journal-read">Read entry <i class="fas fa-arrow-right"></i></span>
-            <span class="journal-meta">Sep 2025</span>
-          </div>
-        </article>
-
-        <article class="journal-card" data-article="why-critical-care">
-          <div class="journal-card-top">
-            <span class="journal-tag">Reflections</span>
-            <span class="journal-meta">3 min read</span>
-          </div>
-          <h3 class="journal-title">Why I Chose Critical Care</h3>
-          <p class="journal-excerpt">It was never about the machines. It was about the person on the other side of them. This is my story.</p>
-          <div class="journal-card-foot">
-            <span class="journal-read">Read entry <i class="fas fa-arrow-right"></i></span>
-            <span class="journal-meta">Aug 2025</span>
-          </div>
-        </article>
-
-      </div>
+      <div class="journal-list" id="journalList"></div>
     </section>
 
     <!-- TESTIMONIAL -->
     <section class="testimonial-wrap">
       <div class="testimonial-card">
         <div class="testimonial-mark">&ldquo;</div>
-        <p class="testimonial-text">
-          Nurse Prosper stayed past her shift to sit with my mother through a difficult night. That is not just nursing — that is calling. Our family will never forget it.
-        </p>
+        <p class="testimonial-text" id="testimonialText"></p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">EN</div>
+          <div class="testimonial-avatar" id="testimonialAvatar">EN</div>
           <div class="testimonial-info">
-            <h4>Ekemini N.</h4>
-            <span>Family of Patient</span>
+            <h4 id="testimonialAuthor">Ekemini N.</h4>
+            <span id="testimonialRole">Family of Patient</span>
           </div>
         </div>
       </div>
@@ -1810,52 +1388,52 @@
     <section class="contact-panel">
       <div class="contact-panel-head">
         <h3>Get in Touch</h3>
-        <span class="contact-badge"><i class="fas fa-circle"></i> Available</span>
+        <span class="contact-badge duty" id="contactBadge">
+          <i class="fas fa-circle"></i> <span id="contactBadgeText">Available</span>
+        </span>
       </div>
       <div class="contact-grid">
-
         <div class="contact-cell" data-sheet="message">
           <i class="fas fa-envelope contact-cell-icon"></i>
           <span class="contact-cell-label">Email</span>
-          <span class="contact-cell-value"><a href="mailto:prosperbassey06@gmail.com">prosperbassey06@gmail.com</a></span>
+          <span class="contact-cell-value"><a href="#" id="contactEmailLink"><span id="contactEmail">prosperbassey06@gmail.com</span></a></span>
         </div>
 
         <div class="contact-cell" data-sheet="call">
           <i class="fas fa-phone-alt contact-cell-icon"></i>
           <span class="contact-cell-label">Phone</span>
-          <span class="contact-cell-value"><a href="tel:09017297650">0901 729 7650</a></span>
+          <span class="contact-cell-value"><a href="#" id="contactPhoneLink"><span id="contactPhone">0901 729 7650</span></a></span>
         </div>
 
         <div class="contact-cell" data-sheet="message">
           <i class="fab fa-whatsapp contact-cell-icon"></i>
           <span class="contact-cell-label">WhatsApp</span>
-          <span class="contact-cell-value"><a href="https://wa.me/2349017297650" target="_blank">0901 729 7650</a></span>
+          <span class="contact-cell-value"><a href="#" id="contactWhatsappLink" target="_blank"><span id="contactWhatsapp">0901 729 7650</span></a></span>
         </div>
 
         <div class="contact-cell" data-sheet="contact">
           <i class="fas fa-map-marker-alt contact-cell-icon"></i>
           <span class="contact-cell-label">Location</span>
-          <span class="contact-cell-value">Ikot Apkaden, Akwa Ibom</span>
+          <span class="contact-cell-value" id="contactLocation">Ikot Apkaden, Akwa Ibom</span>
         </div>
-
       </div>
     </section>
 
     <!-- COLOPHON -->
     <footer class="colophon">
       <div class="colophon-mark"><i class="fas fa-heart-pulse"></i></div>
-      <p><strong>Prosper Bassey, RN</strong><br>Dedicated to healing · 2025</p>
+      <p><strong id="footerName">Prosper Bassey, RN</strong><br>Dedicated to healing · 2025</p>
       <div class="colophon-socials">
         <a data-social="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         <a data-social="X" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-        <a data-social="Email" aria-label="Email"><i class="fas fa-envelope"></i></a>
-        <a data-social="WhatsApp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a data-social="Email" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a data-social="WhatsApp" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </footer>
 
   </main>
 
-  <!-- BOTTOM SHEET MODAL -->
+  <!-- BOTTOM SHEET -->
   <div class="modal-overlay" id="modalOverlay" data-close></div>
   <div class="bottom-sheet" id="bottomSheet">
     <div class="sheet-handle"></div>
@@ -1868,287 +1446,518 @@
     </div>
     <div class="sheet-items" id="sheetItems"></div>
     <div class="article-sheet-body" id="articleBody" style="display:none;"></div>
-    <button class="sheet-close-btn" data-close>
+    <button class="sheet-close-btn" id="sheetCloseBtn" data-close>
       <i class="fas fa-check"></i> Got it
     </button>
   </div>
 
-  <!-- TOAST -->
   <div class="toast" id="toast"><i class="fas fa-circle-info"></i><span id="toastText"></span></div>
 
   <script>
     (function() {
       'use strict';
 
-      var CONTACT = {
-        email: 'prosperbassey06@gmail.com',
-        phone: '09017297650',
-        whatsapp: '09017297650',
-        state: 'Akwa Ibom',
-        city: 'Ikot Apkaden'
+      /* ============================================================
+         DEFAULTS — fallback if localStorage is empty
+      ============================================================ */
+      var DEFAULTS = {
+        profile: {
+          name: 'Prosper Bassey',
+          initials: 'PB',
+          role: 'BSN, RN · Critical Care Nurse',
+          tags: 'ACLS, PALS, BLS',
+          availability: 'On Duty',
+          licenseNumber: '#RN-9017297650',
+          licenseStatus: 'Verified Active',
+          licenseDetail: 'Licensed by the Nursing and Midwifery Council of Nigeria. Current in good standing with continuing education credits completed for 2025. Valid through December 2026.',
+          philosophy: '"What God cannot do, does not exist. I bring that same faith and dedication to every patient I serve."',
+          philosophyDetail: 'I believe in holistic, patient-centered care that addresses physical, emotional, and spiritual needs. Every patient deserves dignity, compassion, and my full attention — regardless of circumstance.',
+          education: 'BSN · Ikot Apkaden, Akwa Ibom',
+          educationDetail: 'Bachelor of Science in Nursing. Specialized training in critical care, Pediatric Advanced Life Support (PALS), and Advanced Cardiac Life Support (ACLS). Based in Akwa Ibom State, Nigeria.',
+          competencies: [
+            {
+              name: 'Critical Care', sub: 'ICU · Ventilators · ACLS', icon: 'fa-heart-pulse', percent: 95,
+              sheetIcon: 'fa-heart-pulse', sheetTitle: 'Critical Care Nursing', sheetSubtitle: 'High-acuity patient management',
+              rows: [
+                { icon: 'fa-heartbeat', label: 'Hemodynamic Monitoring', value: 'Advanced cardiac and blood pressure management', link: '' },
+                { icon: 'fa-lungs', label: 'Ventilator Management', value: 'Invasive and non-invasive ventilation expertise', link: '' },
+                { icon: 'fa-syringe', label: 'Rapid Response', value: 'Code blue and emergency intervention certified', link: '' }
+              ]
+            },
+            {
+              name: 'Pediatric & Maternal', sub: 'NICU · Postpartum · PALS', icon: 'fa-child', percent: 88,
+              sheetIcon: 'fa-child', sheetTitle: 'Pediatric & Maternal Care', sheetSubtitle: 'Family-centered compassionate care',
+              rows: [
+                { icon: 'fa-baby', label: 'Neonatal Care', value: 'NICU trained with premature infant expertise', link: '' },
+                { icon: 'fa-female', label: 'Postpartum Support', value: 'Mother-baby bonding and lactation support', link: '' },
+                { icon: 'fa-child', label: 'Pediatric Assessment', value: 'Age-appropriate care for children 0–18', link: '' }
+              ]
+            },
+            {
+              name: 'Community Health', sub: 'Public Health · Education', icon: 'fa-house-medical', percent: 82,
+              sheetIcon: 'fa-house-medical', sheetTitle: 'Community Health', sheetSubtitle: 'Preventive care and health education',
+              rows: [
+                { icon: 'fa-people-group', label: 'Health Screenings', value: 'Blood pressure, diabetes, and wellness checks', link: '' },
+                { icon: 'fa-book-medical', label: 'Patient Education', value: 'Chronic disease management and prevention', link: '' },
+                { icon: 'fa-hand-holding-heart', label: 'Outreach Programs', value: 'Community health initiatives and vaccination drives', link: '' }
+              ]
+            },
+            {
+              name: 'Mental Health', sub: 'Crisis · Psychiatric Care', icon: 'fa-brain', percent: 76,
+              sheetIcon: 'fa-brain', sheetTitle: 'Mental Health Nursing', sheetSubtitle: 'Psychiatric and crisis care',
+              rows: [
+                { icon: 'fa-comments', label: 'Crisis Intervention', value: 'De-escalation and acute psychiatric support', link: '' },
+                { icon: 'fa-hands-holding', label: 'Therapeutic Communication', value: 'Trauma-informed patient engagement', link: '' },
+                { icon: 'fa-pills', label: 'Medication Support', value: 'Psychotropic medication management', link: '' }
+              ]
+            }
+          ],
+          testimonial: 'Nurse Prosper stayed past her shift to sit with my mother through a difficult night. That is not just nursing — that is calling. Our family will never forget it.',
+          testimonialAuthor: 'Ekemini N.',
+          testimonialRole: 'Family of Patient',
+          testimonialInitials: 'EN',
+          email: 'prosperbassey06@gmail.com',
+          phone: '09017297650',
+          whatsapp: '09017297650',
+          city: 'Ikot Apkaden',
+          state: 'Akwa Ibom'
+        },
+        quickActions: [
+          { id: 'qa-message', label: 'Message', icon: 'fa-comment-medical', sheetTitle: 'Send a Message', sheetSubtitle: 'Typically responds within 2 hours', rows: [
+            { icon: 'fa-envelope', label: 'Email', value: 'prosperbassey06@gmail.com', link: 'mailto:prosperbassey06@gmail.com' },
+            { icon: 'fa-whatsapp', label: 'WhatsApp', value: '09017297650', link: 'https://wa.me/2349017297650' },
+            { icon: 'fa-clock', label: 'Response Time', value: 'Usually within 2 hours, Mon–Sat', link: '' }
+          ]},
+          { id: 'qa-book', label: 'Book', icon: 'fa-calendar-check', sheetTitle: 'Book an Appointment', sheetSubtitle: 'Choose a format that works for you', rows: [
+            { icon: 'fa-video', label: 'Virtual Consultation', value: '30 min · Secure video call', link: '' },
+            { icon: 'fa-hospital', label: 'In-Person Visit', value: '45 min · At your location', link: '' },
+            { icon: 'fa-phone', label: 'Phone Consultation', value: '20 min · Voice call', link: '' }
+          ]},
+          { id: 'qa-call', label: 'Call', icon: 'fa-phone-alt', sheetTitle: 'Call Prosper Bassey', sheetSubtitle: 'Available Mon–Sat, 8am–8pm', rows: [
+            { icon: 'fa-mobile-alt', label: 'Primary Phone', value: '09017297650', link: 'tel:09017297650' },
+            { icon: 'fa-whatsapp', label: 'WhatsApp', value: '09017297650', link: 'https://wa.me/2349017297650' },
+            { icon: 'fa-map-marker-alt', label: 'Location', value: 'Ikot Apkaden, Akwa Ibom', link: '' }
+          ]},
+          { id: 'qa-records', label: 'Records', icon: 'fa-file-medical', sheetTitle: 'Medical Records', sheetSubtitle: 'Secure, confidential, HIPAA-aligned', rows: [
+            { icon: 'fa-lock', label: 'Patient Portal', value: 'Access your records securely online', link: '' },
+            { icon: 'fa-file-pdf', label: 'Request Records', value: 'Submit a records request form', link: '' },
+            { icon: 'fa-shield', label: 'Privacy Guaranteed', value: 'Your information is protected end-to-end', link: '' }
+          ]},
+          { id: 'qa-share', label: 'Share', icon: 'fa-share-nodes', sheetTitle: 'Share Prosper\'s Profile', sheetSubtitle: 'Help others connect with quality care', rows: [
+            { icon: 'fa-link', label: 'Copy Link', value: 'Copy profile URL to clipboard', link: '' },
+            { icon: 'fa-envelope', label: 'Email', value: 'Share via email', link: '' },
+            { icon: 'fa-whatsapp', label: 'WhatsApp', value: 'Share via WhatsApp', link: '' }
+          ]}
+        ],
+        journal: [
+          { id: 'seed-icu-family', tag: 'Patient Care', readtime: '5 min read', date: 'October 2025', title: 'What I Wish Every Family Knew Before an ICU Admission', excerpt: 'The monitors, the tubes, the beeping — it can feel overwhelming. Here is what actually matters in those first hours.', body: 'When a loved one is admitted to the ICU, everything happens at once.\n\nThis is what I wish every family knew before they walk through those doors.\n\n## The beeping is not always bad\nMonitors alarm for many reasons: a loose sensor, a patient shifting in bed, an artifact from movement.\n\n## Ask these three questions\n— What is the main problem we are treating right now?\n— What is the goal for today?\n— Who is the best person to speak with for an update?\n\n> Take care of yourself too. Eat. Sleep. Step outside. You cannot pour from an empty cup.', icon: 'fa-hospital-user', createdAt: 1698796800000 },
+          { id: 'seed-bp-numbers', tag: 'Prevention', readtime: '4 min read', date: 'September 2025', title: 'The Blood Pressure Numbers You Should Never Ignore', excerpt: 'Most people wait too long. A few simple thresholds can tell you when it is time to seek care.', body: 'High blood pressure is often called the "silent killer".\n\n## The general ranges\n— Normal: below 120/80 mmHg\n— Elevated: 120–129 / below 80\n— Stage 1: 140+ / 90+\n— Crisis: above 180 / 120\n\n> If your reading is above 180/120 with chest pain or severe headache — seek emergency care immediately.', icon: 'fa-heart-pulse', createdAt: 1695081600000 },
+          { id: 'seed-why-critical-care', tag: 'Reflections', readtime: '3 min read', date: 'August 2025', title: 'Why I Chose Critical Care', excerpt: 'It was never about the machines. It was about the person on the other side of them.', body: 'People often ask me why I chose critical care.\n\nI chose it because I believe no one should die alone, and no family should feel abandoned in the worst moment of their lives.\n\n> "What God cannot do, does not exist." That is my anchor.\n\nThis is not just a job for me. It is a calling.', icon: 'fa-heart', createdAt: 1690848000000 }
+        ]
       };
 
-      var toastTimer = null;
-      function showToast(msg, iconClass) {
-        var toast = document.getElementById('toast');
-        var text = document.getElementById('toastText');
-        var icon = toast.querySelector('i');
-        text.textContent = msg;
-        if (iconClass) icon.className = iconClass;
-        toast.classList.add('show');
-        if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = setTimeout(function() {
-          toast.classList.remove('show');
-        }, 2400);
+      var STORE_KEY = 'prosper_admin_data_v1';
+
+      function loadData() {
+        try {
+          var raw = localStorage.getItem(STORE_KEY);
+          if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
+          var parsed = JSON.parse(raw);
+          var merged = {
+            profile: Object.assign({}, DEFAULTS.profile, parsed.profile || {}),
+            quickActions: Array.isArray(parsed.quickActions) && parsed.quickActions.length ? parsed.quickActions : JSON.parse(JSON.stringify(DEFAULTS.quickActions)),
+            journal: Array.isArray(parsed.journal) ? parsed.journal : DEFAULTS.journal.slice()
+          };
+          // Schema migration for competency sheet fields
+          merged.profile.competencies = (merged.profile.competencies || DEFAULTS.profile.competencies).map(function(c, i) {
+            var def = DEFAULTS.profile.competencies[i] || {};
+            return {
+              name: c.name || def.name || '',
+              sub: c.sub || def.sub || '',
+              icon: c.icon || def.icon || 'fa-circle',
+              percent: (typeof c.percent === 'number') ? c.percent : (def.percent || 0),
+              sheetIcon: c.sheetIcon || def.sheetIcon || c.icon || 'fa-circle',
+              sheetTitle: c.sheetTitle || def.sheetTitle || (c.name || ''),
+              sheetSubtitle: c.sheetSubtitle || def.sheetSubtitle || (c.sub || ''),
+              rows: Array.isArray(c.rows) ? c.rows : (def.rows || [])
+            };
+          });
+          return merged;
+        } catch (e) {
+          return JSON.parse(JSON.stringify(DEFAULTS));
+        }
       }
 
-      /* ---------- SHEET DATA ---------- */
-      var sheets = {
-        license: {
-          icon: 'fa-id-card',
-          title: 'RN License Verified',
-          subtitle: 'Active and in good standing with NMCN',
-          items: [
-            { icon: 'fa-check-circle', title: 'License Number', text: '#RN-9017297650' },
-            { icon: 'fa-calendar', title: 'Valid Through', text: 'December 2026' },
-            { icon: 'fa-graduation-cap', title: 'Continuing Education', text: '40 CE credits completed in 2025' }
-          ]
-        },
-        message: {
-          icon: 'fa-comment-medical',
-          title: 'Send a Message',
-          subtitle: 'Typically responds within 2 hours',
-          items: [
-            { icon: 'fa-envelope', title: 'Email', text: '<a href="mailto:' + CONTACT.email + '">' + CONTACT.email + '</a>' },
-            { icon: 'fa-whatsapp', title: 'WhatsApp', text: '<a href="https://wa.me/234' + CONTACT.whatsapp.substring(1) + '" target="_blank">' + CONTACT.whatsapp + '</a>' },
-            { icon: 'fa-clock', title: 'Response Time', text: 'Usually within 2 hours, Mon–Sat' }
-          ]
-        },
-        book: {
-          icon: 'fa-calendar-check',
-          title: 'Book an Appointment',
-          subtitle: 'Choose a format that works for you',
-          items: [
-            { icon: 'fa-video', title: 'Virtual Consultation', text: '30 min · Secure video call' },
-            { icon: 'fa-hospital', title: 'In-Person Visit', text: '45 min · At your location' },
-            { icon: 'fa-phone', title: 'Phone Consultation', text: '20 min · Voice call' }
-          ]
-        },
-        call: {
-          icon: 'fa-phone-alt',
-          title: 'Call Prosper Bassey',
-          subtitle: 'Available Mon–Sat, 8am–8pm',
-          items: [
-            { icon: 'fa-mobile-alt', title: 'Primary Phone', text: '<a href="tel:' + CONTACT.phone + '">' + CONTACT.phone + '</a>' },
-            { icon: 'fa-whatsapp', title: 'WhatsApp', text: '<a href="https://wa.me/234' + CONTACT.whatsapp.substring(1) + '" target="_blank">' + CONTACT.whatsapp + '</a>' },
-            { icon: 'fa-map-marker-alt', title: 'Location', text: CONTACT.city + ', ' + CONTACT.state }
-          ]
-        },
-        records: {
-          icon: 'fa-file-medical',
-          title: 'Medical Records',
-          subtitle: 'Secure, confidential, HIPAA-aligned',
-          items: [
-            { icon: 'fa-lock', title: 'Patient Portal', text: 'Access your records securely online' },
-            { icon: 'fa-file-pdf', title: 'Request Records', text: 'Submit a records request form' },
-            { icon: 'fa-shield', title: 'Privacy Guaranteed', text: 'Your information is protected end-to-end' }
-          ]
-        },
-        critical: {
-          icon: 'fa-heart-pulse',
-          title: 'Critical Care Nursing',
-          subtitle: 'High-acuity patient management',
-          items: [
-            { icon: 'fa-heartbeat', title: 'Hemodynamic Monitoring', text: 'Advanced cardiac and blood pressure management' },
-            { icon: 'fa-lungs', title: 'Ventilator Management', text: 'Invasive and non-invasive ventilation expertise' },
-            { icon: 'fa-syringe', title: 'Rapid Response', text: 'Code blue and emergency intervention certified' }
-          ]
-        },
-        pediatric: {
-          icon: 'fa-child',
-          title: 'Pediatric & Maternal Care',
-          subtitle: 'Family-centered compassionate care',
-          items: [
-            { icon: 'fa-baby', title: 'Neonatal Care', text: 'NICU trained with premature infant expertise' },
-            { icon: 'fa-female', title: 'Postpartum Support', text: 'Mother-baby bonding and lactation support' },
-            { icon: 'fa-child', title: 'Pediatric Assessment', text: 'Age-appropriate care for children 0–18' }
-          ]
-        },
-        community: {
-          icon: 'fa-house-medical',
-          title: 'Community Health',
-          subtitle: 'Preventive care and health education',
-          items: [
-            { icon: 'fa-people-group', title: 'Health Screenings', text: 'Blood pressure, diabetes, and wellness checks' },
-            { icon: 'fa-book-medical', title: 'Patient Education', text: 'Chronic disease management and prevention' },
-            { icon: 'fa-hand-holding-heart', title: 'Outreach Programs', text: 'Community health initiatives and vaccination drives' }
-          ]
-        },
-        'all-specialties': {
-          icon: 'fa-brain',
-          title: 'All Clinical Specialties',
-          subtitle: 'Comprehensive nursing expertise',
-          items: [
-            { icon: 'fa-heart-pulse', title: 'Critical Care', text: 'ICU, ACLS, ventilator management' },
-            { icon: 'fa-child', title: 'Pediatric & Maternal', text: 'NICU, postpartum, PALS' },
-            { icon: 'fa-house-medical', title: 'Community Health', text: 'Preventive care, education, outreach' },
-            { icon: 'fa-brain', title: 'Mental Health', text: 'Psychiatric nursing and crisis intervention' }
-          ]
-        },
-        contact: {
-          icon: 'fa-address-card',
-          title: 'Get in Touch',
-          subtitle: 'Let us discuss how I can help',
-          items: [
-            { icon: 'fa-envelope', title: 'Email', text: '<a href="mailto:' + CONTACT.email + '">' + CONTACT.email + '</a>' },
-            { icon: 'fa-phone', title: 'Phone', text: '<a href="tel:' + CONTACT.phone + '">' + CONTACT.phone + '</a>' },
-            { icon: 'fa-whatsapp', title: 'WhatsApp', text: '<a href="https://wa.me/234' + CONTACT.whatsapp.substring(1) + '" target="_blank">' + CONTACT.whatsapp + '</a>' },
-            { icon: 'fa-map-marker-alt', title: 'Location', text: CONTACT.city + ', ' + CONTACT.state }
-          ]
-        },
-        share: {
-          icon: 'fa-share-nodes',
-          title: 'Share Prosper\'s Profile',
-          subtitle: 'Help others connect with quality care',
-          items: [
-            { icon: 'fa-link', title: 'Copy Link', text: 'Copy profile URL to clipboard' },
-            { icon: 'fa-envelope', title: 'Email', text: 'Share via email' },
-            { icon: 'fa-whatsapp', title: 'WhatsApp', text: 'Share via WhatsApp' }
-          ]
-        }
-      };
+      var state = loadData();
 
-      /* ---------- JOURNAL ARTICLES ---------- */
-      var articles = {
-        'icu-family': {
-          icon: 'fa-hospital-user',
-          tag: 'Patient Care',
-          title: 'What I Wish Every Family Knew Before an ICU Admission',
-          subtitle: 'A calm guide for the first hours',
-          meta: 'October 2025 · 5 min read',
-          body: '' +
-            '<p>When a loved one is admitted to the ICU, everything happens at once. Machines beep, alarms sound, strangers in scrubs move quickly, and no one seems to have time to explain what is going on. As a critical care nurse, I have stood on both sides of that curtain — and I know how frightening it can feel.</p>' +
-            '<p>This is what I wish every family knew before they walk through those doors.</p>' +
-            '<h3>1. The beeping is not always bad</h3>' +
-            '<p>Monitors alarm for many reasons: a loose sensor, a patient shifting in bed, an artifact from movement. The sound alone does not mean something is wrong. If it were truly urgent, the team would already be at the bedside.</p>' +
-            '<h3>2. Ask these three questions</h3>' +
-            '<ul>' +
-              '<li>What is the main problem we are treating right now?</li>' +
-              '<li>What is the goal for today?</li>' +
-              '<li>Who is the best person to speak with for an update?</li>' +
-            '</ul>' +
-            '<p>These three questions will get you more clarity than any internet search at 2am.</p>' +
-            '<h3>3. You are part of the team</h3>' +
-            '<p>You know your loved one better than anyone. If something feels off — a change in how they speak, how they look, how they respond — say it. Nurses and doctors take family observations seriously.</p>' +
-            '<div class="callout">Take care of yourself too. Eat. Sleep. Step outside. You cannot pour from an empty cup, and your loved one needs you steady.</div>' +
-            '<p>No one prepares families for the ICU. But you do not have to face it alone — ask questions, take notes, and lean on the nurses. That is what we are here for.</p>' +
-            '<div class="signoff">Prosper Bassey, RN<span>Critical Care Nurse</span></div>' +
-            '<p class="disclaimer">This article is general education and not medical advice. For your specific situation, please consult your healthcare provider or the clinical team caring for your loved one.</p>'
-        },
-        'bp-numbers': {
-          icon: 'fa-heart-pulse',
-          tag: 'Prevention',
-          title: 'The Blood Pressure Numbers You Should Never Ignore',
-          subtitle: 'Know when to act — and when to wait',
-          meta: 'September 2025 · 4 min read',
-          body: '' +
-            '<p>High blood pressure is often called the "silent killer" because it usually has no symptoms until it has already done damage. In my practice, I have seen too many people discover their numbers were dangerously high only after a stroke or a heart event.</p>' +
-            '<p>You do not need to be a nurse to know when to act. You just need to know the numbers.</p>' +
-            '<h3>The general ranges</h3>' +
-            '<ul>' +
-              '<li><strong>Normal:</strong> below 120/80 mmHg</li>' +
-              '<li><strong>Elevated:</strong> 120–129 / below 80</li>' +
-              '<li><strong>Stage 1 hypertension:</strong> 130–139 / 80–89</li>' +
-              '<li><strong>Stage 2 hypertension:</strong> 140+ / 90+</li>' +
-              '<li><strong>Hypertensive crisis:</strong> above 180 / 120</li>' +
-            '</ul>' +
-            '<div class="callout">If your reading is above 180/120 <strong>and</strong> you have chest pain, shortness of breath, vision changes, or severe headache — seek emergency care immediately.</div>' +
-            '<h3>What to do at home</h3>' +
-            '<p>Measure at the same time each day, sit quietly for five minutes first, and keep a written log. Bring that log to every appointment. Patterns matter more than single readings.</p>' +
-            '<h3>When to see a provider</h3>' +
-            '<p>If your readings are consistently in Stage 1 or above, book an appointment. If they reach Stage 2, do not wait. High blood pressure is manageable — but only if it is caught.</p>' +
-            '<div class="signoff">Prosper Bassey, RN<span>Critical Care Nurse</span></div>' +
-            '<p class="disclaimer">This article is general education and not medical advice. Blood pressure targets vary by individual. Please consult your healthcare provider for personal guidance.</p>'
-        },
-        'why-critical-care': {
-          icon: 'fa-heart',
-          tag: 'Reflections',
-          title: 'Why I Chose Critical Care',
-          subtitle: 'A personal note',
-          meta: 'August 2025 · 3 min read',
-          body: '' +
-            '<p>People often ask me why I chose critical care — the ICU, the sickest patients, the longest shifts. It is not the glamorous side of nursing. It is heavy, and it is holy.</p>' +
-            '<p>I chose it because I believe no one should die alone, and no family should feel abandoned in the worst moment of their lives.</p>' +
-            '<p>I have held hands at 3am. I have translated doctor-speak into plain words for terrified daughters. I have celebrated small victories — a first breath off the ventilator, a first sip of water, a first step — like they were my own.</p>' +
-            '<p>Critical care taught me that medicine is not just about curing. Sometimes it is about accompanying. Sometimes it is about making sure a person is comfortable, seen, and loved in their final hours.</p>' +
-            '<div class="callout">"What God cannot do, does not exist." That is my anchor. It is what keeps me steady when the room is not.</div>' +
-            '<p>This is not just a job for me. It is a calling — and I do not take it lightly.</p>' +
-            '<div class="signoff">Prosper Bassey, RN<span>Critical Care Nurse</span></div>' +
-            '<p class="disclaimer">Reflections shared in a personal capacity. No patient information is disclosed. All identifying details have been omitted to protect privacy.</p>'
-        }
-      };
+      /* ---------- HELPERS ---------- */
+      function setText(id, val) {
+        var el = document.getElementById(id);
+        if (el && val != null) el.textContent = val;
+      }
 
-      var sheetEl = document.getElementById('bottomSheet');
-      var overlay = document.getElementById('modalOverlay');
-      var sheetItemsEl = document.getElementById('sheetItems');
-      var articleBodyEl = document.getElementById('articleBody');
-      var sheetCloseBtn = sheetEl.querySelector('.sheet-close-btn');
+      function statusClass(val) {
+        if (val === 'Away') return 'away';
+        if (val === 'Offline') return 'offline';
+        return 'duty';
+      }
 
-      function openSheet(key) {
-        var data = sheets[key];
-        if (!data) return;
+      function statusBadgeText(val) {
+        if (val === 'Away') return 'Away';
+        if (val === 'Offline') return 'Offline';
+        return 'Available';
+      }
 
-        // Reset article body
-        articleBodyEl.style.display = 'none';
-        articleBodyEl.innerHTML = '';
-        sheetItemsEl.style.display = 'flex';
+      function statusIconClass(val) {
+        if (val === 'Away') return 'fas fa-circle-half-stroke';
+        if (val === 'Offline') return 'fas fa-circle-minus';
+        return 'fas fa-circle';
+      }
 
-        document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + data.icon + '"></i>';
-        document.getElementById('sheetTitle').textContent = data.title;
-        document.getElementById('sheetSubtitle').textContent = data.subtitle;
+      function escapeHtml(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
 
-        sheetItemsEl.innerHTML = data.items.map(function(item) {
+      function telHref(raw) {
+        return 'tel:' + String(raw || '').replace(/[^\d+]/g, '');
+      }
+
+      function waHref(raw) {
+        var digits = String(raw || '').replace(/[^\d]/g, '');
+        if (digits.charAt(0) === '0') digits = '234' + digits.substring(1);
+        return 'https://wa.me/' + digits;
+      }
+
+      /* ============================================================
+         RENDER: NAV
+      ============================================================ */
+      function renderNav() {
+        var p = state.profile;
+        setText('navMonogram', p.initials || 'PB');
+        setText('navName', p.name);
+        setText('navRole', p.role);
+
+        var status = p.availability || 'On Duty';
+        var cls = statusClass(status);
+
+        var nav = document.getElementById('navStatus');
+        nav.className = 'nav-status ' + cls;
+        nav.querySelector('i').className = statusIconClass(status);
+        setText('navStatusText', status);
+
+        var photo = document.getElementById('photoStatus');
+        if (photo) photo.className = 'id-photo-status ' + cls;
+      }
+
+      /* ============================================================
+         RENDER: ID BANNER
+      ============================================================ */
+      function renderBanner() {
+        var p = state.profile;
+        setText('heroName', p.name);
+        setText('heroRole', p.role);
+
+        var tagsEl = document.getElementById('heroTags');
+        var tags = String(p.tags || '').split(',').map(function(t) { return t.trim(); }).filter(Boolean);
+        tagsEl.innerHTML = tags.map(function(t) {
+          return '<span class="id-tag">' + escapeHtml(t) + '</span>';
+        }).join('');
+
+        setText('licenseNumber', p.licenseNumber);
+        setText('licenseStatus', p.licenseStatus);
+
+        setText('chartLicenseNumber', p.licenseNumber);
+        setText('chartLicenseStatus', (p.licenseStatus || 'Active').replace(/^Verified\s+/i, ''));
+        setText('chartLicenseDetail', p.licenseDetail);
+        setText('chartPhilosophy', p.philosophy);
+        setText('chartPhilosophyDetail', p.philosophyDetail);
+        setText('chartEducation', p.education);
+        setText('chartEducationDetail', p.educationDetail);
+      }
+
+      /* ============================================================
+         RENDER: QUICK ACTIONS
+      ============================================================ */
+      function renderQuickActions() {
+        var wrap = document.getElementById('quickActions');
+        wrap.innerHTML = state.quickActions.map(function(qa, i) {
+          return '<button class="quick-pill' + (i === 0 ? ' active' : '') + '" data-qa-id="' + escapeHtml(qa.id) + '">' +
+            '<i class="fas ' + escapeHtml(qa.icon) + '"></i> ' + escapeHtml(qa.label) +
+          '</button>';
+        }).join('');
+
+        wrap.querySelectorAll('.quick-pill').forEach(function(pill) {
+          pill.addEventListener('click', function() {
+            wrap.querySelectorAll('.quick-pill').forEach(function(p) { p.classList.remove('active'); });
+            this.classList.add('active');
+            var id = this.getAttribute('data-qa-id');
+            var qa = state.quickActions.find(function(q) { return q.id === id; });
+            if (qa) openQuickActionSheet(qa);
+          });
+        });
+      }
+
+      function openQuickActionSheet(qa) {
+        document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + escapeHtml(qa.icon) + '"></i>';
+        document.getElementById('sheetTitle').textContent = qa.sheetTitle;
+        document.getElementById('sheetSubtitle').textContent = qa.sheetSubtitle;
+
+        var itemsEl = document.getElementById('sheetItems');
+        itemsEl.style.display = 'flex';
+        document.getElementById('articleBody').style.display = 'none';
+        document.getElementById('articleBody').innerHTML = '';
+
+        itemsEl.innerHTML = qa.rows.map(function(row) {
+          var inner = escapeHtml(row.value);
+          if (row.link) {
+            inner = '<a href="' + escapeHtml(row.link) + '"' + (row.link.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') + '>' + inner + '</a>';
+          }
           return '<div class="sheet-item">' +
-            '<div class="sheet-item-icon"><i class="fas ' + item.icon + '"></i></div>' +
+            '<div class="sheet-item-icon"><i class="fas ' + escapeHtml(row.icon) + '"></i></div>' +
             '<div class="sheet-item-body">' +
-              '<h4>' + item.title + '</h4>' +
-              '<p>' + item.text + '</p>' +
+              '<h4>' + escapeHtml(row.label) + '</h4>' +
+              '<p>' + inner + '</p>' +
             '</div>' +
           '</div>';
         }).join('');
 
-        // Reset close button text
-        sheetCloseBtn.innerHTML = '<i class="fas fa-check"></i> Got it';
+        document.getElementById('sheetCloseBtn').innerHTML = '<i class="fas fa-check"></i> Got it';
 
-        sheetEl.classList.add('active');
-        overlay.classList.add('active');
+        document.getElementById('bottomSheet').classList.add('active');
+        document.getElementById('modalOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
-        sheetEl.scrollTop = 0;
+        document.getElementById('bottomSheet').scrollTop = 0;
       }
 
-      function openArticle(key) {
-        var data = articles[key];
-        if (!data) return;
+      /* ============================================================
+         RENDER: COMPETENCIES (now tappable → opens sheet)
+      ============================================================ */
+      function renderCompetencies() {
+        var grid = document.getElementById('matrixGrid');
+        grid.innerHTML = state.profile.competencies.map(function(c, i) {
+          return '<div class="matrix-card" data-comp-idx="' + i + '">' +
+            '<div class="matrix-icon"><i class="fas ' + escapeHtml(c.icon) + '"></i></div>' +
+            '<h3>' + escapeHtml(c.name) + '</h3>' +
+            '<div class="matrix-sub">' + escapeHtml(c.sub) + '</div>' +
+            '<div class="matrix-bar"><div class="matrix-bar-fill" data-width="' + c.percent + '%"></div></div>' +
+            '<div class="matrix-percent">' + c.percent + '%</div>' +
+          '</div>';
+        }).join('');
 
-        // Hide the item list, show article
-        sheetItemsEl.style.display = 'none';
-        sheetItemsEl.innerHTML = '';
-        articleBodyEl.style.display = 'block';
-
-        document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + data.icon + '"></i>';
-        document.getElementById('sheetTitle').textContent = data.title;
-        document.getElementById('sheetSubtitle').textContent = data.meta;
-
-        articleBodyEl.innerHTML = data.body;
-
-        // Change close button to "Close entry"
-        sheetCloseBtn.innerHTML = '<i class="fas fa-xmark"></i> Close entry';
-
-        sheetEl.classList.add('active');
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        sheetEl.scrollTop = 0;
+        grid.querySelectorAll('.matrix-card').forEach(function(card) {
+          card.addEventListener('click', function() {
+            var idx = parseInt(this.getAttribute('data-comp-idx'), 10);
+            var comp = state.profile.competencies[idx];
+            if (comp) openCompetencySheet(comp);
+          });
+        });
       }
+
+      function openCompetencySheet(comp) {
+        document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + escapeHtml(comp.sheetIcon || comp.icon || 'fa-chart-simple') + '"></i>';
+        document.getElementById('sheetTitle').textContent = comp.sheetTitle || comp.name;
+        document.getElementById('sheetSubtitle').textContent = comp.sheetSubtitle || comp.sub;
+
+        var itemsEl = document.getElementById('sheetItems');
+        itemsEl.style.display = 'flex';
+        document.getElementById('articleBody').style.display = 'none';
+        document.getElementById('articleBody').innerHTML = '';
+
+        var rows = comp.rows || [];
+        if (!rows.length) {
+          itemsEl.innerHTML = '<div class="sheet-item"><div class="sheet-item-icon"><i class="fas fa-circle-info"></i></div><div class="sheet-item-body"><h4>Details coming soon</h4><p>More information about this competency will be added shortly.</p></div></div>';
+        } else {
+          itemsEl.innerHTML = rows.map(function(row) {
+            var inner = escapeHtml(row.value);
+            if (row.link) {
+              inner = '<a href="' + escapeHtml(row.link) + '"' + (row.link.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') + '>' + inner + '</a>';
+            }
+            return '<div class="sheet-item">' +
+              '<div class="sheet-item-icon"><i class="fas ' + escapeHtml(row.icon) + '"></i></div>' +
+              '<div class="sheet-item-body">' +
+                '<h4>' + escapeHtml(row.label) + '</h4>' +
+                '<p>' + inner + '</p>' +
+              '</div>' +
+            '</div>';
+          }).join('');
+        }
+
+        document.getElementById('sheetCloseBtn').innerHTML = '<i class="fas fa-check"></i> Got it';
+
+        document.getElementById('bottomSheet').classList.add('active');
+        document.getElementById('modalOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        document.getElementById('bottomSheet').scrollTop = 0;
+      }
+
+      function animateBars() {
+        document.querySelectorAll('.matrix-bar-fill').forEach(function(el) {
+          el.style.width = el.getAttribute('data-width') || '0%';
+        });
+      }
+
+      /* ============================================================
+         RENDER: JOURNAL
+      ============================================================ */
+      function sortedJournal() {
+        return state.journal.slice().sort(function(a, b) {
+          return (b.createdAt || 0) - (a.createdAt || 0);
+        });
+      }
+
+      function renderJournal() {
+        var wrap = document.getElementById('journalList');
+        var items = sortedJournal();
+
+        if (!items.length) {
+          wrap.innerHTML = '<div class="journal-empty">' +
+            '<i class="fas fa-book-open"></i>' +
+            '<p>No journal entries yet. Check back soon.</p>' +
+          '</div>';
+          return;
+        }
+
+        wrap.innerHTML = items.map(function(item, i) {
+          return '<article class="journal-card" data-article-id="' + escapeHtml(item.id) + '" style="animation-delay:' + (0.35 + i * 0.06) + 's;">' +
+            '<div class="journal-card-top">' +
+              '<span class="journal-tag">' + escapeHtml(item.tag) + '</span>' +
+              '<span class="journal-meta">' + escapeHtml(item.readtime || '') + '</span>' +
+            '</div>' +
+            '<h3 class="journal-title">' + escapeHtml(item.title) + '</h3>' +
+            '<p class="journal-excerpt">' + escapeHtml(item.excerpt) + '</p>' +
+            '<div class="journal-card-foot">' +
+              '<span class="journal-read">Read entry <i class="fas fa-arrow-right"></i></span>' +
+              '<span class="journal-meta">' + escapeHtml(item.date || '') + '</span>' +
+            '</div>' +
+          '</article>';
+        }).join('');
+
+        wrap.querySelectorAll('.journal-card').forEach(function(card) {
+          card.addEventListener('click', function() {
+            var id = this.getAttribute('data-article-id');
+            var entry = state.journal.find(function(e) { return e.id === id; });
+            if (entry) openArticleSheet(entry);
+          });
+        });
+      }
+
+      function formatArticleBody(text) {
+        if (!text) return '';
+        var lines = text.replace(/\r\n/g, '\n').split('\n');
+        var out = [];
+        var buffer = [];
+        var bullets = [];
+
+        function flushParagraph() {
+          if (buffer.length) { out.push('<p>' + buffer.join(' ') + '</p>'); buffer = []; }
+        }
+        function flushBullets() {
+          if (bullets.length) {
+            out.push('<ul>' + bullets.map(function(b) { return '<li>' + b + '</li>'; }).join('') + '</ul>');
+            bullets = [];
+          }
+        }
+
+        lines.forEach(function(raw) {
+          var line = raw.trim();
+          if (!line) { flushParagraph(); flushBullets(); return; }
+
+          if (line.indexOf('## ') === 0) {
+            flushParagraph(); flushBullets();
+            out.push('<h3>' + escapeHtml(line.substring(3)) + '</h3>');
+            return;
+          }
+          if (line.indexOf('> ') === 0) {
+            flushParagraph(); flushBullets();
+            out.push('<div class="callout">' + escapeHtml(line.substring(2)) + '</div>');
+            return;
+          }
+          if (line.indexOf('— ') === 0 || line.indexOf('- ') === 0) {
+            flushParagraph();
+            bullets.push(escapeHtml(line.replace(/^[—\-]\s+/, '')));
+            return;
+          }
+
+          flushBullets();
+          buffer.push(escapeHtml(line));
+        });
+
+        flushParagraph();
+        flushBullets();
+        return out.join('');
+      }
+
+      function openArticleSheet(entry) {
+        document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + escapeHtml(entry.icon || 'fa-book-medical') + '"></i>';
+        document.getElementById('sheetTitle').textContent = entry.title;
+        document.getElementById('sheetSubtitle').textContent = (entry.date || '') + (entry.readtime ? ' · ' + entry.readtime : '');
+
+        document.getElementById('sheetItems').style.display = 'none';
+        document.getElementById('sheetItems').innerHTML = '';
+
+        var articleBody = document.getElementById('articleBody');
+        articleBody.style.display = 'block';
+        articleBody.innerHTML = formatArticleBody(entry.body) +
+          '<div class="signoff">' + escapeHtml(state.profile.name || 'Prosper Bassey') +
+            ', RN<span>Critical Care Nurse</span></div>' +
+          '<p class="disclaimer">This article is general education and not medical advice. Please consult your healthcare provider for personal guidance.</p>';
+
+        document.getElementById('sheetCloseBtn').innerHTML = '<i class="fas fa-xmark"></i> Close entry';
+
+        document.getElementById('bottomSheet').classList.add('active');
+        document.getElementById('modalOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        document.getElementById('bottomSheet').scrollTop = 0;
+      }
+
+      /* ============================================================
+         RENDER: TESTIMONIAL + CONTACT
+      ============================================================ */
+      function renderTestimonial() {
+        var p = state.profile;
+        setText('testimonialText', p.testimonial);
+        setText('testimonialAvatar', p.testimonialInitials);
+        setText('testimonialAuthor', p.testimonialAuthor);
+        setText('testimonialRole', p.testimonialRole);
+      }
+
+      function renderContact() {
+        var p = state.profile;
+        var status = p.availability || 'On Duty';
+        var cls = statusClass(status);
+
+        var badge = document.getElementById('contactBadge');
+        badge.className = 'contact-badge ' + cls;
+        badge.querySelector('i').className = statusIconClass(status);
+        setText('contactBadgeText', statusBadgeText(status));
+
+        setText('contactEmail', p.email);
+        setText('contactPhone', formatDisplayPhone(p.phone));
+        setText('contactWhatsapp', formatDisplayPhone(p.whatsapp));
+        setText('contactLocation', p.city + ', ' + p.state);
+
+        document.getElementById('contactEmailLink').setAttribute('href', 'mailto:' + p.email);
+        document.getElementById('contactPhoneLink').setAttribute('href', telHref(p.phone));
+        document.getElementById('contactWhatsappLink').setAttribute('href', waHref(p.whatsapp));
+
+        setText('footerName', p.name + ', RN');
+      }
+
+      function formatDisplayPhone(raw) {
+        var digits = String(raw || '').replace(/[^\d]/g, '');
+        if (digits.length === 11 && digits.charAt(0) === '0') {
+          return digits.substring(0, 4) + ' ' + digits.substring(4, 7) + ' ' + digits.substring(7);
+        }
+        return raw;
+      }
+
+      /* ============================================================
+         SHEET CONTROLS
+      ============================================================ */
+      var sheetEl = document.getElementById('bottomSheet');
+      var overlay = document.getElementById('modalOverlay');
 
       function closeSheet() {
         sheetEl.classList.remove('active');
@@ -2165,93 +1974,105 @@
         if (e.key === 'Escape') closeSheet();
       });
 
-      var touchStartY = 0;
-      var touchDelta = 0;
-
+      var touchStartY = 0, touchDelta = 0;
       sheetEl.addEventListener('touchstart', function(e) {
         touchStartY = e.touches[0].clientY;
         touchDelta = 0;
       }, { passive: true });
-
       sheetEl.addEventListener('touchmove', function(e) {
         touchDelta = e.touches[0].clientY - touchStartY;
         if (touchDelta > 0 && sheetEl.scrollTop <= 0) {
           sheetEl.style.transform = 'translateX(-50%) translateY(' + touchDelta + 'px)';
         }
       }, { passive: true });
-
       sheetEl.addEventListener('touchend', function() {
-        if (touchDelta > 110) {
-          closeSheet();
-        } else {
-          sheetEl.style.transform = '';
-        }
+        if (touchDelta > 110) closeSheet();
+        else sheetEl.style.transform = '';
         touchDelta = 0;
       });
 
-      /* ---------- QUICK ACTION BUTTONS ---------- */
-      var quickPills = document.querySelectorAll('.quick-pill');
-      quickPills.forEach(function(pill) {
-        pill.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
+      /* ============================================================
+         LICENSE BAR SHEET
+      ============================================================ */
+      document.querySelector('.id-license-bar').addEventListener('click', function() {
+        var p = state.profile;
+        document.getElementById('sheetIcon').innerHTML = '<i class="fas fa-id-card"></i>';
+        document.getElementById('sheetTitle').textContent = 'RN License ' + (p.licenseStatus || 'Verified');
+        document.getElementById('sheetSubtitle').textContent = 'Active and in good standing with NMCN';
 
-          quickPills.forEach(function(p) {
-            p.classList.remove('active');
-          });
-          this.classList.add('active');
+        var itemsEl = document.getElementById('sheetItems');
+        itemsEl.style.display = 'flex';
+        document.getElementById('articleBody').style.display = 'none';
+        itemsEl.innerHTML =
+          '<div class="sheet-item"><div class="sheet-item-icon"><i class="fas fa-check-circle"></i></div><div class="sheet-item-body"><h4>License Number</h4><p>' + escapeHtml(p.licenseNumber) + '</p></div></div>' +
+          '<div class="sheet-item"><div class="sheet-item-icon"><i class="fas fa-calendar"></i></div><div class="sheet-item-body"><h4>Status</h4><p>' + escapeHtml(p.licenseStatus) + '</p></div></div>' +
+          '<div class="sheet-item"><div class="sheet-item-icon"><i class="fas fa-graduation-cap"></i></div><div class="sheet-item-body"><h4>Detail</h4><p>' + escapeHtml(p.licenseDetail) + '</p></div></div>';
 
-          var key = this.getAttribute('data-sheet');
-          if (key) openSheet(key);
-        });
+        document.getElementById('sheetCloseBtn').innerHTML = '<i class="fas fa-check"></i> Got it';
+
+        sheetEl.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        sheetEl.scrollTop = 0;
       });
 
-      /* ---------- OTHER SHEET TRIGGERS ---------- */
-      document.querySelectorAll('[data-sheet]:not(.quick-pill)').forEach(function(el) {
-        el.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          var key = this.getAttribute('data-sheet');
-          openSheet(key);
-        });
-      });
-
-      /* ---------- JOURNAL CARDS ---------- */
-      document.querySelectorAll('.journal-card').forEach(function(card) {
-        card.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          var key = this.getAttribute('data-article');
-          if (key) openArticle(key);
-        });
-      });
-
-      /* ---------- EXPANDABLE CHART ENTRIES ---------- */
+      /* ============================================================
+         EXPANDABLE CHART ENTRIES
+      ============================================================ */
       document.querySelectorAll('[data-expandable]').forEach(function(entry) {
-        entry.addEventListener('click', function() {
-          this.classList.toggle('expanded');
-        });
+        entry.addEventListener('click', function() { this.classList.toggle('expanded'); });
       });
 
-      /* ---------- SOCIAL ---------- */
+      /* ============================================================
+         SOCIAL
+      ============================================================ */
+      var toastTimer = null;
+      function showToast(msg, iconClass) {
+        var toast = document.getElementById('toast');
+        var text = document.getElementById('toastText');
+        var icon = toast.querySelector('i');
+        text.textContent = msg;
+        if (iconClass) icon.className = iconClass;
+        toast.classList.add('show');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2400);
+      }
+
       document.querySelectorAll('[data-social]').forEach(function(el) {
         el.addEventListener('click', function(e) {
           e.preventDefault();
-          var platform = this.getAttribute('data-social');
-          showToast('Opening ' + platform + '…', 'fas fa-arrow-up-right-from-square');
+          showToast('Opening ' + this.getAttribute('data-social') + '…', 'fas fa-arrow-up-right-from-square');
         });
       });
 
-      /* ---------- COMPETENCY BARS ---------- */
-      function animateBars() {
-        document.querySelectorAll('.matrix-bar-fill').forEach(function(el) {
-          var w = el.getAttribute('data-width') || '0%';
-          el.style.width = w;
-        });
-      }
+      /* ============================================================
+         BOOT
+      ============================================================ */
+      renderNav();
+      renderBanner();
+      renderQuickActions();
+      renderCompetencies();
+      renderJournal();
+      renderTestimonial();
+      renderContact();
 
       window.addEventListener('load', function() {
-        setTimeout(animateBars, 500);
+        setTimeout(animateBars, 400);
+      });
+
+      /* Cross-tab sync */
+      window.addEventListener('storage', function(e) {
+        if (e.key === STORE_KEY) {
+          state = loadData();
+          renderNav();
+          renderBanner();
+          renderQuickActions();
+          renderCompetencies();
+          renderJournal();
+          renderTestimonial();
+          renderContact();
+          setTimeout(animateBars, 200);
+        }
       });
 
     })();
