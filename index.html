@@ -459,7 +459,6 @@
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    /* Active highlight state */
     .quick-pill.active {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: #ffffff;
@@ -475,7 +474,6 @@
       transform: scale(1.15);
     }
 
-    /* Active ring pulse */
     .quick-pill.active::after {
       content: '';
       position: absolute;
@@ -492,7 +490,6 @@
       100% { transform: scale(1.08); opacity: 0; }
     }
 
-    /* Press feedback */
     .quick-pill:active {
       transform: scale(0.95);
     }
@@ -566,6 +563,7 @@
     .chart-entry:nth-child(1) { animation-delay: 0.25s; }
     .chart-entry:nth-child(2) { animation-delay: 0.32s; }
     .chart-entry:nth-child(3) { animation-delay: 0.39s; }
+    .chart-entry:nth-child(4) { animation-delay: 0.46s; }
 
     @keyframes entryIn {
       from { opacity: 0; transform: translateX(-12px); }
@@ -809,6 +807,130 @@
       color: var(--primary);
       letter-spacing: 0.02em;
       margin-top: 1px;
+    }
+
+    /* ---------- MY JOURNAL ---------- */
+    .journal-section {
+      padding: 24px 16px 0;
+      animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+    }
+
+    .journal-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .journal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px 16px 15px;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      animation: matrixIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .journal-card:nth-child(1) { animation-delay: 0.38s; }
+    .journal-card:nth-child(2) { animation-delay: 0.44s; }
+    .journal-card:nth-child(3) { animation-delay: 0.50s; }
+
+    .journal-card::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--primary), var(--sky));
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .journal-card:active {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 12px 26px -14px var(--primary-glow);
+    }
+
+    .journal-card:active::after {
+      transform: scaleY(1);
+    }
+
+    .journal-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .journal-tag {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 40px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border: 1px solid var(--border-strong);
+    }
+
+    .journal-meta {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .journal-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+    }
+
+    .journal-excerpt {
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--text-light);
+      line-height: 1.55;
+    }
+
+    .journal-card-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-strong);
+    }
+
+    .journal-read {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .journal-read i {
+      transition: transform 0.3s;
+    }
+
+    .journal-card:active .journal-read i {
+      transform: translateX(3px);
     }
 
     /* ---------- TESTIMONIAL ---------- */
@@ -1117,7 +1239,7 @@
       padding: 20px 20px calc(28px + env(safe-area-inset-bottom));
       z-index: 201;
       transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-      max-height: 82vh;
+      max-height: 88vh;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       box-shadow: 0 -20px 50px -15px rgba(0, 0, 0, 0.3);
@@ -1235,6 +1357,93 @@
       text-decoration: underline;
     }
 
+    /* ---------- ARTICLE SHEET (Journal) ---------- */
+    .article-sheet-body {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .article-sheet-body p {
+      margin-bottom: 14px;
+    }
+
+    .article-sheet-body h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+      margin: 18px 0 8px;
+    }
+
+    .article-sheet-body ul {
+      list-style: none;
+      margin: 0 0 14px;
+      padding: 0;
+    }
+
+    .article-sheet-body ul li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    .article-sheet-body ul li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 9px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    .article-sheet-body .callout {
+      background: var(--primary-light);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 12px 12px 0;
+      padding: 12px 14px;
+      font-size: 0.82rem;
+      color: var(--navy);
+      font-weight: 500;
+      line-height: 1.55;
+      margin: 14px 0;
+    }
+
+    .article-sheet-body .disclaimer {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border-strong);
+      font-size: 0.72rem;
+      font-style: italic;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .article-sheet-body .signoff {
+      margin-top: 14px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .article-sheet-body .signoff span {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-top: 2px;
+    }
+
     .sheet-close-btn {
       width: 100%;
       padding: 15px;
@@ -1257,6 +1466,37 @@
     .sheet-close-btn:active {
       background: var(--primary-dark);
       transform: scale(0.97);
+    }
+
+    .sheet-cta-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .sheet-cta-secondary {
+      flex: 1;
+      padding: 14px;
+      border-radius: 50px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--border-strong);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .sheet-cta-secondary:active {
+      background: white;
+      transform: scale(0.97);
+      border-color: var(--primary);
     }
 
     /* ---------- TOAST ---------- */
@@ -1311,6 +1551,7 @@
       .matrix-card h3 { font-size: 0.78rem; }
       .contact-cell-value { font-size: 0.75rem; }
       .quick-pill { padding: 9px 13px; font-size: 0.72rem; }
+      .journal-title { font-size: 0.92rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1352,7 +1593,6 @@
           <div class="id-photo-ring"></div>
           <div class="id-photo-inner">
             <div class="id-photo-img">
-    
               <img
                 src="https://cdn.jsdelivr.net/gh/CURIocity-AI/imagery@master/IMG_20261013_151531.jpg"
                 alt="Prosper Bassey — Registered Nurse"
@@ -1499,6 +1739,56 @@
       </div>
     </section>
 
+    <!-- MY JOURNAL -->
+    <section class="journal-section">
+      <div class="chart-header">
+        <h2><i class="fas fa-book-medical"></i> My Journal</h2>
+        <span>Reflections & Guidance</span>
+      </div>
+      <div class="journal-list">
+
+        <article class="journal-card" data-article="icu-family">
+          <div class="journal-card-top">
+            <span class="journal-tag">Patient Care</span>
+            <span class="journal-meta">5 min read</span>
+          </div>
+          <h3 class="journal-title">What I Wish Every Family Knew Before an ICU Admission</h3>
+          <p class="journal-excerpt">The monitors, the tubes, the beeping — it can feel overwhelming. Here is what actually matters in those first hours.</p>
+          <div class="journal-card-foot">
+            <span class="journal-read">Read entry <i class="fas fa-arrow-right"></i></span>
+            <span class="journal-meta">Oct 2025</span>
+          </div>
+        </article>
+
+        <article class="journal-card" data-article="bp-numbers">
+          <div class="journal-card-top">
+            <span class="journal-tag">Prevention</span>
+            <span class="journal-meta">4 min read</span>
+          </div>
+          <h3 class="journal-title">The Blood Pressure Numbers You Should Never Ignore</h3>
+          <p class="journal-excerpt">Most people wait too long. A few simple thresholds can tell you when it's time to seek care — and when it isn't.</p>
+          <div class="journal-card-foot">
+            <span class="journal-read">Read entry <i class="fas fa-arrow-right"></i></span>
+            <span class="journal-meta">Sep 2025</span>
+          </div>
+        </article>
+
+        <article class="journal-card" data-article="why-critical-care">
+          <div class="journal-card-top">
+            <span class="journal-tag">Reflections</span>
+            <span class="journal-meta">3 min read</span>
+          </div>
+          <h3 class="journal-title">Why I Chose Critical Care</h3>
+          <p class="journal-excerpt">It was never about the machines. It was about the person on the other side of them. This is my story.</p>
+          <div class="journal-card-foot">
+            <span class="journal-read">Read entry <i class="fas fa-arrow-right"></i></span>
+            <span class="journal-meta">Aug 2025</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
     <!-- TESTIMONIAL -->
     <section class="testimonial-wrap">
       <div class="testimonial-card">
@@ -1577,6 +1867,7 @@
       </div>
     </div>
     <div class="sheet-items" id="sheetItems"></div>
+    <div class="article-sheet-body" id="articleBody" style="display:none;"></div>
     <button class="sheet-close-btn" data-close>
       <i class="fas fa-check"></i> Got it
     </button>
@@ -1611,6 +1902,7 @@
         }, 2400);
       }
 
+      /* ---------- SHEET DATA ---------- */
       var sheets = {
         license: {
           icon: 'fa-id-card',
@@ -1620,26 +1912,6 @@
             { icon: 'fa-check-circle', title: 'License Number', text: '#RN-9017297650' },
             { icon: 'fa-calendar', title: 'Valid Through', text: 'December 2026' },
             { icon: 'fa-graduation-cap', title: 'Continuing Education', text: '40 CE credits completed in 2025' }
-          ]
-        },
-        certifications: {
-          icon: 'fa-heartbeat',
-          title: 'Certifications & Training',
-          subtitle: 'Advanced life support and critical care',
-          items: [
-            { icon: 'fa-heartbeat', title: 'ACLS', text: 'Advanced Cardiac Life Support · Renewed 2025' },
-            { icon: 'fa-child', title: 'PALS', text: 'Pediatric Advanced Life Support · Renewed 2025' },
-            { icon: 'fa-lungs', title: 'BLS', text: 'Basic Life Support · Renewed 2025' }
-          ]
-        },
-        experience: {
-          icon: 'fa-award',
-          title: 'Professional Experience',
-          subtitle: '5+ years of clinical excellence',
-          items: [
-            { icon: 'fa-hospital', title: 'Senior ICU Nurse', text: 'Teaching Hospital, Akwa Ibom · 2022–Present' },
-            { icon: 'fa-baby', title: 'Pediatric Nurse', text: 'Mother & Child Center · 2020–2022' },
-            { icon: 'fa-house-medical', title: 'Community Health Nurse', text: 'Rural Health Initiative · 2019–2020' }
           ]
         },
         message: {
@@ -1746,19 +2018,96 @@
         }
       };
 
+      /* ---------- JOURNAL ARTICLES ---------- */
+      var articles = {
+        'icu-family': {
+          icon: 'fa-hospital-user',
+          tag: 'Patient Care',
+          title: 'What I Wish Every Family Knew Before an ICU Admission',
+          subtitle: 'A calm guide for the first hours',
+          meta: 'October 2025 · 5 min read',
+          body: '' +
+            '<p>When a loved one is admitted to the ICU, everything happens at once. Machines beep, alarms sound, strangers in scrubs move quickly, and no one seems to have time to explain what is going on. As a critical care nurse, I have stood on both sides of that curtain — and I know how frightening it can feel.</p>' +
+            '<p>This is what I wish every family knew before they walk through those doors.</p>' +
+            '<h3>1. The beeping is not always bad</h3>' +
+            '<p>Monitors alarm for many reasons: a loose sensor, a patient shifting in bed, an artifact from movement. The sound alone does not mean something is wrong. If it were truly urgent, the team would already be at the bedside.</p>' +
+            '<h3>2. Ask these three questions</h3>' +
+            '<ul>' +
+              '<li>What is the main problem we are treating right now?</li>' +
+              '<li>What is the goal for today?</li>' +
+              '<li>Who is the best person to speak with for an update?</li>' +
+            '</ul>' +
+            '<p>These three questions will get you more clarity than any internet search at 2am.</p>' +
+            '<h3>3. You are part of the team</h3>' +
+            '<p>You know your loved one better than anyone. If something feels off — a change in how they speak, how they look, how they respond — say it. Nurses and doctors take family observations seriously.</p>' +
+            '<div class="callout">Take care of yourself too. Eat. Sleep. Step outside. You cannot pour from an empty cup, and your loved one needs you steady.</div>' +
+            '<p>No one prepares families for the ICU. But you do not have to face it alone — ask questions, take notes, and lean on the nurses. That is what we are here for.</p>' +
+            '<div class="signoff">Prosper Bassey, RN<span>Critical Care Nurse</span></div>' +
+            '<p class="disclaimer">This article is general education and not medical advice. For your specific situation, please consult your healthcare provider or the clinical team caring for your loved one.</p>'
+        },
+        'bp-numbers': {
+          icon: 'fa-heart-pulse',
+          tag: 'Prevention',
+          title: 'The Blood Pressure Numbers You Should Never Ignore',
+          subtitle: 'Know when to act — and when to wait',
+          meta: 'September 2025 · 4 min read',
+          body: '' +
+            '<p>High blood pressure is often called the "silent killer" because it usually has no symptoms until it has already done damage. In my practice, I have seen too many people discover their numbers were dangerously high only after a stroke or a heart event.</p>' +
+            '<p>You do not need to be a nurse to know when to act. You just need to know the numbers.</p>' +
+            '<h3>The general ranges</h3>' +
+            '<ul>' +
+              '<li><strong>Normal:</strong> below 120/80 mmHg</li>' +
+              '<li><strong>Elevated:</strong> 120–129 / below 80</li>' +
+              '<li><strong>Stage 1 hypertension:</strong> 130–139 / 80–89</li>' +
+              '<li><strong>Stage 2 hypertension:</strong> 140+ / 90+</li>' +
+              '<li><strong>Hypertensive crisis:</strong> above 180 / 120</li>' +
+            '</ul>' +
+            '<div class="callout">If your reading is above 180/120 <strong>and</strong> you have chest pain, shortness of breath, vision changes, or severe headache — seek emergency care immediately.</div>' +
+            '<h3>What to do at home</h3>' +
+            '<p>Measure at the same time each day, sit quietly for five minutes first, and keep a written log. Bring that log to every appointment. Patterns matter more than single readings.</p>' +
+            '<h3>When to see a provider</h3>' +
+            '<p>If your readings are consistently in Stage 1 or above, book an appointment. If they reach Stage 2, do not wait. High blood pressure is manageable — but only if it is caught.</p>' +
+            '<div class="signoff">Prosper Bassey, RN<span>Critical Care Nurse</span></div>' +
+            '<p class="disclaimer">This article is general education and not medical advice. Blood pressure targets vary by individual. Please consult your healthcare provider for personal guidance.</p>'
+        },
+        'why-critical-care': {
+          icon: 'fa-heart',
+          tag: 'Reflections',
+          title: 'Why I Chose Critical Care',
+          subtitle: 'A personal note',
+          meta: 'August 2025 · 3 min read',
+          body: '' +
+            '<p>People often ask me why I chose critical care — the ICU, the sickest patients, the longest shifts. It is not the glamorous side of nursing. It is heavy, and it is holy.</p>' +
+            '<p>I chose it because I believe no one should die alone, and no family should feel abandoned in the worst moment of their lives.</p>' +
+            '<p>I have held hands at 3am. I have translated doctor-speak into plain words for terrified daughters. I have celebrated small victories — a first breath off the ventilator, a first sip of water, a first step — like they were my own.</p>' +
+            '<p>Critical care taught me that medicine is not just about curing. Sometimes it is about accompanying. Sometimes it is about making sure a person is comfortable, seen, and loved in their final hours.</p>' +
+            '<div class="callout">"What God cannot do, does not exist." That is my anchor. It is what keeps me steady when the room is not.</div>' +
+            '<p>This is not just a job for me. It is a calling — and I do not take it lightly.</p>' +
+            '<div class="signoff">Prosper Bassey, RN<span>Critical Care Nurse</span></div>' +
+            '<p class="disclaimer">Reflections shared in a personal capacity. No patient information is disclosed. All identifying details have been omitted to protect privacy.</p>'
+        }
+      };
+
       var sheetEl = document.getElementById('bottomSheet');
       var overlay = document.getElementById('modalOverlay');
+      var sheetItemsEl = document.getElementById('sheetItems');
+      var articleBodyEl = document.getElementById('articleBody');
+      var sheetCloseBtn = sheetEl.querySelector('.sheet-close-btn');
 
       function openSheet(key) {
         var data = sheets[key];
         if (!data) return;
 
+        // Reset article body
+        articleBodyEl.style.display = 'none';
+        articleBodyEl.innerHTML = '';
+        sheetItemsEl.style.display = 'flex';
+
         document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + data.icon + '"></i>';
         document.getElementById('sheetTitle').textContent = data.title;
         document.getElementById('sheetSubtitle').textContent = data.subtitle;
 
-        var itemsEl = document.getElementById('sheetItems');
-        itemsEl.innerHTML = data.items.map(function(item) {
+        sheetItemsEl.innerHTML = data.items.map(function(item) {
           return '<div class="sheet-item">' +
             '<div class="sheet-item-icon"><i class="fas ' + item.icon + '"></i></div>' +
             '<div class="sheet-item-body">' +
@@ -1768,9 +2117,37 @@
           '</div>';
         }).join('');
 
+        // Reset close button text
+        sheetCloseBtn.innerHTML = '<i class="fas fa-check"></i> Got it';
+
         sheetEl.classList.add('active');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+        sheetEl.scrollTop = 0;
+      }
+
+      function openArticle(key) {
+        var data = articles[key];
+        if (!data) return;
+
+        // Hide the item list, show article
+        sheetItemsEl.style.display = 'none';
+        sheetItemsEl.innerHTML = '';
+        articleBodyEl.style.display = 'block';
+
+        document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + data.icon + '"></i>';
+        document.getElementById('sheetTitle').textContent = data.title;
+        document.getElementById('sheetSubtitle').textContent = data.meta;
+
+        articleBodyEl.innerHTML = data.body;
+
+        // Change close button to "Close entry"
+        sheetCloseBtn.innerHTML = '<i class="fas fa-xmark"></i> Close entry';
+
+        sheetEl.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        sheetEl.scrollTop = 0;
       }
 
       function closeSheet() {
@@ -1812,28 +2189,24 @@
         touchDelta = 0;
       });
 
-      /* ---------- QUICK ACTION BUTTONS (active highlight) ---------- */
+      /* ---------- QUICK ACTION BUTTONS ---------- */
       var quickPills = document.querySelectorAll('.quick-pill');
       quickPills.forEach(function(pill) {
         pill.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
 
-          // Remove active from all pills
           quickPills.forEach(function(p) {
             p.classList.remove('active');
           });
-
-          // Add active to this pill
           this.classList.add('active');
 
-          // Open the corresponding sheet
           var key = this.getAttribute('data-sheet');
           if (key) openSheet(key);
         });
       });
 
-      /* ---------- OTHER SHEET TRIGGERS (matrix, contact, license) ---------- */
+      /* ---------- OTHER SHEET TRIGGERS ---------- */
       document.querySelectorAll('[data-sheet]:not(.quick-pill)').forEach(function(el) {
         el.addEventListener('click', function(e) {
           e.preventDefault();
@@ -1843,12 +2216,24 @@
         });
       });
 
+      /* ---------- JOURNAL CARDS ---------- */
+      document.querySelectorAll('.journal-card').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var key = this.getAttribute('data-article');
+          if (key) openArticle(key);
+        });
+      });
+
+      /* ---------- EXPANDABLE CHART ENTRIES ---------- */
       document.querySelectorAll('[data-expandable]').forEach(function(entry) {
         entry.addEventListener('click', function() {
           this.classList.toggle('expanded');
         });
       });
 
+      /* ---------- SOCIAL ---------- */
       document.querySelectorAll('[data-social]').forEach(function(el) {
         el.addEventListener('click', function(e) {
           e.preventDefault();
@@ -1857,6 +2242,7 @@
         });
       });
 
+      /* ---------- COMPETENCY BARS ---------- */
       function animateBars() {
         document.querySelectorAll('.matrix-bar-fill').forEach(function(el) {
           var w = el.getAttribute('data-width') || '0%';
