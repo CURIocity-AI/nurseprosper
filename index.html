@@ -4,8 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>Prosper Bassey · Registered Nurse</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/solid.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Supabase UMD build -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -41,10 +45,8 @@
       min-height: 100vh;
     }
 
-    /* ---------- FIXED TOP NAV ---------- */
     .top-nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
+      position: fixed; top: 0; left: 0; right: 0;
       z-index: 80;
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(18px);
@@ -54,13 +56,9 @@
     }
 
     .top-nav-inner {
-      max-width: 480px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 18px;
-      gap: 12px;
+      max-width: 480px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 18px; gap: 12px;
     }
 
     .nav-brand { display: flex; align-items: center; gap: 10px; }
@@ -100,10 +98,8 @@
 
     .nav-status.duty { color: #166534; background: #dcfce7; border-color: #bbf7d0; }
     .nav-status.duty i { color: var(--success); animation: statusPulse 2s infinite; }
-
     .nav-status.away { color: #92400e; background: #fef3c7; border-color: #fde68a; }
     .nav-status.away i { color: var(--warning); }
-
     .nav-status.offline { color: #475569; background: #f1f5f9; border-color: #cbd5e1; }
     .nav-status.offline i { color: var(--offline); }
 
@@ -114,19 +110,15 @@
       50% { opacity: 0.5; transform: scale(1.4); }
     }
 
-    /* ---------- PAGE ---------- */
     .page {
-      max-width: 480px;
-      margin: 0 auto;
+      max-width: 480px; margin: 0 auto;
       background: var(--bg);
       min-height: 100vh;
       padding-top: calc(74px + env(safe-area-inset-top));
       padding-bottom: calc(40px + env(safe-area-inset-bottom));
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
     }
 
-    /* ---------- ID BANNER ---------- */
     .id-banner {
       margin: 16px 16px 0;
       background: var(--card);
@@ -147,9 +139,7 @@
       padding: 22px 20px 20px;
       position: relative;
       overflow: hidden;
-      display: flex;
-      gap: 18px;
-      align-items: center;
+      display: flex; gap: 18px; align-items: center;
     }
 
     .id-banner-top::before {
@@ -224,9 +214,8 @@
       border: 2.5px solid var(--navy);
       z-index: 5;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      transition: background 0.35s ease, border-color 0.35s ease;
+      transition: background 0.35s ease;
     }
-
     .id-photo-status.duty { background: var(--success); }
     .id-photo-status.away { background: var(--warning); }
     .id-photo-status.offline { background: var(--offline); }
@@ -238,7 +227,6 @@
       background: inherit;
       animation: statusPulse 2s infinite;
     }
-
     .id-photo-status.away::after,
     .id-photo-status.offline::after { animation: none; }
 
@@ -307,7 +295,6 @@
     .id-license-item i { color: var(--primary); font-size: 0.75rem; }
     .id-license-item .check { color: var(--success); font-size: 0.72rem; }
 
-    /* ---------- QUICK ACTIONS ---------- */
     .quick-actions {
       display: flex; gap: 10px;
       padding: 14px 16px 0;
@@ -372,7 +359,6 @@
 
     .quick-pill:active { transform: scale(0.95); }
 
-    /* ---------- CLINICAL CHART ---------- */
     .chart-section {
       padding: 20px 16px 0;
       animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
@@ -426,7 +412,6 @@
     .chart-entry:nth-child(1) { animation-delay: 0.25s; }
     .chart-entry:nth-child(2) { animation-delay: 0.32s; }
     .chart-entry:nth-child(3) { animation-delay: 0.39s; }
-    .chart-entry:nth-child(4) { animation-delay: 0.46s; }
 
     @keyframes entryIn {
       from { opacity: 0; transform: translateX(-12px); }
@@ -535,7 +520,6 @@
       border-top: 1px dashed var(--border-strong);
     }
 
-    /* ---------- MATRIX ---------- */
     .matrix-section {
       padding: 24px 16px 0;
       animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
@@ -643,7 +627,6 @@
       margin-top: 1px;
     }
 
-    /* ---------- MY JOURNAL ---------- */
     .journal-section {
       padding: 24px 16px 0;
       animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
@@ -655,13 +638,12 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 16px 16px 15px;
+      overflow: hidden;
       cursor: pointer;
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
-      overflow: hidden;
       animation: matrixIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-      display: flex; flex-direction: column; gap: 10px;
+      display: flex; flex-direction: column;
     }
 
     .journal-card::after {
@@ -673,6 +655,7 @@
       transform: scaleY(0);
       transform-origin: top;
       transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 3;
     }
 
     .journal-card:active {
@@ -682,6 +665,48 @@
     }
 
     .journal-card:active::after { transform: scaleY(1); }
+
+    .journal-photo {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--navy-light);
+    }
+
+    .journal-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .journal-card:active .journal-photo img {
+      transform: scale(1.04);
+    }
+
+    .journal-photo-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 40px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--primary-dark);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.2);
+    }
+
+    .journal-body {
+      padding: 16px 16px 15px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
 
     .journal-card-top {
       display: flex; align-items: center; justify-content: space-between;
@@ -753,7 +778,6 @@
 
     .journal-empty p { font-size: 0.82rem; font-weight: 500; }
 
-    /* ---------- TESTIMONIAL ---------- */
     .testimonial-wrap {
       padding: 24px 16px 0;
       animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
@@ -846,7 +870,6 @@
       opacity: 0.85;
     }
 
-    /* ---------- CONTACT PANEL ---------- */
     .contact-panel {
       margin: 24px 16px 0;
       background: var(--card);
@@ -878,7 +901,6 @@
       border-radius: 40px;
       display: flex; align-items: center; gap: 4px;
       border: 1px solid;
-      transition: all 0.35s ease;
     }
 
     .contact-badge.duty { color: var(--success); background: #dcfce7; border-color: #bbf7d0; }
@@ -887,10 +909,7 @@
 
     .contact-panel-head .contact-badge i { font-size: 0.5rem; }
 
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; }
 
     .contact-cell {
       padding: 16px 18px;
@@ -905,11 +924,7 @@
     .contact-cell:nth-last-child(-n+2) { border-bottom: none; }
     .contact-cell:active { background: var(--primary-light); }
 
-    .contact-cell-icon {
-      font-size: 0.95rem;
-      color: var(--primary);
-      margin-bottom: 2px;
-    }
+    .contact-cell-icon { font-size: 0.95rem; color: var(--primary); margin-bottom: 2px; }
 
     .contact-cell-label {
       font-size: 0.6rem; font-weight: 700;
@@ -927,7 +942,6 @@
 
     .contact-cell-value a { color: var(--navy); text-decoration: none; }
 
-    /* ---------- COLOPHON ---------- */
     .colophon {
       text-align: center;
       padding: 32px 20px 16px;
@@ -979,7 +993,6 @@
       border-color: var(--primary);
     }
 
-    /* ---------- BOTTOM SHEET ---------- */
     .modal-overlay {
       position: fixed; inset: 0;
       background: rgba(15, 42, 74, 0.5);
@@ -1178,6 +1191,22 @@
       margin-top: 2px;
     }
 
+    .article-hero {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: var(--navy-light);
+      position: relative;
+    }
+
+    .article-hero img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .sheet-close-btn {
       width: 100%;
       padding: 15px;
@@ -1198,11 +1227,9 @@
       transform: scale(0.97);
     }
 
-    /* ---------- TOAST ---------- */
     .toast {
       position: fixed;
-      bottom: 90px;
-      left: 50%;
+      bottom: 90px; left: 50%;
       transform: translateX(-50%) translateY(16px);
       background: var(--navy);
       color: white;
@@ -1225,7 +1252,6 @@
     .toast i { color: var(--sky); font-size: 0.85rem; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* ---------- RESPONSIVE ---------- */
     @media (min-width: 520px) {
       .page { max-width: 520px; }
       .top-nav-inner { max-width: 520px; }
@@ -1255,7 +1281,6 @@
 </head>
 <body>
 
-  <!-- FIXED TOP NAV -->
   <nav class="top-nav">
     <div class="top-nav-inner">
       <div class="nav-brand">
@@ -1273,18 +1298,13 @@
 
   <main class="page">
 
-    <!-- ID BANNER -->
     <section class="id-banner">
       <div class="id-banner-top">
         <div class="id-photo">
           <div class="id-photo-ring"></div>
           <div class="id-photo-inner">
             <div class="id-photo-img">
-              <img
-                src="https://cdn.jsdelivr.net/gh/CURIocity-AI/imagery@master/IMG_20261013_151531.jpg"
-                alt="Prosper Bassey — Registered Nurse"
-                loading="eager"
-              >
+              <img src="https://cdn.jsdelivr.net/gh/CURIocity-AI/imagery@master/IMG_20261013_151531.jpg" alt="Prosper Bassey — Registered Nurse" loading="eager">
             </div>
           </div>
           <div class="id-photo-status duty" id="photoStatus"></div>
@@ -1309,10 +1329,8 @@
       </div>
     </section>
 
-    <!-- QUICK ACTIONS -->
     <div class="quick-actions" id="quickActions"></div>
 
-    <!-- CLINICAL CHART -->
     <section class="chart-section">
       <div class="chart-header">
         <h2><i class="fas fa-clipboard-list"></i> Clinical Profile</h2>
@@ -1351,7 +1369,6 @@
       </div>
     </section>
 
-    <!-- COMPETENCY MATRIX -->
     <section class="matrix-section">
       <div class="chart-header">
         <h2><i class="fas fa-chart-simple"></i> Competencies</h2>
@@ -1360,7 +1377,6 @@
       <div class="matrix-grid" id="matrixGrid"></div>
     </section>
 
-    <!-- MY JOURNAL -->
     <section class="journal-section">
       <div class="chart-header">
         <h2><i class="fas fa-book-medical"></i> My Journal</h2>
@@ -1369,7 +1385,6 @@
       <div class="journal-list" id="journalList"></div>
     </section>
 
-    <!-- TESTIMONIAL -->
     <section class="testimonial-wrap">
       <div class="testimonial-card">
         <div class="testimonial-mark">&ldquo;</div>
@@ -1384,7 +1399,6 @@
       </div>
     </section>
 
-    <!-- CONTACT PANEL -->
     <section class="contact-panel">
       <div class="contact-panel-head">
         <h3>Get in Touch</h3>
@@ -1398,19 +1412,16 @@
           <span class="contact-cell-label">Email</span>
           <span class="contact-cell-value"><a href="#" id="contactEmailLink"><span id="contactEmail">prosperbassey06@gmail.com</span></a></span>
         </div>
-
         <div class="contact-cell" data-sheet="call">
           <i class="fas fa-phone-alt contact-cell-icon"></i>
           <span class="contact-cell-label">Phone</span>
           <span class="contact-cell-value"><a href="#" id="contactPhoneLink"><span id="contactPhone">0901 729 7650</span></a></span>
         </div>
-
         <div class="contact-cell" data-sheet="message">
           <i class="fab fa-whatsapp contact-cell-icon"></i>
           <span class="contact-cell-label">WhatsApp</span>
           <span class="contact-cell-value"><a href="#" id="contactWhatsappLink" target="_blank"><span id="contactWhatsapp">0901 729 7650</span></a></span>
         </div>
-
         <div class="contact-cell" data-sheet="contact">
           <i class="fas fa-map-marker-alt contact-cell-icon"></i>
           <span class="contact-cell-label">Location</span>
@@ -1419,21 +1430,19 @@
       </div>
     </section>
 
-    <!-- COLOPHON -->
     <footer class="colophon">
       <div class="colophon-mark"><i class="fas fa-heart-pulse"></i></div>
       <p><strong id="footerName">Prosper Bassey, RN</strong><br>Dedicated to healing · 2025</p>
       <div class="colophon-socials">
         <a data-social="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a data-social="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a data-social="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
         <a data-social="X" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-        <a data-social="Email" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a data-social="WhatsApp" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </footer>
 
   </main>
 
-  <!-- BOTTOM SHEET -->
   <div class="modal-overlay" id="modalOverlay" data-close></div>
   <div class="bottom-sheet" id="bottomSheet">
     <div class="sheet-handle"></div>
@@ -1444,6 +1453,7 @@
         <p id="sheetSubtitle">Subtitle</p>
       </div>
     </div>
+    <div id="articleHeroWrap"></div>
     <div class="sheet-items" id="sheetItems"></div>
     <div class="article-sheet-body" id="articleBody" style="display:none;"></div>
     <button class="sheet-close-btn" id="sheetCloseBtn" data-close>
@@ -1458,69 +1468,55 @@
       'use strict';
 
       /* ============================================================
-         DEFAULTS — fallback if localStorage is empty
+         SUPABASE CONFIG
+      ============================================================ */
+      var SUPABASE_URL = 'https://ebsibawoeirdaroppisc.supabase.co';
+      var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVic2liYXdvZWlyZGFyb3BwaXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5ODE3NDQsImV4cCI6MjEwNzU1Nzc0NH0.yAxq67ToicxV94_hLANoQk9F5J2sFyKpl5wPuxFJIiA';
+      var STORE_KEY = 'prosper_public_cache_v1';
+
+      var sb = (window.supabase && window.supabase.createClient)
+        ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+        : null;
+
+      /* ============================================================
+         DEFAULT DATA — same fallback as admin
       ============================================================ */
       var DEFAULTS = {
         profile: {
-          name: 'Prosper Bassey',
-          initials: 'PB',
-          role: 'BSN, RN · Critical Care Nurse',
-          tags: 'ACLS, PALS, BLS',
-          availability: 'On Duty',
-          licenseNumber: '#RN-9017297650',
-          licenseStatus: 'Verified Active',
+          name: 'Prosper Bassey', initials: 'PB', role: 'BSN, RN · Critical Care Nurse',
+          tags: 'ACLS, PALS, BLS', availability: 'On Duty',
+          licenseNumber: '#RN-9017297650', licenseStatus: 'Verified Active',
           licenseDetail: 'Licensed by the Nursing and Midwifery Council of Nigeria. Current in good standing with continuing education credits completed for 2025. Valid through December 2026.',
           philosophy: '"What God cannot do, does not exist. I bring that same faith and dedication to every patient I serve."',
           philosophyDetail: 'I believe in holistic, patient-centered care that addresses physical, emotional, and spiritual needs. Every patient deserves dignity, compassion, and my full attention — regardless of circumstance.',
           education: 'BSN · Ikot Apkaden, Akwa Ibom',
           educationDetail: 'Bachelor of Science in Nursing. Specialized training in critical care, Pediatric Advanced Life Support (PALS), and Advanced Cardiac Life Support (ACLS). Based in Akwa Ibom State, Nigeria.',
           competencies: [
-            {
-              name: 'Critical Care', sub: 'ICU · Ventilators · ACLS', icon: 'fa-heart-pulse', percent: 95,
-              sheetIcon: 'fa-heart-pulse', sheetTitle: 'Critical Care Nursing', sheetSubtitle: 'High-acuity patient management',
-              rows: [
-                { icon: 'fa-heartbeat', label: 'Hemodynamic Monitoring', value: 'Advanced cardiac and blood pressure management', link: '' },
-                { icon: 'fa-lungs', label: 'Ventilator Management', value: 'Invasive and non-invasive ventilation expertise', link: '' },
-                { icon: 'fa-syringe', label: 'Rapid Response', value: 'Code blue and emergency intervention certified', link: '' }
-              ]
-            },
-            {
-              name: 'Pediatric & Maternal', sub: 'NICU · Postpartum · PALS', icon: 'fa-child', percent: 88,
-              sheetIcon: 'fa-child', sheetTitle: 'Pediatric & Maternal Care', sheetSubtitle: 'Family-centered compassionate care',
-              rows: [
-                { icon: 'fa-baby', label: 'Neonatal Care', value: 'NICU trained with premature infant expertise', link: '' },
-                { icon: 'fa-female', label: 'Postpartum Support', value: 'Mother-baby bonding and lactation support', link: '' },
-                { icon: 'fa-child', label: 'Pediatric Assessment', value: 'Age-appropriate care for children 0–18', link: '' }
-              ]
-            },
-            {
-              name: 'Community Health', sub: 'Public Health · Education', icon: 'fa-house-medical', percent: 82,
-              sheetIcon: 'fa-house-medical', sheetTitle: 'Community Health', sheetSubtitle: 'Preventive care and health education',
-              rows: [
-                { icon: 'fa-people-group', label: 'Health Screenings', value: 'Blood pressure, diabetes, and wellness checks', link: '' },
-                { icon: 'fa-book-medical', label: 'Patient Education', value: 'Chronic disease management and prevention', link: '' },
-                { icon: 'fa-hand-holding-heart', label: 'Outreach Programs', value: 'Community health initiatives and vaccination drives', link: '' }
-              ]
-            },
-            {
-              name: 'Mental Health', sub: 'Crisis · Psychiatric Care', icon: 'fa-brain', percent: 76,
-              sheetIcon: 'fa-brain', sheetTitle: 'Mental Health Nursing', sheetSubtitle: 'Psychiatric and crisis care',
-              rows: [
-                { icon: 'fa-comments', label: 'Crisis Intervention', value: 'De-escalation and acute psychiatric support', link: '' },
-                { icon: 'fa-hands-holding', label: 'Therapeutic Communication', value: 'Trauma-informed patient engagement', link: '' },
-                { icon: 'fa-pills', label: 'Medication Support', value: 'Psychotropic medication management', link: '' }
-              ]
-            }
+            { name: 'Critical Care', sub: 'ICU · Ventilators · ACLS', icon: 'fa-heart-pulse', percent: 95, sheetIcon: 'fa-heart-pulse', sheetTitle: 'Critical Care Nursing', sheetSubtitle: 'High-acuity patient management', rows: [
+              { icon: 'fa-heartbeat', label: 'Hemodynamic Monitoring', value: 'Advanced cardiac and blood pressure management', link: '' },
+              { icon: 'fa-lungs', label: 'Ventilator Management', value: 'Invasive and non-invasive ventilation expertise', link: '' },
+              { icon: 'fa-syringe', label: 'Rapid Response', value: 'Code blue and emergency intervention certified', link: '' }
+            ]},
+            { name: 'Pediatric & Maternal', sub: 'NICU · Postpartum · PALS', icon: 'fa-child', percent: 88, sheetIcon: 'fa-child', sheetTitle: 'Pediatric & Maternal Care', sheetSubtitle: 'Family-centered compassionate care', rows: [
+              { icon: 'fa-baby', label: 'Neonatal Care', value: 'NICU trained with premature infant expertise', link: '' },
+              { icon: 'fa-female', label: 'Postpartum Support', value: 'Mother-baby bonding and lactation support', link: '' },
+              { icon: 'fa-child', label: 'Pediatric Assessment', value: 'Age-appropriate care for children 0–18', link: '' }
+            ]},
+            { name: 'Community Health', sub: 'Public Health · Education', icon: 'fa-house-medical', percent: 82, sheetIcon: 'fa-house-medical', sheetTitle: 'Community Health', sheetSubtitle: 'Preventive care and health education', rows: [
+              { icon: 'fa-people-group', label: 'Health Screenings', value: 'Blood pressure, diabetes, and wellness checks', link: '' },
+              { icon: 'fa-book-medical', label: 'Patient Education', value: 'Chronic disease management and prevention', link: '' },
+              { icon: 'fa-hand-holding-heart', label: 'Outreach Programs', value: 'Community health initiatives and vaccination drives', link: '' }
+            ]},
+            { name: 'Mental Health', sub: 'Crisis · Psychiatric Care', icon: 'fa-brain', percent: 76, sheetIcon: 'fa-brain', sheetTitle: 'Mental Health Nursing', sheetSubtitle: 'Psychiatric and crisis care', rows: [
+              { icon: 'fa-comments', label: 'Crisis Intervention', value: 'De-escalation and acute psychiatric support', link: '' },
+              { icon: 'fa-hands-holding', label: 'Therapeutic Communication', value: 'Trauma-informed patient engagement', link: '' },
+              { icon: 'fa-pills', label: 'Medication Support', value: 'Psychotropic medication management', link: '' }
+            ]}
           ],
           testimonial: 'Nurse Prosper stayed past her shift to sit with my mother through a difficult night. That is not just nursing — that is calling. Our family will never forget it.',
-          testimonialAuthor: 'Ekemini N.',
-          testimonialRole: 'Family of Patient',
-          testimonialInitials: 'EN',
-          email: 'prosperbassey06@gmail.com',
-          phone: '09017297650',
-          whatsapp: '09017297650',
-          city: 'Ikot Apkaden',
-          state: 'Akwa Ibom'
+          testimonialAuthor: 'Ekemini N.', testimonialRole: 'Family of Patient', testimonialInitials: 'EN',
+          email: 'prosperbassey06@gmail.com', phone: '09017297650', whatsapp: '09017297650',
+          city: 'Ikot Apkaden', state: 'Akwa Ibom'
         },
         quickActions: [
           { id: 'qa-message', label: 'Message', icon: 'fa-comment-medical', sheetTitle: 'Send a Message', sheetSubtitle: 'Typically responds within 2 hours', rows: [
@@ -1550,26 +1546,56 @@
           ]}
         ],
         journal: [
-          { id: 'seed-icu-family', tag: 'Patient Care', readtime: '5 min read', date: 'October 2025', title: 'What I Wish Every Family Knew Before an ICU Admission', excerpt: 'The monitors, the tubes, the beeping — it can feel overwhelming. Here is what actually matters in those first hours.', body: 'When a loved one is admitted to the ICU, everything happens at once.\n\nThis is what I wish every family knew before they walk through those doors.\n\n## The beeping is not always bad\nMonitors alarm for many reasons: a loose sensor, a patient shifting in bed, an artifact from movement.\n\n## Ask these three questions\n— What is the main problem we are treating right now?\n— What is the goal for today?\n— Who is the best person to speak with for an update?\n\n> Take care of yourself too. Eat. Sleep. Step outside. You cannot pour from an empty cup.', icon: 'fa-hospital-user', createdAt: 1698796800000 },
-          { id: 'seed-bp-numbers', tag: 'Prevention', readtime: '4 min read', date: 'September 2025', title: 'The Blood Pressure Numbers You Should Never Ignore', excerpt: 'Most people wait too long. A few simple thresholds can tell you when it is time to seek care.', body: 'High blood pressure is often called the "silent killer".\n\n## The general ranges\n— Normal: below 120/80 mmHg\n— Elevated: 120–129 / below 80\n— Stage 1: 140+ / 90+\n— Crisis: above 180 / 120\n\n> If your reading is above 180/120 with chest pain or severe headache — seek emergency care immediately.', icon: 'fa-heart-pulse', createdAt: 1695081600000 },
-          { id: 'seed-why-critical-care', tag: 'Reflections', readtime: '3 min read', date: 'August 2025', title: 'Why I Chose Critical Care', excerpt: 'It was never about the machines. It was about the person on the other side of them.', body: 'People often ask me why I chose critical care.\n\nI chose it because I believe no one should die alone, and no family should feel abandoned in the worst moment of their lives.\n\n> "What God cannot do, does not exist." That is my anchor.\n\nThis is not just a job for me. It is a calling.', icon: 'fa-heart', createdAt: 1690848000000 }
+          { id: 'seed-icu-family', tag: 'Patient Care', readtime: '5 min read', date: 'October 2025', title: 'What I Wish Every Family Knew Before an ICU Admission', excerpt: 'The monitors, the tubes, the beeping — it can feel overwhelming. Here is what actually matters in those first hours.', body: 'When a loved one is admitted to the ICU, everything happens at once.\n\nThis is what I wish every family knew before they walk through those doors.\n\n## The beeping is not always bad\nMonitors alarm for many reasons: a loose sensor, a patient shifting in bed, an artifact from movement.\n\n## Ask these three questions\n— What is the main problem we are treating right now?\n— What is the goal for today?\n— Who is the best person to speak with for an update?\n\n> Take care of yourself too. Eat. Sleep. Step outside. You cannot pour from an empty cup.', icon: 'fa-hospital-user', photo: '', createdAt: 1698796800000 },
+          { id: 'seed-bp-numbers', tag: 'Prevention', readtime: '4 min read', date: 'September 2025', title: 'The Blood Pressure Numbers You Should Never Ignore', excerpt: 'Most people wait too long. A few simple thresholds can tell you when it is time to seek care.', body: 'High blood pressure is often called the "silent killer".\n\n## The general ranges\n— Normal: below 120/80 mmHg\n— Elevated: 120–129 / below 80\n— Stage 1: 140+ / 90+\n— Crisis: above 180 / 120\n\n> If your reading is above 180/120 with chest pain or severe headache — seek emergency care immediately.', icon: 'fa-heart-pulse', photo: '', createdAt: 1695081600000 },
+          { id: 'seed-why-critical-care', tag: 'Reflections', readtime: '3 min read', date: 'August 2025', title: 'Why I Chose Critical Care', excerpt: 'It was never about the machines. It was about the person on the other side of them.', body: 'People often ask me why I chose critical care.\n\nI chose it because I believe no one should die alone, and no family should feel abandoned in the worst moment of their lives.\n\n> "What God cannot do, does not exist." That is my anchor.\n\nThis is not just a job for me. It is a calling.', icon: 'fa-heart', photo: '', createdAt: 1690848000000 }
         ]
       };
 
-      var STORE_KEY = 'prosper_admin_data_v1';
-
-      function loadData() {
+      /* ============================================================
+         LOAD FROM CLOUD (with cache fallback)
+      ============================================================ */
+      async function loadData() {
+        // Try cache first for instant render
+        var cached = null;
         try {
           var raw = localStorage.getItem(STORE_KEY);
-          if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
-          var parsed = JSON.parse(raw);
-          var merged = {
-            profile: Object.assign({}, DEFAULTS.profile, parsed.profile || {}),
-            quickActions: Array.isArray(parsed.quickActions) && parsed.quickActions.length ? parsed.quickActions : JSON.parse(JSON.stringify(DEFAULTS.quickActions)),
-            journal: Array.isArray(parsed.journal) ? parsed.journal : DEFAULTS.journal.slice()
-          };
-          // Schema migration for competency sheet fields
-          merged.profile.competencies = (merged.profile.competencies || DEFAULTS.profile.competencies).map(function(c, i) {
+          if (raw) cached = JSON.parse(raw);
+        } catch (e) {}
+
+        if (!sb) {
+          return cached || JSON.parse(JSON.stringify(DEFAULTS));
+        }
+
+        try {
+          var results = await Promise.all([
+            sb.from('profile').select('data').eq('id', 1).maybeSingle(),
+            sb.from('quick_actions').select('data').eq('id', 1).maybeSingle(),
+            sb.from('journal').select('*').order('created_at', { ascending: false })
+          ]);
+
+          var profileRes = results[0], qaRes = results[1], journalRes = results[2];
+          // If any error, fall through to cache/defaults
+          if (profileRes.error || qaRes.error || journalRes.error) {
+            console.warn('Supabase errors:', profileRes.error, qaRes.error, journalRes.error);
+            return cached || JSON.parse(JSON.stringify(DEFAULTS));
+          }
+
+          var profileData = (profileRes.data && profileRes.data.data) ? profileRes.data.data : DEFAULTS.profile;
+          var qaData = (qaRes.data && qaRes.data.data) ? qaRes.data.data : DEFAULTS.quickActions;
+          var journalData = (journalRes.data && journalRes.data.length)
+            ? journalRes.data.map(function(r) {
+                return {
+                  id: r.id, tag: r.tag, readtime: r.readtime || '', date: r.date || '',
+                  title: r.title, excerpt: r.excerpt || '', body: r.body || '',
+                  icon: r.icon || 'fa-book-medical', photo: r.photo || '',
+                  createdAt: new Date(r.created_at).getTime()
+                };
+              })
+            : DEFAULTS.journal.slice();
+
+          var mergedProfile = Object.assign({}, DEFAULTS.profile, profileData);
+          mergedProfile.competencies = (mergedProfile.competencies || DEFAULTS.profile.competencies).map(function(c, i) {
             var def = DEFAULTS.profile.competencies[i] || {};
             return {
               name: c.name || def.name || '',
@@ -1582,92 +1608,93 @@
               rows: Array.isArray(c.rows) ? c.rows : (def.rows || [])
             };
           });
+
+          var merged = {
+            profile: mergedProfile,
+            quickActions: Array.isArray(qaData) && qaData.length ? qaData : JSON.parse(JSON.stringify(DEFAULTS.quickActions)),
+            journal: journalData
+          };
+
+          try { localStorage.setItem(STORE_KEY, JSON.stringify(merged)); } catch (e) {}
           return merged;
         } catch (e) {
-          return JSON.parse(JSON.stringify(DEFAULTS));
+          console.warn('loadData failed, using cache:', e);
+          return cached || JSON.parse(JSON.stringify(DEFAULTS));
         }
       }
 
-      var state = loadData();
-
-      /* ---------- HELPERS ---------- */
+      /* ============================================================
+         HELPERS
+      ============================================================ */
       function setText(id, val) {
         var el = document.getElementById(id);
         if (el && val != null) el.textContent = val;
       }
-
       function statusClass(val) {
         if (val === 'Away') return 'away';
         if (val === 'Offline') return 'offline';
         return 'duty';
       }
-
       function statusBadgeText(val) {
         if (val === 'Away') return 'Away';
         if (val === 'Offline') return 'Offline';
         return 'Available';
       }
-
       function statusIconClass(val) {
         if (val === 'Away') return 'fas fa-circle-half-stroke';
         if (val === 'Offline') return 'fas fa-circle-minus';
         return 'fas fa-circle';
       }
-
       function escapeHtml(s) {
         return String(s == null ? '' : s)
           .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
       }
-
-      function telHref(raw) {
-        return 'tel:' + String(raw || '').replace(/[^\d+]/g, '');
-      }
-
+      function telHref(raw) { return 'tel:' + String(raw || '').replace(/[^\d+]/g, ''); }
       function waHref(raw) {
         var digits = String(raw || '').replace(/[^\d]/g, '');
         if (digits.charAt(0) === '0') digits = '234' + digits.substring(1);
         return 'https://wa.me/' + digits;
       }
+      function formatDisplayPhone(raw) {
+        var digits = String(raw || '').replace(/[^\d]/g, '');
+        if (digits.length === 11 && digits.charAt(0) === '0') {
+          return digits.substring(0, 4) + ' ' + digits.substring(4, 7) + ' ' + digits.substring(7);
+        }
+        return raw;
+      }
 
       /* ============================================================
-         RENDER: NAV
+         RENDER FUNCTIONS
       ============================================================ */
+      var state = JSON.parse(JSON.stringify(DEFAULTS));
+
       function renderNav() {
         var p = state.profile;
         setText('navMonogram', p.initials || 'PB');
         setText('navName', p.name);
         setText('navRole', p.role);
-
         var status = p.availability || 'On Duty';
         var cls = statusClass(status);
-
         var nav = document.getElementById('navStatus');
         nav.className = 'nav-status ' + cls;
         nav.querySelector('i').className = statusIconClass(status);
         setText('navStatusText', status);
-
         var photo = document.getElementById('photoStatus');
         if (photo) photo.className = 'id-photo-status ' + cls;
       }
 
-      /* ============================================================
-         RENDER: ID BANNER
-      ============================================================ */
       function renderBanner() {
         var p = state.profile;
         setText('heroName', p.name);
         setText('heroRole', p.role);
-
         var tagsEl = document.getElementById('heroTags');
         var tags = String(p.tags || '').split(',').map(function(t) { return t.trim(); }).filter(Boolean);
         tagsEl.innerHTML = tags.map(function(t) {
           return '<span class="id-tag">' + escapeHtml(t) + '</span>';
         }).join('');
-
         setText('licenseNumber', p.licenseNumber);
         setText('licenseStatus', p.licenseStatus);
-
         setText('chartLicenseNumber', p.licenseNumber);
         setText('chartLicenseStatus', (p.licenseStatus || 'Active').replace(/^Verified\s+/i, ''));
         setText('chartLicenseDetail', p.licenseDetail);
@@ -1677,9 +1704,6 @@
         setText('chartEducationDetail', p.educationDetail);
       }
 
-      /* ============================================================
-         RENDER: QUICK ACTIONS
-      ============================================================ */
       function renderQuickActions() {
         var wrap = document.getElementById('quickActions');
         wrap.innerHTML = state.quickActions.map(function(qa, i) {
@@ -1687,7 +1711,6 @@
             '<i class="fas ' + escapeHtml(qa.icon) + '"></i> ' + escapeHtml(qa.label) +
           '</button>';
         }).join('');
-
         wrap.querySelectorAll('.quick-pill').forEach(function(pill) {
           pill.addEventListener('click', function() {
             wrap.querySelectorAll('.quick-pill').forEach(function(p) { p.classList.remove('active'); });
@@ -1699,16 +1722,19 @@
         });
       }
 
+      function clearArticleHero() {
+        document.getElementById('articleHeroWrap').innerHTML = '';
+      }
+
       function openQuickActionSheet(qa) {
+        clearArticleHero();
         document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + escapeHtml(qa.icon) + '"></i>';
         document.getElementById('sheetTitle').textContent = qa.sheetTitle;
         document.getElementById('sheetSubtitle').textContent = qa.sheetSubtitle;
-
         var itemsEl = document.getElementById('sheetItems');
         itemsEl.style.display = 'flex';
         document.getElementById('articleBody').style.display = 'none';
         document.getElementById('articleBody').innerHTML = '';
-
         itemsEl.innerHTML = qa.rows.map(function(row) {
           var inner = escapeHtml(row.value);
           if (row.link) {
@@ -1716,24 +1742,16 @@
           }
           return '<div class="sheet-item">' +
             '<div class="sheet-item-icon"><i class="fas ' + escapeHtml(row.icon) + '"></i></div>' +
-            '<div class="sheet-item-body">' +
-              '<h4>' + escapeHtml(row.label) + '</h4>' +
-              '<p>' + inner + '</p>' +
-            '</div>' +
+            '<div class="sheet-item-body"><h4>' + escapeHtml(row.label) + '</h4><p>' + inner + '</p></div>' +
           '</div>';
         }).join('');
-
         document.getElementById('sheetCloseBtn').innerHTML = '<i class="fas fa-check"></i> Got it';
-
         document.getElementById('bottomSheet').classList.add('active');
         document.getElementById('modalOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
         document.getElementById('bottomSheet').scrollTop = 0;
       }
 
-      /* ============================================================
-         RENDER: COMPETENCIES (now tappable → opens sheet)
-      ============================================================ */
       function renderCompetencies() {
         var grid = document.getElementById('matrixGrid');
         grid.innerHTML = state.profile.competencies.map(function(c, i) {
@@ -1745,7 +1763,6 @@
             '<div class="matrix-percent">' + c.percent + '%</div>' +
           '</div>';
         }).join('');
-
         grid.querySelectorAll('.matrix-card').forEach(function(card) {
           card.addEventListener('click', function() {
             var idx = parseInt(this.getAttribute('data-comp-idx'), 10);
@@ -1756,18 +1773,17 @@
       }
 
       function openCompetencySheet(comp) {
+        clearArticleHero();
         document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + escapeHtml(comp.sheetIcon || comp.icon || 'fa-chart-simple') + '"></i>';
         document.getElementById('sheetTitle').textContent = comp.sheetTitle || comp.name;
         document.getElementById('sheetSubtitle').textContent = comp.sheetSubtitle || comp.sub;
-
         var itemsEl = document.getElementById('sheetItems');
         itemsEl.style.display = 'flex';
         document.getElementById('articleBody').style.display = 'none';
         document.getElementById('articleBody').innerHTML = '';
-
         var rows = comp.rows || [];
         if (!rows.length) {
-          itemsEl.innerHTML = '<div class="sheet-item"><div class="sheet-item-icon"><i class="fas fa-circle-info"></i></div><div class="sheet-item-body"><h4>Details coming soon</h4><p>More information about this competency will be added shortly.</p></div></div>';
+          itemsEl.innerHTML = '<div class="sheet-item"><div class="sheet-item-icon"><i class="fas fa-circle-info"></i></div><div class="sheet-item-body"><h4>Details coming soon</h4><p>More information will be added shortly.</p></div></div>';
         } else {
           itemsEl.innerHTML = rows.map(function(row) {
             var inner = escapeHtml(row.value);
@@ -1776,16 +1792,11 @@
             }
             return '<div class="sheet-item">' +
               '<div class="sheet-item-icon"><i class="fas ' + escapeHtml(row.icon) + '"></i></div>' +
-              '<div class="sheet-item-body">' +
-                '<h4>' + escapeHtml(row.label) + '</h4>' +
-                '<p>' + inner + '</p>' +
-              '</div>' +
+              '<div class="sheet-item-body"><h4>' + escapeHtml(row.label) + '</h4><p>' + inner + '</p></div>' +
             '</div>';
           }).join('');
         }
-
         document.getElementById('sheetCloseBtn').innerHTML = '<i class="fas fa-check"></i> Got it';
-
         document.getElementById('bottomSheet').classList.add('active');
         document.getElementById('modalOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -1798,9 +1809,6 @@
         });
       }
 
-      /* ============================================================
-         RENDER: JOURNAL
-      ============================================================ */
       function sortedJournal() {
         return state.journal.slice().sort(function(a, b) {
           return (b.createdAt || 0) - (a.createdAt || 0);
@@ -1810,30 +1818,36 @@
       function renderJournal() {
         var wrap = document.getElementById('journalList');
         var items = sortedJournal();
-
         if (!items.length) {
-          wrap.innerHTML = '<div class="journal-empty">' +
-            '<i class="fas fa-book-open"></i>' +
-            '<p>No journal entries yet. Check back soon.</p>' +
-          '</div>';
+          wrap.innerHTML = '<div class="journal-empty"><i class="fas fa-book-open"></i><p>No journal entries yet. Check back soon.</p></div>';
           return;
         }
-
         wrap.innerHTML = items.map(function(item, i) {
-          return '<article class="journal-card" data-article-id="' + escapeHtml(item.id) + '" style="animation-delay:' + (0.35 + i * 0.06) + 's;">' +
+          var photoBlock = item.photo
+            ? '<div class="journal-photo"><img src="' + escapeHtml(item.photo) + '" alt=""><span class="journal-photo-tag">' + escapeHtml(item.tag) + '</span></div>'
+            : '';
+          var tagRow = item.photo ? '' :
             '<div class="journal-card-top">' +
               '<span class="journal-tag">' + escapeHtml(item.tag) + '</span>' +
               '<span class="journal-meta">' + escapeHtml(item.readtime || '') + '</span>' +
-            '</div>' +
-            '<h3 class="journal-title">' + escapeHtml(item.title) + '</h3>' +
-            '<p class="journal-excerpt">' + escapeHtml(item.excerpt) + '</p>' +
-            '<div class="journal-card-foot">' +
-              '<span class="journal-read">Read entry <i class="fas fa-arrow-right"></i></span>' +
-              '<span class="journal-meta">' + escapeHtml(item.date || '') + '</span>' +
+            '</div>';
+          var metaRow = item.photo
+            ? '<div class="journal-card-top"><span class="journal-meta" style="margin-left:auto;">' + escapeHtml(item.readtime || '') + '</span></div>'
+            : '';
+          return '<article class="journal-card" data-article-id="' + escapeHtml(item.id) + '" style="animation-delay:' + (0.35 + i * 0.06) + 's;">' +
+            photoBlock +
+            '<div class="journal-body">' +
+              tagRow +
+              metaRow +
+              '<h3 class="journal-title">' + escapeHtml(item.title) + '</h3>' +
+              '<p class="journal-excerpt">' + escapeHtml(item.excerpt) + '</p>' +
+              '<div class="journal-card-foot">' +
+                '<span class="journal-read">Read entry <i class="fas fa-arrow-right"></i></span>' +
+                '<span class="journal-meta">' + escapeHtml(item.date || '') + '</span>' +
+              '</div>' +
             '</div>' +
           '</article>';
         }).join('');
-
         wrap.querySelectorAll('.journal-card').forEach(function(card) {
           card.addEventListener('click', function() {
             var id = this.getAttribute('data-article-id');
@@ -1863,7 +1877,6 @@
         lines.forEach(function(raw) {
           var line = raw.trim();
           if (!line) { flushParagraph(); flushBullets(); return; }
-
           if (line.indexOf('## ') === 0) {
             flushParagraph(); flushBullets();
             out.push('<h3>' + escapeHtml(line.substring(3)) + '</h3>');
@@ -1879,7 +1892,6 @@
             bullets.push(escapeHtml(line.replace(/^[—\-]\s+/, '')));
             return;
           }
-
           flushBullets();
           buffer.push(escapeHtml(line));
         });
@@ -1894,9 +1906,15 @@
         document.getElementById('sheetTitle').textContent = entry.title;
         document.getElementById('sheetSubtitle').textContent = (entry.date || '') + (entry.readtime ? ' · ' + entry.readtime : '');
 
+        var heroWrap = document.getElementById('articleHeroWrap');
+        if (entry.photo) {
+          heroWrap.innerHTML = '<div class="article-hero"><img src="' + escapeHtml(entry.photo) + '" alt=""></div>';
+        } else {
+          heroWrap.innerHTML = '';
+        }
+
         document.getElementById('sheetItems').style.display = 'none';
         document.getElementById('sheetItems').innerHTML = '';
-
         var articleBody = document.getElementById('articleBody');
         articleBody.style.display = 'block';
         articleBody.innerHTML = formatArticleBody(entry.body) +
@@ -1905,16 +1923,12 @@
           '<p class="disclaimer">This article is general education and not medical advice. Please consult your healthcare provider for personal guidance.</p>';
 
         document.getElementById('sheetCloseBtn').innerHTML = '<i class="fas fa-xmark"></i> Close entry';
-
         document.getElementById('bottomSheet').classList.add('active');
         document.getElementById('modalOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
         document.getElementById('bottomSheet').scrollTop = 0;
       }
 
-      /* ============================================================
-         RENDER: TESTIMONIAL + CONTACT
-      ============================================================ */
       function renderTestimonial() {
         var p = state.profile;
         setText('testimonialText', p.testimonial);
@@ -1927,34 +1941,22 @@
         var p = state.profile;
         var status = p.availability || 'On Duty';
         var cls = statusClass(status);
-
         var badge = document.getElementById('contactBadge');
         badge.className = 'contact-badge ' + cls;
         badge.querySelector('i').className = statusIconClass(status);
         setText('contactBadgeText', statusBadgeText(status));
-
         setText('contactEmail', p.email);
         setText('contactPhone', formatDisplayPhone(p.phone));
         setText('contactWhatsapp', formatDisplayPhone(p.whatsapp));
         setText('contactLocation', p.city + ', ' + p.state);
-
         document.getElementById('contactEmailLink').setAttribute('href', 'mailto:' + p.email);
         document.getElementById('contactPhoneLink').setAttribute('href', telHref(p.phone));
         document.getElementById('contactWhatsappLink').setAttribute('href', waHref(p.whatsapp));
-
         setText('footerName', p.name + ', RN');
       }
 
-      function formatDisplayPhone(raw) {
-        var digits = String(raw || '').replace(/[^\d]/g, '');
-        if (digits.length === 11 && digits.charAt(0) === '0') {
-          return digits.substring(0, 4) + ' ' + digits.substring(4, 7) + ' ' + digits.substring(7);
-        }
-        return raw;
-      }
-
       /* ============================================================
-         SHEET CONTROLS
+         SHEET / MODAL CONTROL
       ============================================================ */
       var sheetEl = document.getElementById('bottomSheet');
       var overlay = document.getElementById('modalOverlay');
@@ -1969,7 +1971,6 @@
       document.querySelectorAll('[data-close]').forEach(function(el) {
         el.addEventListener('click', closeSheet);
       });
-
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeSheet();
       });
@@ -1991,15 +1992,12 @@
         touchDelta = 0;
       });
 
-      /* ============================================================
-         LICENSE BAR SHEET
-      ============================================================ */
       document.querySelector('.id-license-bar').addEventListener('click', function() {
+        clearArticleHero();
         var p = state.profile;
         document.getElementById('sheetIcon').innerHTML = '<i class="fas fa-id-card"></i>';
         document.getElementById('sheetTitle').textContent = 'RN License ' + (p.licenseStatus || 'Verified');
         document.getElementById('sheetSubtitle').textContent = 'Active and in good standing with NMCN';
-
         var itemsEl = document.getElementById('sheetItems');
         itemsEl.style.display = 'flex';
         document.getElementById('articleBody').style.display = 'none';
@@ -2007,25 +2005,17 @@
           '<div class="sheet-item"><div class="sheet-item-icon"><i class="fas fa-check-circle"></i></div><div class="sheet-item-body"><h4>License Number</h4><p>' + escapeHtml(p.licenseNumber) + '</p></div></div>' +
           '<div class="sheet-item"><div class="sheet-item-icon"><i class="fas fa-calendar"></i></div><div class="sheet-item-body"><h4>Status</h4><p>' + escapeHtml(p.licenseStatus) + '</p></div></div>' +
           '<div class="sheet-item"><div class="sheet-item-icon"><i class="fas fa-graduation-cap"></i></div><div class="sheet-item-body"><h4>Detail</h4><p>' + escapeHtml(p.licenseDetail) + '</p></div></div>';
-
         document.getElementById('sheetCloseBtn').innerHTML = '<i class="fas fa-check"></i> Got it';
-
         sheetEl.classList.add('active');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
         sheetEl.scrollTop = 0;
       });
 
-      /* ============================================================
-         EXPANDABLE CHART ENTRIES
-      ============================================================ */
       document.querySelectorAll('[data-expandable]').forEach(function(entry) {
         entry.addEventListener('click', function() { this.classList.toggle('expanded'); });
       });
 
-      /* ============================================================
-         SOCIAL
-      ============================================================ */
       var toastTimer = null;
       function showToast(msg, iconClass) {
         var toast = document.getElementById('toast');
@@ -2048,32 +2038,21 @@
       /* ============================================================
          BOOT
       ============================================================ */
-      renderNav();
-      renderBanner();
-      renderQuickActions();
-      renderCompetencies();
-      renderJournal();
-      renderTestimonial();
-      renderContact();
+      (async function boot() {
+        state = await loadData();
+        renderNav();
+        renderBanner();
+        renderQuickActions();
+        renderCompetencies();
+        renderJournal();
+        renderTestimonial();
+        renderContact();
 
-      window.addEventListener('load', function() {
-        setTimeout(animateBars, 400);
-      });
-
-      /* Cross-tab sync */
-      window.addEventListener('storage', function(e) {
-        if (e.key === STORE_KEY) {
-          state = loadData();
-          renderNav();
-          renderBanner();
-          renderQuickActions();
-          renderCompetencies();
-          renderJournal();
-          renderTestimonial();
-          renderContact();
-          setTimeout(animateBars, 200);
-        }
-      });
+        window.addEventListener('load', function() {
+          setTimeout(animateBars, 400);
+        });
+        setTimeout(animateBars, 600);
+      })();
 
     })();
   </script>
