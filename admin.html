@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/solid.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- ✅ UMD build — this DOES attach window.supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -46,6 +45,157 @@
       min-height: 100vh;
     }
 
+    /* ============================
+       LOGIN SCREEN
+    ============================ */
+    .login-screen {
+      position: fixed; inset: 0;
+      z-index: 500;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+    }
+    .login-screen::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, var(--primary-glow), transparent 70%);
+      border-radius: 50%;
+      animation: blobFloat 8s ease-in-out infinite;
+    }
+    .login-screen::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(125, 211, 252, 0.15), transparent 70%);
+      border-radius: 50%;
+      animation: blobFloat 10s ease-in-out infinite reverse;
+    }
+    @keyframes blobFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-15px, 15px) scale(1.1); }
+    }
+    .login-screen.hidden { display: none; }
+
+    .login-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 400px;
+      background: var(--card);
+      border-radius: 24px;
+      padding: 32px 26px 26px;
+      box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.5);
+      animation: loginIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes loginIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .login-logo {
+      width: 64px; height: 64px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--navy));
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.4rem; font-weight: 800;
+      margin: 0 auto 18px;
+      box-shadow: 0 12px 28px -10px var(--primary-glow);
+    }
+
+    .login-card h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.4rem; font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .login-card .login-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .login-field { margin-bottom: 14px; }
+    .login-field label {
+      display: block;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .login-field input {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 12px;
+      background: #f8fbfe;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem; font-weight: 500;
+      outline: none;
+      transition: all 0.25s;
+    }
+    .login-field input:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+
+    .login-error {
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: #991b1b;
+      font-size: 0.78rem;
+      font-weight: 500;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .login-error.show { display: block; }
+
+    .login-submit {
+      width: 100%;
+      padding: 15px;
+      border-radius: 50px;
+      background: var(--navy);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.02em;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 8px;
+    }
+    .login-submit:hover:not(:disabled) { background: var(--primary-dark); }
+    .login-submit:active:not(:disabled) { transform: scale(0.97); }
+    .login-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .login-help {
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 16px;
+      line-height: 1.5;
+    }
+
+    /* ============================
+       MAIN ADMIN (unchanged)
+    ============================ */
+    .admin-shell { display: none; }
+    .admin-shell.visible { display: block; }
+
     .admin-topbar {
       position: fixed; top: 0; left: 0; right: 0;
       z-index: 80;
@@ -55,15 +205,12 @@
       border-bottom: 1px solid var(--border);
       padding-top: env(safe-area-inset-top);
     }
-
     .admin-topbar-inner {
       max-width: 900px; margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between;
       padding: 12px 18px; gap: 12px;
     }
-
     .admin-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
-
     .admin-brand-mark {
       width: 38px; height: 38px;
       border-radius: 12px;
@@ -74,7 +221,6 @@
       font-size: 0.85rem; font-weight: 800;
       flex-shrink: 0;
     }
-
     .admin-brand-text { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
     .admin-brand-text strong {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -87,18 +233,23 @@
       text-transform: uppercase; color: var(--primary);
     }
 
-    .admin-badge {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 0.6rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--navy);
-      background: var(--primary-light);
-      border: 1px solid var(--border-strong);
-      padding: 5px 10px; border-radius: 40px;
-      white-space: nowrap; flex-shrink: 0;
-    }
+    .admin-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
-    .admin-badge i { font-size: 0.55rem; color: var(--primary); }
+    .logout-btn {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--danger);
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      padding: 6px 11px; border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-family: 'Inter', sans-serif;
+    }
+    .logout-btn:hover { background: var(--danger); color: white; border-color: var(--danger); }
+    .logout-btn:active { transform: scale(0.95); }
+    .logout-btn i { font-size: 0.55rem; }
 
     .admin-page {
       max-width: 900px; margin: 0 auto;
@@ -114,16 +265,13 @@
       font-size: 0.72rem; font-weight: 600;
       letter-spacing: 0.02em;
       border: 1px solid;
-      transition: all 0.35s;
     }
     .cloud-status.checking { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
     .cloud-status.live { background: #ecfdf5; border-color: #bbf7d0; color: #166534; }
     .cloud-status.offline { background: #fef3c7; border-color: #fde68a; color: #92400e; }
-    .cloud-status i { font-size: 0.8rem; }
     .cloud-status .cloud-status-dot {
       width: 8px; height: 8px; border-radius: 50%;
-      background: currentColor;
-      flex-shrink: 0;
+      background: currentColor; flex-shrink: 0;
     }
     .cloud-status.checking .cloud-status-dot { animation: statusPulse 1.4s infinite; }
     .cloud-status.live .cloud-status-dot { box-shadow: 0 0 0 4px rgba(34,197,94,0.2); }
@@ -142,7 +290,6 @@
       margin-bottom: 18px;
       box-shadow: 0 4px 14px -8px rgba(15, 42, 74, 0.2);
     }
-
     .admin-tab {
       flex: 1;
       padding: 11px 14px;
@@ -181,7 +328,6 @@
       overflow: hidden;
       box-shadow: 0 6px 20px -14px rgba(15, 42, 74, 0.2);
     }
-
     .admin-card-head {
       padding: 16px 20px 14px;
       border-bottom: 1px solid var(--border);
@@ -189,7 +335,6 @@
       gap: 12px;
       background: #f8fbfe;
     }
-
     .admin-card-head h2 {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.98rem; font-weight: 800;
@@ -198,18 +343,15 @@
       display: flex; align-items: center; gap: 8px;
     }
     .admin-card-head h2 i { color: var(--primary); font-size: 0.9rem; }
-
     .admin-card-head .head-hint {
       font-size: 0.65rem; font-weight: 600;
       color: var(--text-muted);
       letter-spacing: 0.05em; text-transform: uppercase;
     }
-
     .admin-card-body { padding: 18px 20px 20px; }
 
     .field { margin-bottom: 14px; }
     .field:last-child { margin-bottom: 0; }
-
     .field label {
       display: block;
       font-size: 0.68rem; font-weight: 700;
@@ -217,7 +359,6 @@
       color: var(--text-muted);
       margin-bottom: 6px;
     }
-
     .field input,
     .field textarea,
     .field select {
@@ -234,7 +375,6 @@
       outline: none;
       resize: vertical;
     }
-
     .field input:focus,
     .field textarea:focus,
     .field select:focus {
@@ -242,10 +382,8 @@
       background: white;
       box-shadow: 0 0 0 4px var(--primary-light);
     }
-
     .field textarea { min-height: 90px; resize: vertical; }
     .field textarea.tall { min-height: 200px; }
-
     .field .field-help {
       font-size: 0.68rem;
       color: var(--text-muted);
@@ -253,7 +391,6 @@
       line-height: 1.45;
       font-weight: 500;
     }
-
     .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 520px) { .field-row { grid-template-columns: 1fr; } }
 
@@ -266,7 +403,6 @@
       border-radius: 14px;
       padding: 5px;
     }
-
     .segmented-option {
       padding: 12px 8px;
       border-radius: 10px;
@@ -306,7 +442,6 @@
       color: var(--text-light);
       font-weight: 500;
     }
-
     .status-preview-pill {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 5px 10px;
@@ -338,21 +473,16 @@
     }
     .btn:active { transform: scale(0.96); }
     .btn:disabled { opacity: 0.55; cursor: not-allowed; }
-
     .btn-primary { background: var(--navy); color: white; border-color: var(--navy); }
     .btn-primary:hover:not(:disabled) { background: var(--primary-dark); border-color: var(--primary-dark); }
-
     .btn-secondary { background: var(--primary-light); color: var(--primary-dark); border-color: var(--border-strong); }
     .btn-secondary:hover:not(:disabled) { background: white; border-color: var(--primary); }
-
     .btn-sm { padding: 8px 14px; font-size: 0.72rem; }
     .btn-block { width: 100%; }
-
     .btn-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
     .btn-row .btn { flex: 1; min-width: 120px; }
 
     .comp-list { display: flex; flex-direction: column; gap: 10px; }
-
     .comp-item {
       background: #f8fbfe;
       border: 1.5px solid var(--border-strong);
@@ -364,7 +494,6 @@
       border-color: var(--primary);
       box-shadow: 0 0 0 4px var(--primary-light);
     }
-
     .comp-item-head {
       display: flex; align-items: center; gap: 10px;
       padding: 12px 14px;
@@ -372,7 +501,6 @@
       transition: background 0.25s;
     }
     .comp-item-head:hover { background: #eef6fd; }
-
     .comp-item-icon {
       width: 34px; height: 34px;
       border-radius: 10px;
@@ -382,7 +510,6 @@
       font-size: 0.85rem;
       flex-shrink: 0;
     }
-
     .comp-item-info { flex: 1; min-width: 0; }
     .comp-item-info strong {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -399,7 +526,6 @@
       display: block;
       margin-top: 1px;
     }
-
     .comp-item-pct {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.85rem; font-weight: 800;
@@ -410,7 +536,6 @@
       border-radius: 40px;
       flex-shrink: 0;
     }
-
     .comp-chevron {
       width: 28px; height: 28px;
       border-radius: 50%;
@@ -428,7 +553,6 @@
       color: white;
       border-color: var(--primary);
     }
-
     .comp-item-body {
       max-height: 0;
       overflow: hidden;
@@ -439,11 +563,9 @@
       max-height: 3000px;
       border-top-color: var(--border);
     }
-
     .comp-item-body-inner { padding: 16px 14px 14px; }
 
     .rows-editor { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
-
     .rows-row {
       background: white;
       border: 1px solid var(--border);
@@ -454,7 +576,6 @@
       gap: 10px;
       align-items: center;
     }
-
     .rows-row-icon {
       width: 34px; height: 34px;
       border-radius: 9px;
@@ -463,7 +584,6 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 0.8rem;
     }
-
     .rows-row-fields { display: flex; flex-direction: column; gap: 6px; }
     .rows-row-fields input {
       width: 100%;
@@ -482,7 +602,6 @@
       background: white;
       box-shadow: 0 0 0 3px var(--primary-light);
     }
-
     .rows-row-remove {
       width: 34px; height: 34px;
       border-radius: 9px;
@@ -495,7 +614,6 @@
       transition: all 0.25s;
     }
     .rows-row-remove:hover { background: var(--danger); color: white; border-color: var(--danger); }
-
     .rows-add {
       width: 100%;
       padding: 10px;
@@ -532,10 +650,7 @@
       border: 2px dashed var(--border-strong);
       border-radius: 16px;
       background: #f8fbfe;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 8px;
       cursor: pointer;
       overflow: hidden;
@@ -543,7 +658,6 @@
     }
     .photo-picker:hover { border-color: var(--primary); background: var(--primary-light); }
     .photo-picker.has-photo { border-style: solid; border-color: var(--border-strong); padding: 0; }
-
     .photo-picker-icon {
       width: 48px; height: 48px;
       border-radius: 14px;
@@ -554,45 +668,34 @@
       transition: all 0.3s;
     }
     .photo-picker:hover .photo-picker-icon { background: var(--primary); color: white; transform: scale(1.06); }
-
     .photo-picker-text {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.85rem; font-weight: 700;
       color: var(--navy);
       letter-spacing: -0.01em;
     }
-
     .photo-picker-hint { font-size: 0.68rem; color: var(--text-muted); font-weight: 500; }
-
     .photo-preview {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
     }
-
     .photo-overlay {
       position: absolute;
       inset: auto 0 0 0;
       padding: 10px 12px;
       background: linear-gradient(to top, rgba(15, 42, 74, 0.85), transparent);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       gap: 8px;
       z-index: 2;
     }
-
     .photo-overlay-text {
-      color: white;
-      font-size: 0.68rem; font-weight: 600;
+      color: white; font-size: 0.68rem; font-weight: 600;
       letter-spacing: 0.04em; text-transform: uppercase;
       opacity: 0.9;
     }
-
     .photo-overlay-actions { display: flex; gap: 6px; }
-
     .photo-action-btn {
       width: 32px; height: 32px;
       border-radius: 50%;
@@ -608,7 +711,6 @@
     .photo-action-btn:hover { background: white; transform: scale(1.08); }
     .photo-action-btn.danger { color: var(--danger); }
     .photo-action-btn.danger:hover { background: var(--danger); color: white; }
-
     .photo-status {
       font-size: 0.7rem;
       color: var(--success);
@@ -616,7 +718,6 @@
       margin-top: 8px;
       display: flex; align-items: center; gap: 5px;
     }
-
     .photo-input-hidden { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
     .journal-item {
@@ -627,7 +728,6 @@
     }
     .journal-item:last-child { border-bottom: none; padding-bottom: 0; }
     .journal-item:first-child { padding-top: 0; }
-
     .journal-item-thumb {
       width: 60px; height: 60px;
       border-radius: 12px;
@@ -640,10 +740,8 @@
       border: 1px solid var(--border-strong);
     }
     .journal-item-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
     .journal-item-body { flex: 1; min-width: 0; }
     .journal-item-tags { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
-
     .journal-item-tag {
       font-size: 0.58rem; font-weight: 700;
       letter-spacing: 0.1em; text-transform: uppercase;
@@ -653,13 +751,11 @@
       color: var(--primary-dark);
       border: 1px solid var(--border-strong);
     }
-
     .journal-item-meta {
       font-size: 0.62rem; font-weight: 600;
       letter-spacing: 0.05em; text-transform: uppercase;
       color: var(--text-muted);
     }
-
     .journal-item h3 {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.95rem; font-weight: 700;
@@ -668,7 +764,6 @@
       line-height: 1.3;
       margin-bottom: 4px;
     }
-
     .journal-item p {
       font-size: 0.78rem;
       color: var(--text-light);
@@ -678,9 +773,7 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-
     .journal-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
-
     .icon-btn {
       width: 34px; height: 34px;
       border-radius: 10px;
@@ -706,7 +799,6 @@
       transition: opacity 0.35s;
     }
     .composer-overlay.active { opacity: 1; pointer-events: auto; }
-
     .composer {
       position: fixed;
       bottom: 0; left: 50%;
@@ -721,7 +813,6 @@
       box-shadow: 0 -20px 50px -15px rgba(0, 0, 0, 0.3);
     }
     .composer.active { transform: translateX(-50%) translateY(0); }
-
     .composer-head {
       position: sticky; top: 0; z-index: 5;
       background: #fff;
@@ -730,22 +821,18 @@
       display: flex; align-items: center; justify-content: space-between;
       gap: 12px;
     }
-
     .composer-head-text { display: flex; flex-direction: column; gap: 2px; }
-
     .composer-head h2 {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 1.1rem; font-weight: 800;
       color: var(--navy);
       letter-spacing: -0.02em;
     }
-
     .composer-head .kicker {
       font-size: 0.6rem; font-weight: 700;
       letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--primary);
     }
-
     .composer-close {
       width: 36px; height: 36px;
       border-radius: 50%;
@@ -759,9 +846,7 @@
       flex-shrink: 0;
     }
     .composer-close:hover { background: var(--danger); color: white; border-color: var(--danger); }
-
     .composer-body { padding: 20px 22px 22px; }
-
     .composer-foot {
       position: sticky; bottom: 0; z-index: 5;
       background: #fff;
@@ -805,259 +890,289 @@
 </head>
 <body>
 
-  <header class="admin-topbar">
-    <div class="admin-topbar-inner">
-      <div class="admin-brand">
-        <div class="admin-brand-mark">PB</div>
-        <div class="admin-brand-text">
-          <strong>Prosper Bassey · Admin</strong>
-          <span>Content Manager</span>
-        </div>
-      </div>
-      <div class="admin-badge" id="adminBadge">
-        <i class="fas fa-cloud"></i> <span id="adminBadgeText">Connecting…</span>
-      </div>
-    </div>
-  </header>
+  <!-- ============================
+       LOGIN SCREEN
+  ============================ -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-logo">PB</div>
+      <h1>Admin Access</h1>
+      <p class="login-sub">Sign in to manage your portfolio</p>
 
-  <main class="admin-page">
+      <div class="login-error" id="loginError"></div>
 
-    <div class="cloud-status checking" id="cloudStatus">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span class="cloud-status-dot"></span>
-        <span id="cloudStatusText">Connecting to Supabase…</span>
-      </div>
-      <i class="fas fa-circle-notch fa-spin" id="cloudStatusIcon"></i>
-    </div>
-
-    <div class="admin-tabs" role="tablist">
-      <button class="admin-tab active" data-tab="profile" role="tab">
-        <i class="fas fa-id-card"></i> Profile
-      </button>
-      <button class="admin-tab" data-tab="actions" role="tab">
-        <i class="fas fa-bolt"></i> Quick Actions
-      </button>
-      <button class="admin-tab" data-tab="journal" role="tab">
-        <i class="fas fa-book-medical"></i> Journal
-      </button>
-    </div>
-
-    <!-- PROFILE -->
-    <section class="admin-panel active" data-panel="profile">
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <h2><i class="fas fa-user"></i> Identity</h2>
-          <span class="head-hint">Top of page</span>
+      <form id="loginForm" autocomplete="on">
+        <div class="login-field">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" autocomplete="username" required>
         </div>
-        <div class="admin-card-body">
-          <div class="field-row">
-            <div class="field"><label for="p-name">Full Name</label><input type="text" id="p-name" data-bind="profile.name"></div>
-            <div class="field"><label for="p-initials">Monogram</label><input type="text" id="p-initials" data-bind="profile.initials" maxlength="3"></div>
-          </div>
-          <div class="field"><label for="p-role">Role / Title</label><input type="text" id="p-role" data-bind="profile.role"></div>
-          <div class="field">
-            <label for="p-tags">Certification Tags</label>
-            <input type="text" id="p-tags" data-bind="profile.tags">
-            <div class="field-help">Comma-separated. These show as pills under the name.</div>
-          </div>
+        <div class="login-field">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" autocomplete="current-password" required>
         </div>
-      </div>
-
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <h2><i class="fas fa-signal"></i> Availability</h2>
-          <span class="head-hint">Status pill</span>
-        </div>
-        <div class="admin-card-body">
-          <div class="field">
-            <label>Current Status</label>
-            <div class="segmented" id="availabilityToggle">
-              <button type="button" class="segmented-option" data-value="On Duty"><i class="fas fa-circle"></i> On Duty</button>
-              <button type="button" class="segmented-option" data-value="Away"><i class="fas fa-circle-half-stroke"></i> Away</button>
-              <button type="button" class="segmented-option" data-value="Offline"><i class="fas fa-circle-minus"></i> Offline</button>
-            </div>
-          </div>
-          <div class="status-preview">
-            <span>Preview:</span>
-            <span class="status-preview-pill duty" id="statusPreviewPill">
-              <i class="fas fa-circle"></i>
-              <span id="statusPreviewText">On Duty</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <h2><i class="fas fa-id-card"></i> License</h2>
-          <span class="head-hint">ID banner</span>
-        </div>
-        <div class="admin-card-body">
-          <div class="field-row">
-            <div class="field"><label for="p-license-num">License Number</label><input type="text" id="p-license-num" data-bind="profile.licenseNumber"></div>
-            <div class="field"><label for="p-license-status">License Status</label><input type="text" id="p-license-status" data-bind="profile.licenseStatus"></div>
-          </div>
-          <div class="field"><label for="p-license-detail">License Detail (expanded view)</label><textarea id="p-license-detail" data-bind="profile.licenseDetail"></textarea></div>
-        </div>
-      </div>
-
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <h2><i class="fas fa-quote-left"></i> Philosophy of Care</h2>
-          <span class="head-hint">Clinical profile</span>
-        </div>
-        <div class="admin-card-body">
-          <div class="field"><label for="p-philosophy">Quote</label><textarea id="p-philosophy" data-bind="profile.philosophy"></textarea></div>
-          <div class="field"><label for="p-philosophy-detail">Expanded Reflection</label><textarea id="p-philosophy-detail" data-bind="profile.philosophyDetail"></textarea></div>
-        </div>
-      </div>
-
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <h2><i class="fas fa-graduation-cap"></i> Education</h2>
-          <span class="head-hint">Clinical profile</span>
-        </div>
-        <div class="admin-card-body">
-          <div class="field"><label for="p-education">Summary Line</label><input type="text" id="p-education" data-bind="profile.education"></div>
-          <div class="field"><label for="p-education-detail">Full Detail</label><textarea id="p-education-detail" data-bind="profile.educationDetail"></textarea></div>
-        </div>
-      </div>
-
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <h2><i class="fas fa-chart-simple"></i> Competencies</h2>
-          <span class="head-hint">Tap card to edit</span>
-        </div>
-        <div class="admin-card-body">
-          <div class="field-help" style="margin-bottom:14px;">Each competency has a card that appears on the portfolio, plus a bottom sheet that opens when someone taps the card.</div>
-          <div class="comp-list" id="compList"></div>
-        </div>
-      </div>
-
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <h2><i class="fas fa-comment-dots"></i> Testimonial</h2>
-          <span class="head-hint">Featured quote</span>
-        </div>
-        <div class="admin-card-body">
-          <div class="field"><label for="p-testimonial">Quote</label><textarea id="p-testimonial" data-bind="profile.testimonial"></textarea></div>
-          <div class="field-row">
-            <div class="field"><label for="p-testimonial-author">Author Name</label><input type="text" id="p-testimonial-author" data-bind="profile.testimonialAuthor"></div>
-            <div class="field"><label for="p-testimonial-role">Author Relation</label><input type="text" id="p-testimonial-role" data-bind="profile.testimonialRole"></div>
-          </div>
-          <div class="field"><label for="p-testimonial-initials">Author Initials</label><input type="text" id="p-testimonial-initials" data-bind="profile.testimonialInitials" maxlength="3"></div>
-        </div>
-      </div>
-
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <h2><i class="fas fa-address-card"></i> Contact</h2>
-          <span class="head-hint">Contact panel</span>
-        </div>
-        <div class="admin-card-body">
-          <div class="field"><label for="p-email">Email</label><input type="email" id="p-email" data-bind="profile.email"></div>
-          <div class="field"><label for="p-phone">Phone</label><input type="tel" id="p-phone" data-bind="profile.phone"></div>
-          <div class="field"><label for="p-whatsapp">WhatsApp</label><input type="tel" id="p-whatsapp" data-bind="profile.whatsapp"></div>
-          <div class="field-row">
-            <div class="field"><label for="p-city">City</label><input type="text" id="p-city" data-bind="profile.city"></div>
-            <div class="field"><label for="p-state">State</label><input type="text" id="p-state" data-bind="profile.state"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn btn-secondary" id="profileReset"><i class="fas fa-rotate-left"></i> Reset</button>
-        <button class="btn btn-primary" id="profileSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
-      </div>
-    </section>
-
-    <!-- QUICK ACTIONS -->
-    <section class="admin-panel" data-panel="actions">
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <h2><i class="fas fa-bolt"></i> Quick Action Buttons</h2>
-          <span class="head-hint">Pills & sheets</span>
-        </div>
-        <div class="admin-card-body">
-          <div class="field-help" style="margin-bottom:14px;">Edit the label, icon, and content of each pill. Order follows top-to-bottom.</div>
-          <div class="comp-list" id="qaList"></div>
-          <div class="btn-row">
-            <button class="btn btn-secondary btn-sm" id="qaReset"><i class="fas fa-rotate-left"></i> Reset</button>
-            <button class="btn btn-primary btn-sm" id="qaSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- JOURNAL -->
-    <section class="admin-panel" data-panel="journal">
-      <div class="admin-card">
-        <div class="admin-card-head">
-          <h2><i class="fas fa-book-medical"></i> Journal Entries</h2>
-          <span class="head-hint" id="journalCount">0 entries</span>
-        </div>
-        <div class="admin-card-body">
-          <button class="btn btn-primary btn-block" id="newEntryBtn"><i class="fas fa-plus"></i> New Entry</button>
-          <div id="journalList" style="margin-top: 18px;"></div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- COMPOSER -->
-  <div class="composer-overlay" id="composerOverlay"></div>
-  <div class="composer" id="composer">
-    <div class="composer-head">
-      <div class="composer-head-text">
-        <span class="kicker" id="composerKicker">New Entry</span>
-        <h2 id="composerTitle">Write a journal entry</h2>
-      </div>
-      <button class="composer-close" id="composerClose"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="composer-body">
-      <div class="field">
-        <label>Cover Photo <span style="text-transform:none; font-weight:500; letter-spacing:0; color:var(--text-muted);">(optional)</span></label>
-        <div class="photo-picker" id="photoPicker">
-          <input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">
-          <div class="photo-picker-icon" id="photoPickerIcon"><i class="fas fa-image"></i></div>
-          <div class="photo-picker-text" id="photoPickerText">Add cover photo</div>
-          <div class="photo-picker-hint" id="photoPickerHint">Tap to choose from your device</div>
-        </div>
-        <div class="photo-status" id="photoStatus" style="display:none;"><i class="fas fa-check-circle"></i><span id="photoStatusText"></span></div>
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="c-tag">Category Tag</label>
-          <select id="c-tag">
-            <option value="Patient Care">Patient Care</option>
-            <option value="Prevention">Prevention</option>
-            <option value="Reflections">Reflections</option>
-            <option value="Family Guidance">Family Guidance</option>
-            <option value="Professional">Professional</option>
-          </select>
-        </div>
-        <div class="field"><label for="c-readtime">Read Time</label><input type="text" id="c-readtime" placeholder="5 min read"></div>
-      </div>
-      <div class="field"><label for="c-date">Date Label</label><input type="text" id="c-date" placeholder="October 2025"></div>
-      <div class="field"><label for="c-title">Title</label><input type="text" id="c-title"></div>
-      <div class="field"><label for="c-excerpt">Excerpt</label><textarea id="c-excerpt"></textarea></div>
-      <div class="field">
-        <label for="c-body">Article Body</label>
-        <textarea id="c-body" class="tall"></textarea>
-        <div class="field-help">Plain text. Blank line = new paragraph. <strong>##</strong> = heading. <strong>—</strong> = bullet. <strong>&gt;</strong> = callout.</div>
-      </div>
-      <div class="field">
-        <label for="c-icon">Icon (Font Awesome class)</label>
-        <input type="text" id="c-icon" placeholder="fa-hospital-user">
-        <div class="field-help">Shown in the article sheet header when no photo is present.</div>
-      </div>
-    </div>
-    <div class="composer-foot">
-      <button class="btn btn-secondary" id="composerCancel">Cancel</button>
-      <button class="btn btn-primary" id="composerSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
+        <button type="submit" class="login-submit" id="loginSubmit">
+          <i class="fas fa-sign-in-alt"></i> Sign in
+        </button>
+      </form>
+      <p class="login-help">Only authorized users can access the admin panel.</p>
     </div>
   </div>
+
+  <!-- ============================
+       MAIN ADMIN (hidden until logged in)
+  ============================ -->
+  <div class="admin-shell" id="adminShell">
+
+    <header class="admin-topbar">
+      <div class="admin-topbar-inner">
+        <div class="admin-brand">
+          <div class="admin-brand-mark">PB</div>
+          <div class="admin-brand-text">
+            <strong>Prosper Bassey · Admin</strong>
+            <span>Content Manager</span>
+          </div>
+        </div>
+        <div class="admin-actions">
+          <button class="logout-btn" id="logoutBtn" title="Sign out">
+            <i class="fas fa-sign-out-alt"></i> Sign out
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-page">
+
+      <div class="cloud-status checking" id="cloudStatus">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="cloud-status-dot"></span>
+          <span id="cloudStatusText">Connecting to Supabase…</span>
+        </div>
+      </div>
+
+      <div class="admin-tabs" role="tablist">
+        <button class="admin-tab active" data-tab="profile" role="tab"><i class="fas fa-id-card"></i> Profile</button>
+        <button class="admin-tab" data-tab="actions" role="tab"><i class="fas fa-bolt"></i> Quick Actions</button>
+        <button class="admin-tab" data-tab="journal" role="tab"><i class="fas fa-book-medical"></i> Journal</button>
+      </div>
+
+      <!-- PROFILE -->
+      <section class="admin-panel active" data-panel="profile">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-user"></i> Identity</h2>
+            <span class="head-hint">Top of page</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field-row">
+              <div class="field"><label for="p-name">Full Name</label><input type="text" id="p-name" data-bind="profile.name"></div>
+              <div class="field"><label for="p-initials">Monogram</label><input type="text" id="p-initials" data-bind="profile.initials" maxlength="3"></div>
+            </div>
+            <div class="field"><label for="p-role">Role / Title</label><input type="text" id="p-role" data-bind="profile.role"></div>
+            <div class="field">
+              <label for="p-tags">Certification Tags</label>
+              <input type="text" id="p-tags" data-bind="profile.tags">
+              <div class="field-help">Comma-separated. These show as pills under the name.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-signal"></i> Availability</h2>
+            <span class="head-hint">Status pill</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field">
+              <label>Current Status</label>
+              <div class="segmented" id="availabilityToggle">
+                <button type="button" class="segmented-option" data-value="On Duty"><i class="fas fa-circle"></i> On Duty</button>
+                <button type="button" class="segmented-option" data-value="Away"><i class="fas fa-circle-half-stroke"></i> Away</button>
+                <button type="button" class="segmented-option" data-value="Offline"><i class="fas fa-circle-minus"></i> Offline</button>
+              </div>
+            </div>
+            <div class="status-preview">
+              <span>Preview:</span>
+              <span class="status-preview-pill duty" id="statusPreviewPill">
+                <i class="fas fa-circle"></i>
+                <span id="statusPreviewText">On Duty</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-id-card"></i> License</h2>
+            <span class="head-hint">ID banner</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field-row">
+              <div class="field"><label for="p-license-num">License Number</label><input type="text" id="p-license-num" data-bind="profile.licenseNumber"></div>
+              <div class="field"><label for="p-license-status">License Status</label><input type="text" id="p-license-status" data-bind="profile.licenseStatus"></div>
+            </div>
+            <div class="field"><label for="p-license-detail">License Detail (expanded view)</label><textarea id="p-license-detail" data-bind="profile.licenseDetail"></textarea></div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-quote-left"></i> Philosophy of Care</h2>
+            <span class="head-hint">Clinical profile</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field"><label for="p-philosophy">Quote</label><textarea id="p-philosophy" data-bind="profile.philosophy"></textarea></div>
+            <div class="field"><label for="p-philosophy-detail">Expanded Reflection</label><textarea id="p-philosophy-detail" data-bind="profile.philosophyDetail"></textarea></div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+            <span class="head-hint">Clinical profile</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field"><label for="p-education">Summary Line</label><input type="text" id="p-education" data-bind="profile.education"></div>
+            <div class="field"><label for="p-education-detail">Full Detail</label><textarea id="p-education-detail" data-bind="profile.educationDetail"></textarea></div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-chart-simple"></i> Competencies</h2>
+            <span class="head-hint">Tap card to edit</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field-help" style="margin-bottom:14px;">Each competency has a card that appears on the portfolio, plus a bottom sheet that opens when someone taps the card.</div>
+            <div class="comp-list" id="compList"></div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-comment-dots"></i> Testimonial</h2>
+            <span class="head-hint">Featured quote</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field"><label for="p-testimonial">Quote</label><textarea id="p-testimonial" data-bind="profile.testimonial"></textarea></div>
+            <div class="field-row">
+              <div class="field"><label for="p-testimonial-author">Author Name</label><input type="text" id="p-testimonial-author" data-bind="profile.testimonialAuthor"></div>
+              <div class="field"><label for="p-testimonial-role">Author Relation</label><input type="text" id="p-testimonial-role" data-bind="profile.testimonialRole"></div>
+            </div>
+            <div class="field"><label for="p-testimonial-initials">Author Initials</label><input type="text" id="p-testimonial-initials" data-bind="profile.testimonialInitials" maxlength="3"></div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-address-card"></i> Contact</h2>
+            <span class="head-hint">Contact panel</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field"><label for="p-email">Email</label><input type="email" id="p-email" data-bind="profile.email"></div>
+            <div class="field"><label for="p-phone">Phone</label><input type="tel" id="p-phone" data-bind="profile.phone"></div>
+            <div class="field"><label for="p-whatsapp">WhatsApp</label><input type="tel" id="p-whatsapp" data-bind="profile.whatsapp"></div>
+            <div class="field-row">
+              <div class="field"><label for="p-city">City</label><input type="text" id="p-city" data-bind="profile.city"></div>
+              <div class="field"><label for="p-state">State</label><input type="text" id="p-state" data-bind="profile.state"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="profileReset"><i class="fas fa-rotate-left"></i> Reset</button>
+          <button class="btn btn-primary" id="profileSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
+        </div>
+      </section>
+
+      <!-- QUICK ACTIONS -->
+      <section class="admin-panel" data-panel="actions">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-bolt"></i> Quick Action Buttons</h2>
+            <span class="head-hint">Pills & sheets</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field-help" style="margin-bottom:14px;">Edit the label, icon, and content of each pill. Order follows top-to-bottom.</div>
+            <div class="comp-list" id="qaList"></div>
+            <div class="btn-row">
+              <button class="btn btn-secondary btn-sm" id="qaReset"><i class="fas fa-rotate-left"></i> Reset</button>
+              <button class="btn btn-primary btn-sm" id="qaSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- JOURNAL -->
+      <section class="admin-panel" data-panel="journal">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-book-medical"></i> Journal Entries</h2>
+            <span class="head-hint" id="journalCount">0 entries</span>
+          </div>
+          <div class="admin-card-body">
+            <button class="btn btn-primary btn-block" id="newEntryBtn"><i class="fas fa-plus"></i> New Entry</button>
+            <div id="journalList" style="margin-top: 18px;"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- COMPOSER -->
+    <div class="composer-overlay" id="composerOverlay"></div>
+    <div class="composer" id="composer">
+      <div class="composer-head">
+        <div class="composer-head-text">
+          <span class="kicker" id="composerKicker">New Entry</span>
+          <h2 id="composerTitle">Write a journal entry</h2>
+        </div>
+        <button class="composer-close" id="composerClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="composer-body">
+        <div class="field">
+          <label>Cover Photo <span style="text-transform:none; font-weight:500; letter-spacing:0; color:var(--text-muted);">(optional)</span></label>
+          <div class="photo-picker" id="photoPicker">
+            <input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">
+            <div class="photo-picker-icon" id="photoPickerIcon"><i class="fas fa-image"></i></div>
+            <div class="photo-picker-text" id="photoPickerText">Add cover photo</div>
+            <div class="photo-picker-hint" id="photoPickerHint">Tap to choose from your device</div>
+          </div>
+          <div class="photo-status" id="photoStatus" style="display:none;"><i class="fas fa-check-circle"></i><span id="photoStatusText"></span></div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-tag">Category Tag</label>
+            <select id="c-tag">
+              <option value="Patient Care">Patient Care</option>
+              <option value="Prevention">Prevention</option>
+              <option value="Reflections">Reflections</option>
+              <option value="Family Guidance">Family Guidance</option>
+              <option value="Professional">Professional</option>
+            </select>
+          </div>
+          <div class="field"><label for="c-readtime">Read Time</label><input type="text" id="c-readtime" placeholder="5 min read"></div>
+        </div>
+        <div class="field"><label for="c-date">Date Label</label><input type="text" id="c-date" placeholder="October 2025"></div>
+        <div class="field"><label for="c-title">Title</label><input type="text" id="c-title"></div>
+        <div class="field"><label for="c-excerpt">Excerpt</label><textarea id="c-excerpt"></textarea></div>
+        <div class="field">
+          <label for="c-body">Article Body</label>
+          <textarea id="c-body" class="tall"></textarea>
+          <div class="field-help">Plain text. Blank line = new paragraph. <strong>##</strong> = heading. <strong>—</strong> = bullet. <strong>&gt;</strong> = callout.</div>
+        </div>
+        <div class="field">
+          <label for="c-icon">Icon (Font Awesome class)</label>
+          <input type="text" id="c-icon" placeholder="fa-hospital-user">
+          <div class="field-help">Shown in the article sheet header when no photo is present.</div>
+        </div>
+      </div>
+      <div class="composer-foot">
+        <button class="btn btn-secondary" id="composerCancel">Cancel</button>
+        <button class="btn btn-primary" id="composerSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
+      </div>
+    </div>
+
+  </div><!-- /admin-shell -->
 
   <div class="toast" id="toast"><i class="fas fa-circle-info"></i><span id="toastText"></span></div>
 
@@ -1073,17 +1188,17 @@
       var PHOTO_BUCKET = 'journal-photos';
       var STORE_KEY = 'prosper_admin_data_v1';
 
-      // ---- SDK guard: fail loud if the SDK did not load ----
       if (!window.supabase || typeof window.supabase.createClient !== 'function') {
         document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#991b1b;background:#fee2e2;border:1px solid #fecaca;border-radius:12px;margin:20px;">' +
           '<h2 style="margin:0 0 10px;font-size:1.1rem;">Supabase SDK failed to load</h2>' +
-          '<p style="font-size:.9rem;line-height:1.5;">The page could not find <code>window.supabase</code>. Check your network connection and reload.</p>' +
+          '<p style="font-size:.9rem;line-height:1.5;">Reload the page. If the issue persists, check your network.</p>' +
           '</div>';
         return;
       }
 
       var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       var cloudOnline = false;
+      var currentUser = null;
 
       /* ============================================================
          DEFAULT DATA
@@ -1160,32 +1275,111 @@
       };
 
       /* ============================================================
+         LOGIN
+      ============================================================ */
+      var loginScreen = document.getElementById('loginScreen');
+      var adminShell = document.getElementById('adminShell');
+      var loginForm = document.getElementById('loginForm');
+      var loginError = document.getElementById('loginError');
+      var loginSubmit = document.getElementById('loginSubmit');
+
+      function showLogin() {
+        loginScreen.classList.remove('hidden');
+        adminShell.classList.remove('visible');
+      }
+      function showAdmin() {
+        loginScreen.classList.add('hidden');
+        adminShell.classList.add('visible');
+      }
+      function setLoginError(msg) {
+        loginError.textContent = msg;
+        loginError.classList.toggle('show', !!msg);
+      }
+
+      loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        setLoginError('');
+        var email = document.getElementById('loginEmail').value.trim();
+        var password = document.getElementById('loginPassword').value;
+
+        if (!email || !password) {
+          setLoginError('Email and password are required.');
+          return;
+        }
+
+        loginSubmit.disabled = true;
+        loginSubmit.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Signing in…';
+
+        try {
+          var res = await sb.auth.signInWithPassword({ email: email, password: password });
+          if (res.error) {
+            setLoginError(res.error.message || 'Sign in failed.');
+            loginSubmit.disabled = false;
+            loginSubmit.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign in';
+            return;
+          }
+          currentUser = res.data.user;
+          document.getElementById('loginPassword').value = '';
+          showAdmin();
+          bootAdmin();
+        } catch (err) {
+          setLoginError(err.message || 'Unexpected error.');
+        }
+
+        loginSubmit.disabled = false;
+        loginSubmit.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign in';
+      });
+
+      document.getElementById('logoutBtn').addEventListener('click', async function() {
+        if (!confirm('Sign out of the admin panel?')) return;
+        await sb.auth.signOut();
+        currentUser = null;
+        location.reload();
+      });
+
+      /* ============================================================
+         AUTH CHECK ON LOAD
+      ============================================================ */
+      async function checkSession() {
+        try {
+          var res = await sb.auth.getSession();
+          if (res.data && res.data.session && res.data.session.user) {
+            currentUser = res.data.session.user;
+            showAdmin();
+            bootAdmin();
+            return;
+          }
+        } catch (e) {
+          console.warn('Session check failed:', e);
+        }
+        showLogin();
+      }
+
+      /* Auto-logout on token expiry */
+      sb.auth.onAuthStateChange(function(event, session) {
+        if (event === 'SIGNED_OUT' || !session) {
+          currentUser = null;
+          showLogin();
+        }
+      });
+
+      /* ============================================================
          CLOUD STATUS
       ============================================================ */
-      function setCloudStatus(statusState, text) {
+      function setCloudStatus(state, text) {
         var el = document.getElementById('cloudStatus');
-        var icon = document.getElementById('cloudStatusIcon');
-        el.className = 'cloud-status ' + statusState;
-        document.getElementById('cloudStatusText').textContent = text;
-        if (statusState === 'live') {
-          icon.className = 'fas fa-cloud';
-          cloudOnline = true;
-          document.getElementById('adminBadgeText').textContent = 'Live';
-        } else if (statusState === 'offline') {
-          icon.className = 'fas fa-cloud-slash';
-          cloudOnline = false;
-          document.getElementById('adminBadgeText').textContent = 'Offline';
-        } else {
-          icon.className = 'fas fa-circle-notch fa-spin';
-          cloudOnline = false;
-        }
+        var textEl = document.getElementById('cloudStatusText');
+        if (!el || !textEl) return;
+        el.className = 'cloud-status ' + state;
+        textEl.textContent = text;
+        cloudOnline = (state === 'live');
       }
 
       /* ============================================================
          CLOUD LOAD / SAVE
       ============================================================ */
       async function loadFromCloud() {
-        setCloudStatus('checking', 'Connecting to Supabase…');
+        setCloudStatus('checking', 'Loading your content…');
         try {
           var results = await Promise.all([
             sb.from('profile').select('data').eq('id', 1).maybeSingle(),
@@ -1238,9 +1432,8 @@
           return merged;
         } catch (e) {
           console.error('loadFromCloud failed:', e);
-          var errMsg = (e && e.message) ? e.message : (typeof e === 'string' ? e : 'Unknown error');
-          setCloudStatus('offline', 'Error: ' + errMsg);
-          alert('SUPABASE ERROR:\n\n' + errMsg + '\n\nURL: ' + SUPABASE_URL + '\nOnline: ' + navigator.onLine);
+          var errMsg = (e && e.message) ? e.message : 'Unknown error';
+          setCloudStatus('offline', 'Could not load: ' + errMsg);
           var cached = localStorage.getItem(STORE_KEY);
           if (cached) { try { return JSON.parse(cached); } catch (err) {} }
           return JSON.parse(JSON.stringify(DEFAULTS));
@@ -1248,7 +1441,7 @@
       }
 
       async function saveProfileToCloud(profile) {
-        if (!cloudOnline) return { ok: false, error: { message: 'Offline' } };
+        if (!cloudOnline) return { ok: false, error: { message: 'Not connected' } };
         try {
           var res = await sb.from('profile').upsert({ id: 1, data: profile, updated_at: new Date().toISOString() });
           if (res.error) return { ok: false, error: res.error };
@@ -1258,7 +1451,7 @@
       }
 
       async function saveQuickActionsToCloud(qaArray) {
-        if (!cloudOnline) return { ok: false, error: { message: 'Offline' } };
+        if (!cloudOnline) return { ok: false, error: { message: 'Not connected' } };
         try {
           var res = await sb.from('quick_actions').upsert({ id: 1, data: qaArray, updated_at: new Date().toISOString() });
           if (res.error) return { ok: false, error: res.error };
@@ -1268,7 +1461,7 @@
       }
 
       async function saveJournalEntryToCloud(entry) {
-        if (!cloudOnline) return { ok: false, error: { message: 'Offline' } };
+        if (!cloudOnline) return { ok: false, error: { message: 'Not connected' } };
         try {
           var row = {
             id: entry.id, tag: entry.tag,
@@ -1284,7 +1477,7 @@
       }
 
       async function deleteJournalEntryFromCloud(id) {
-        if (!cloudOnline) return { ok: false, error: { message: 'Offline' } };
+        if (!cloudOnline) return { ok: false, error: { message: 'Not connected' } };
         try {
           var res = await sb.from('journal').delete().eq('id', id);
           if (res.error) return { ok: false, error: res.error };
@@ -1295,7 +1488,7 @@
       async function uploadPhotoToCloud(dataUrl, entryId) {
         if (!dataUrl) return '';
         if (dataUrl.indexOf('http') === 0) return dataUrl;
-        if (!cloudOnline) throw new Error('Offline — cannot upload photo');
+        if (!cloudOnline) throw new Error('Not connected');
 
         var res = await fetch(dataUrl);
         var blob = await res.blob();
@@ -1913,9 +2106,9 @@
       });
 
       /* ============================================================
-         BOOT
+         BOOT (only called when signed in)
       ============================================================ */
-      (async function boot() {
+      async function bootAdmin() {
         try {
           state = await loadFromCloud();
           fillProfileForm();
@@ -1925,14 +2118,18 @@
         } catch (err) {
           console.error('BOOT FAILED:', err);
           setCloudStatus('offline', 'Boot error: ' + (err.message || err));
-          alert('BOOT FAILED:\n\n' + (err && err.stack ? err.stack : err));
           state = JSON.parse(JSON.stringify(DEFAULTS));
           fillProfileForm();
           renderQuickActions();
           renderJournalList();
           renderPhotoPicker();
         }
-      })();
+      }
+
+      /* ============================================================
+         START
+      ============================================================ */
+      checkSession();
 
     })();
   </script>
