@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>Admin · Prosper Bassey RN</title>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/solid.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -101,6 +104,46 @@
       padding: calc(76px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom));
     }
 
+    .cloud-status {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      margin-bottom: 14px;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.02em;
+      border: 1px solid;
+      transition: all 0.35s;
+    }
+    .cloud-status.checking { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+    .cloud-status.live { background: #ecfdf5; border-color: #bbf7d0; color: #166534; }
+    .cloud-status.offline { background: #fef3c7; border-color: #fde68a; color: #92400e; }
+    .cloud-status i { font-size: 0.8rem; }
+    .cloud-status .cloud-status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+    .cloud-status.checking .cloud-status-dot { animation: statusPulse 1.4s infinite; }
+    .cloud-status.live .cloud-status-dot { box-shadow: 0 0 0 4px rgba(34,197,94,0.2); }
+
+    @keyframes statusPulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    .storage-notice {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .storage-notice i { color: var(--warning); font-size: 0.9rem; margin-top: 2px; flex-shrink: 0; }
+    .storage-notice p { font-size: 0.72rem; color: #78350f; line-height: 1.5; font-weight: 500; }
+    .storage-notice strong { font-weight: 700; }
+
     .admin-tabs {
       display: flex; gap: 6px;
       background: var(--card);
@@ -125,15 +168,12 @@
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: flex; align-items: center; justify-content: center; gap: 7px;
     }
-
     .admin-tab i { font-size: 0.8rem; }
-
     .admin-tab.active {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       box-shadow: 0 8px 20px -10px var(--primary-glow);
     }
-
     .admin-tab:active { transform: scale(0.97); }
 
     .admin-panel { display: none; animation: panelIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -168,7 +208,6 @@
       letter-spacing: -0.02em;
       display: flex; align-items: center; gap: 8px;
     }
-
     .admin-card-head h2 i { color: var(--primary); font-size: 0.9rem; }
 
     .admin-card-head .head-hint {
@@ -226,15 +265,8 @@
       font-weight: 500;
     }
 
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    @media (max-width: 520px) {
-      .field-row { grid-template-columns: 1fr; }
-    }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 520px) { .field-row { grid-template-columns: 1fr; } }
 
     .segmented {
       display: grid;
@@ -259,24 +291,18 @@
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: flex; flex-direction: column; align-items: center; gap: 4px;
     }
-
     .segmented-option i { font-size: 0.7rem; transition: all 0.3s; }
     .segmented-option:active { transform: scale(0.96); }
-
     .segmented-option.active {
       background: white;
       color: var(--navy);
       box-shadow: 0 4px 12px -6px rgba(15, 42, 74, 0.25);
     }
-
     .segmented-option.active i { color: var(--primary); }
-
     .segmented-option[data-value="On Duty"].active { background: #dcfce7; color: #166534; }
     .segmented-option[data-value="On Duty"].active i { color: var(--success); }
-
     .segmented-option[data-value="Away"].active { background: #fef3c7; color: #92400e; }
     .segmented-option[data-value="Away"].active i { color: var(--warning); }
-
     .segmented-option[data-value="Offline"].active { background: #f1f5f9; color: #475569; }
     .segmented-option[data-value="Offline"].active i { color: var(--offline); }
 
@@ -300,20 +326,13 @@
       letter-spacing: 0.06em; text-transform: uppercase;
       border: 1px solid;
     }
-
     .status-preview-pill.duty { background: #dcfce7; border-color: #bbf7d0; color: #166534; }
     .status-preview-pill.away { background: #fef3c7; border-color: #fde68a; color: #92400e; }
     .status-preview-pill.offline { background: #f1f5f9; border-color: #cbd5e1; color: #475569; }
-
     .status-preview-pill i { font-size: 0.5rem; }
     .status-preview-pill.duty i { color: var(--success); animation: statusPulse 2s infinite; }
     .status-preview-pill.away i { color: var(--warning); }
     .status-preview-pill.offline i { color: var(--offline); }
-
-    @keyframes statusPulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.4); }
-    }
 
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
@@ -328,29 +347,25 @@
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       white-space: nowrap;
     }
-
     .btn:active { transform: scale(0.96); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
     .btn-primary { background: var(--navy); color: white; border-color: var(--navy); }
-    .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+    .btn-primary:hover:not(:disabled) { background: var(--primary-dark); border-color: var(--primary-dark); }
 
     .btn-secondary { background: var(--primary-light); color: var(--primary-dark); border-color: var(--border-strong); }
-    .btn-secondary:hover { background: white; border-color: var(--primary); }
+    .btn-secondary:hover:not(:disabled) { background: white; border-color: var(--primary); }
+
+    .btn-danger { background: #fef2f2; color: var(--danger); border-color: #fecaca; }
+    .btn-danger:hover:not(:disabled) { background: var(--danger); color: white; border-color: var(--danger); }
 
     .btn-sm { padding: 8px 14px; font-size: 0.72rem; }
     .btn-block { width: 100%; }
 
-    .btn-row {
-      display: flex; gap: 10px;
-      margin-top: 16px; flex-wrap: wrap;
-    }
-
+    .btn-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
     .btn-row .btn { flex: 1; min-width: 120px; }
 
-    /* ---------- COMPETENCY EDITOR (expandable cards) ---------- */
-    .comp-list {
-      display: flex; flex-direction: column; gap: 10px;
-    }
+    .comp-list { display: flex; flex-direction: column; gap: 10px; }
 
     .comp-item {
       background: #f8fbfe;
@@ -359,7 +374,6 @@
       overflow: hidden;
       transition: all 0.3s;
     }
-
     .comp-item.open {
       border-color: var(--primary);
       box-shadow: 0 0 0 4px var(--primary-light);
@@ -371,7 +385,6 @@
       cursor: pointer;
       transition: background 0.25s;
     }
-
     .comp-item-head:hover { background: #eef6fd; }
 
     .comp-item-icon {
@@ -385,7 +398,6 @@
     }
 
     .comp-item-info { flex: 1; min-width: 0; }
-
     .comp-item-info strong {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.85rem; font-weight: 700;
@@ -394,7 +406,6 @@
       display: block;
       line-height: 1.25;
     }
-
     .comp-item-info span {
       font-size: 0.65rem;
       color: var(--text-muted);
@@ -425,7 +436,6 @@
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       flex-shrink: 0;
     }
-
     .comp-item.open .comp-chevron {
       transform: rotate(180deg);
       background: var(--primary);
@@ -439,7 +449,6 @@
       transition: max-height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       border-top: 1px solid transparent;
     }
-
     .comp-item.open .comp-item-body {
       max-height: 3000px;
       border-top-color: var(--border);
@@ -447,11 +456,7 @@
 
     .comp-item-body-inner { padding: 16px 14px 14px; }
 
-    /* Reusable rows editor (shared by QA + Comp) */
-    .rows-editor {
-      display: flex; flex-direction: column; gap: 10px;
-      margin-bottom: 12px;
-    }
+    .rows-editor { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
 
     .rows-row {
       background: white;
@@ -474,7 +479,6 @@
     }
 
     .rows-row-fields { display: flex; flex-direction: column; gap: 6px; }
-
     .rows-row-fields input {
       width: 100%;
       padding: 8px 10px;
@@ -487,14 +491,11 @@
       outline: none;
       transition: all 0.2s;
     }
-
     .rows-row-fields input:focus {
       border-color: var(--primary);
       background: white;
       box-shadow: 0 0 0 3px var(--primary-light);
     }
-
-    .rows-row-fields input::placeholder { color: var(--text-muted); }
 
     .rows-row-remove {
       width: 34px; height: 34px;
@@ -507,9 +508,7 @@
       cursor: pointer;
       transition: all 0.25s;
     }
-
     .rows-row-remove:hover { background: var(--danger); color: white; border-color: var(--danger); }
-    .rows-row-remove:active { transform: scale(0.92); }
 
     .rows-add {
       width: 100%;
@@ -526,14 +525,7 @@
       display: flex; align-items: center; justify-content: center; gap: 6px;
       margin-bottom: 12px;
     }
-
-    .rows-add:hover {
-      background: var(--primary-light);
-      border-color: var(--primary);
-      border-style: solid;
-    }
-
-    .rows-add:active { transform: scale(0.98); }
+    .rows-add:hover { background: var(--primary-light); border-color: var(--primary); border-style: solid; }
 
     .section-subhead {
       font-size: 0.68rem; font-weight: 700;
@@ -544,28 +536,127 @@
       border-bottom: 1px dashed var(--border-strong);
       display: flex; align-items: center; gap: 6px;
     }
-
     .section-subhead:first-child { margin-top: 0; }
-
     .section-subhead i { color: var(--primary); font-size: 0.7rem; }
 
-    /* ---------- JOURNAL (unchanged) ---------- */
+    .photo-picker {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 2px dashed var(--border-strong);
+      border-radius: 16px;
+      background: #f8fbfe;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.25s;
+    }
+    .photo-picker:hover { border-color: var(--primary); background: var(--primary-light); }
+    .photo-picker.has-photo { border-style: solid; border-color: var(--border-strong); padding: 0; }
+
+    .photo-picker-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+    .photo-picker:hover .photo-picker-icon { background: var(--primary); color: white; transform: scale(1.06); }
+
+    .photo-picker-text {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+    }
+
+    .photo-picker-hint { font-size: 0.68rem; color: var(--text-muted); font-weight: 500; }
+
+    .photo-preview {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 10px 12px;
+      background: linear-gradient(to top, rgba(15, 42, 74, 0.85), transparent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      z-index: 2;
+    }
+
+    .photo-overlay-text {
+      color: white;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .photo-overlay-actions { display: flex; gap: 6px; }
+
+    .photo-action-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      backdrop-filter: blur(4px);
+    }
+    .photo-action-btn:hover { background: white; transform: scale(1.08); }
+    .photo-action-btn.danger { color: var(--danger); }
+    .photo-action-btn.danger:hover { background: var(--danger); color: white; }
+
+    .photo-status {
+      font-size: 0.7rem;
+      color: var(--success);
+      font-weight: 600;
+      margin-top: 8px;
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    .photo-input-hidden { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
     .journal-item {
       display: flex; align-items: flex-start; justify-content: space-between;
       gap: 14px;
       padding: 16px 0;
       border-bottom: 1px dashed var(--border-strong);
     }
-
     .journal-item:last-child { border-bottom: none; padding-bottom: 0; }
     .journal-item:first-child { padding-top: 0; }
 
-    .journal-item-body { flex: 1; min-width: 0; }
-
-    .journal-item-tags {
-      display: flex; align-items: center; gap: 8px;
-      margin-bottom: 6px; flex-wrap: wrap;
+    .journal-item-thumb {
+      width: 60px; height: 60px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--primary-light);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary);
+      font-size: 1.1rem;
+      border: 1px solid var(--border-strong);
     }
+    .journal-item-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .journal-item-body { flex: 1; min-width: 0; }
+    .journal-item-tags { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
 
     .journal-item-tag {
       font-size: 0.58rem; font-weight: 700;
@@ -615,13 +706,10 @@
       cursor: pointer;
       transition: all 0.25s;
     }
-
     .icon-btn:hover { background: var(--primary-light); border-color: var(--primary); }
     .icon-btn.danger { color: var(--danger); border-color: #fecaca; }
     .icon-btn.danger:hover { background: var(--danger); color: white; border-color: var(--danger); }
-    .icon-btn:active { transform: scale(0.92); }
 
-    /* ---------- COMPOSER (journal) ---------- */
     .composer-overlay {
       position: fixed; inset: 0;
       background: rgba(15, 42, 74, 0.5);
@@ -684,9 +772,7 @@
       transition: all 0.25s;
       flex-shrink: 0;
     }
-
     .composer-close:hover { background: var(--danger); color: white; border-color: var(--danger); }
-    .composer-close:active { transform: rotate(90deg); }
 
     .composer-body { padding: 20px 22px 22px; }
 
@@ -697,36 +783,8 @@
       border-top: 1px solid var(--border);
       display: flex; gap: 10px;
     }
-
     .composer-foot .btn { flex: 1; }
 
-    /* ---------- STORAGE NOTICE ---------- */
-    .storage-notice {
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 16px;
-      display: flex; gap: 10px; align-items: flex-start;
-    }
-
-    .storage-notice i {
-      color: var(--warning);
-      font-size: 0.9rem;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-
-    .storage-notice p {
-      font-size: 0.72rem;
-      color: #78350f;
-      line-height: 1.5;
-      font-weight: 500;
-    }
-
-    .storage-notice strong { font-weight: 700; }
-
-    /* ---------- TOAST ---------- */
     .toast {
       position: fixed;
       bottom: 90px; left: 50%;
@@ -770,17 +828,20 @@
           <span>Content Manager</span>
         </div>
       </div>
-      <div class="admin-badge">
-        <i class="fas fa-pen-to-square"></i> Editing
+      <div class="admin-badge" id="adminBadge">
+        <i class="fas fa-cloud"></i> <span id="adminBadgeText">Connecting…</span>
       </div>
     </div>
   </header>
 
   <main class="admin-page">
 
-    <div class="storage-notice">
-      <i class="fas fa-triangle-exclamation"></i>
-      <p><strong>Local preview mode.</strong> Changes save to this browser only and won't appear for visitors yet. Once the backend is connected, edits will publish live to the portfolio.</p>
+    <div class="cloud-status checking" id="cloudStatus">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="cloud-status-dot"></span>
+        <span id="cloudStatusText">Connecting to Supabase…</span>
+      </div>
+      <i class="fas fa-circle-notch fa-spin" id="cloudStatusIcon"></i>
     </div>
 
     <div class="admin-tabs" role="tablist">
@@ -913,7 +974,6 @@
         </div>
       </div>
 
-      <!-- COMPETENCIES -->
       <div class="admin-card">
         <div class="admin-card-head">
           <h2><i class="fas fa-chart-simple"></i> Competencies</h2>
@@ -921,7 +981,7 @@
         </div>
         <div class="admin-card-body">
           <div class="field-help" style="margin-bottom:14px;">
-            Each competency has a card that appears on the portfolio, plus a bottom sheet that opens when someone taps the card. Fill in both.
+            Each competency has a card that appears on the portfolio, plus a bottom sheet that opens when someone taps the card.
           </div>
           <div class="comp-list" id="compList"></div>
         </div>
@@ -987,10 +1047,10 @@
 
       <div class="btn-row">
         <button class="btn btn-secondary" id="profileReset">
-          <i class="fas fa-rotate-left"></i> Reset to defaults
+          <i class="fas fa-rotate-left"></i> Reset
         </button>
         <button class="btn btn-primary" id="profileSave">
-          <i class="fas fa-check"></i> Save Profile
+          <i class="fas fa-cloud-arrow-up"></i> Save to Cloud
         </button>
       </div>
 
@@ -1013,7 +1073,7 @@
               <i class="fas fa-rotate-left"></i> Reset
             </button>
             <button class="btn btn-primary btn-sm" id="qaSave">
-              <i class="fas fa-check"></i> Save
+              <i class="fas fa-cloud-arrow-up"></i> Save to Cloud
             </button>
           </div>
         </div>
@@ -1034,11 +1094,6 @@
           <div id="journalList" style="margin-top: 18px;"></div>
         </div>
       </div>
-      <div class="btn-row">
-        <button class="btn btn-secondary" id="journalReset">
-          <i class="fas fa-rotate-left"></i> Reset to defaults
-        </button>
-      </div>
     </section>
 
   </main>
@@ -1054,6 +1109,21 @@
       <button class="composer-close" id="composerClose"><i class="fas fa-times"></i></button>
     </div>
     <div class="composer-body">
+
+      <div class="field">
+        <label>Cover Photo <span style="text-transform:none; font-weight:500; letter-spacing:0; color:var(--text-muted);">(optional)</span></label>
+        <div class="photo-picker" id="photoPicker">
+          <input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">
+          <div class="photo-picker-icon" id="photoPickerIcon"><i class="fas fa-image"></i></div>
+          <div class="photo-picker-text" id="photoPickerText">Add cover photo</div>
+          <div class="photo-picker-hint" id="photoPickerHint">Tap to choose from your device</div>
+        </div>
+        <div class="photo-status" id="photoStatus" style="display:none;">
+          <i class="fas fa-check-circle"></i>
+          <span id="photoStatusText"></span>
+        </div>
+      </div>
+
       <div class="field-row">
         <div class="field">
           <label for="c-tag">Category Tag</label>
@@ -1090,11 +1160,12 @@
       <div class="field">
         <label for="c-icon">Icon (Font Awesome class)</label>
         <input type="text" id="c-icon" placeholder="fa-hospital-user">
+        <div class="field-help">Shown in the article sheet header when no photo is present.</div>
       </div>
     </div>
     <div class="composer-foot">
       <button class="btn btn-secondary" id="composerCancel">Cancel</button>
-      <button class="btn btn-primary" id="composerSave"><i class="fas fa-check"></i> Save Entry</button>
+      <button class="btn btn-primary" id="composerSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
     </div>
   </div>
 
@@ -1104,89 +1175,56 @@
     (function() {
       'use strict';
 
+      /* ============================================================
+         SUPABASE CONFIG
+      ============================================================ */
+      var SUPABASE_URL = 'https://ebsibawoeirdaroppisc.supabase.co';
+      var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVic2liYXdvZWlyZGFyb3BwaXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5ODE3NDQsImV4cCI6MjEwNzU1Nzc0NH0.yAxq67ToicxV94_hLANoQk9F5J2sFyKpl5wPuxFJIiA';
+      var PHOTO_BUCKET = 'journal-photos';
       var STORE_KEY = 'prosper_admin_data_v1';
 
+      var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      var cloudOnline = false;
+
+      /* ============================================================
+         DEFAULT DATA (used as fallback + reset source)
+      ============================================================ */
       var DEFAULTS = {
         profile: {
-          name: 'Prosper Bassey',
-          initials: 'PB',
-          role: 'BSN, RN · Critical Care Nurse',
-          tags: 'ACLS, PALS, BLS',
-          availability: 'On Duty',
-          licenseNumber: '#RN-9017297650',
-          licenseStatus: 'Verified Active',
+          name: 'Prosper Bassey', initials: 'PB', role: 'BSN, RN · Critical Care Nurse',
+          tags: 'ACLS, PALS, BLS', availability: 'On Duty',
+          licenseNumber: '#RN-9017297650', licenseStatus: 'Verified Active',
           licenseDetail: 'Licensed by the Nursing and Midwifery Council of Nigeria. Current in good standing with continuing education credits completed for 2025. Valid through December 2026.',
           philosophy: '"What God cannot do, does not exist. I bring that same faith and dedication to every patient I serve."',
           philosophyDetail: 'I believe in holistic, patient-centered care that addresses physical, emotional, and spiritual needs. Every patient deserves dignity, compassion, and my full attention — regardless of circumstance.',
           education: 'BSN · Ikot Apkaden, Akwa Ibom',
           educationDetail: 'Bachelor of Science in Nursing. Specialized training in critical care, Pediatric Advanced Life Support (PALS), and Advanced Cardiac Life Support (ACLS). Based in Akwa Ibom State, Nigeria.',
           competencies: [
-            {
-              name: 'Critical Care',
-              sub: 'ICU · Ventilators · ACLS',
-              icon: 'fa-heart-pulse',
-              percent: 95,
-              sheetIcon: 'fa-heart-pulse',
-              sheetTitle: 'Critical Care Nursing',
-              sheetSubtitle: 'High-acuity patient management',
-              rows: [
-                { icon: 'fa-heartbeat', label: 'Hemodynamic Monitoring', value: 'Advanced cardiac and blood pressure management', link: '' },
-                { icon: 'fa-lungs', label: 'Ventilator Management', value: 'Invasive and non-invasive ventilation expertise', link: '' },
-                { icon: 'fa-syringe', label: 'Rapid Response', value: 'Code blue and emergency intervention certified', link: '' }
-              ]
-            },
-            {
-              name: 'Pediatric & Maternal',
-              sub: 'NICU · Postpartum · PALS',
-              icon: 'fa-child',
-              percent: 88,
-              sheetIcon: 'fa-child',
-              sheetTitle: 'Pediatric & Maternal Care',
-              sheetSubtitle: 'Family-centered compassionate care',
-              rows: [
-                { icon: 'fa-baby', label: 'Neonatal Care', value: 'NICU trained with premature infant expertise', link: '' },
-                { icon: 'fa-female', label: 'Postpartum Support', value: 'Mother-baby bonding and lactation support', link: '' },
-                { icon: 'fa-child', label: 'Pediatric Assessment', value: 'Age-appropriate care for children 0–18', link: '' }
-              ]
-            },
-            {
-              name: 'Community Health',
-              sub: 'Public Health · Education',
-              icon: 'fa-house-medical',
-              percent: 82,
-              sheetIcon: 'fa-house-medical',
-              sheetTitle: 'Community Health',
-              sheetSubtitle: 'Preventive care and health education',
-              rows: [
-                { icon: 'fa-people-group', label: 'Health Screenings', value: 'Blood pressure, diabetes, and wellness checks', link: '' },
-                { icon: 'fa-book-medical', label: 'Patient Education', value: 'Chronic disease management and prevention', link: '' },
-                { icon: 'fa-hand-holding-heart', label: 'Outreach Programs', value: 'Community health initiatives and vaccination drives', link: '' }
-              ]
-            },
-            {
-              name: 'Mental Health',
-              sub: 'Crisis · Psychiatric Care',
-              icon: 'fa-brain',
-              percent: 76,
-              sheetIcon: 'fa-brain',
-              sheetTitle: 'Mental Health Nursing',
-              sheetSubtitle: 'Psychiatric and crisis care',
-              rows: [
-                { icon: 'fa-comments', label: 'Crisis Intervention', value: 'De-escalation and acute psychiatric support', link: '' },
-                { icon: 'fa-hands-holding', label: 'Therapeutic Communication', value: 'Trauma-informed patient engagement', link: '' },
-                { icon: 'fa-pills', label: 'Medication Support', value: 'Psychotropic medication management', link: '' }
-              ]
-            }
+            { name: 'Critical Care', sub: 'ICU · Ventilators · ACLS', icon: 'fa-heart-pulse', percent: 95, sheetIcon: 'fa-heart-pulse', sheetTitle: 'Critical Care Nursing', sheetSubtitle: 'High-acuity patient management', rows: [
+              { icon: 'fa-heartbeat', label: 'Hemodynamic Monitoring', value: 'Advanced cardiac and blood pressure management', link: '' },
+              { icon: 'fa-lungs', label: 'Ventilator Management', value: 'Invasive and non-invasive ventilation expertise', link: '' },
+              { icon: 'fa-syringe', label: 'Rapid Response', value: 'Code blue and emergency intervention certified', link: '' }
+            ]},
+            { name: 'Pediatric & Maternal', sub: 'NICU · Postpartum · PALS', icon: 'fa-child', percent: 88, sheetIcon: 'fa-child', sheetTitle: 'Pediatric & Maternal Care', sheetSubtitle: 'Family-centered compassionate care', rows: [
+              { icon: 'fa-baby', label: 'Neonatal Care', value: 'NICU trained with premature infant expertise', link: '' },
+              { icon: 'fa-female', label: 'Postpartum Support', value: 'Mother-baby bonding and lactation support', link: '' },
+              { icon: 'fa-child', label: 'Pediatric Assessment', value: 'Age-appropriate care for children 0–18', link: '' }
+            ]},
+            { name: 'Community Health', sub: 'Public Health · Education', icon: 'fa-house-medical', percent: 82, sheetIcon: 'fa-house-medical', sheetTitle: 'Community Health', sheetSubtitle: 'Preventive care and health education', rows: [
+              { icon: 'fa-people-group', label: 'Health Screenings', value: 'Blood pressure, diabetes, and wellness checks', link: '' },
+              { icon: 'fa-book-medical', label: 'Patient Education', value: 'Chronic disease management and prevention', link: '' },
+              { icon: 'fa-hand-holding-heart', label: 'Outreach Programs', value: 'Community health initiatives and vaccination drives', link: '' }
+            ]},
+            { name: 'Mental Health', sub: 'Crisis · Psychiatric Care', icon: 'fa-brain', percent: 76, sheetIcon: 'fa-brain', sheetTitle: 'Mental Health Nursing', sheetSubtitle: 'Psychiatric and crisis care', rows: [
+              { icon: 'fa-comments', label: 'Crisis Intervention', value: 'De-escalation and acute psychiatric support', link: '' },
+              { icon: 'fa-hands-holding', label: 'Therapeutic Communication', value: 'Trauma-informed patient engagement', link: '' },
+              { icon: 'fa-pills', label: 'Medication Support', value: 'Psychotropic medication management', link: '' }
+            ]}
           ],
           testimonial: 'Nurse Prosper stayed past her shift to sit with my mother through a difficult night. That is not just nursing — that is calling. Our family will never forget it.',
-          testimonialAuthor: 'Ekemini N.',
-          testimonialRole: 'Family of Patient',
-          testimonialInitials: 'EN',
-          email: 'prosperbassey06@gmail.com',
-          phone: '09017297650',
-          whatsapp: '09017297650',
-          city: 'Ikot Apkaden',
-          state: 'Akwa Ibom'
+          testimonialAuthor: 'Ekemini N.', testimonialRole: 'Family of Patient', testimonialInitials: 'EN',
+          email: 'prosperbassey06@gmail.com', phone: '09017297650', whatsapp: '09017297650',
+          city: 'Ikot Apkaden', state: 'Akwa Ibom'
         },
         quickActions: [
           { id: 'qa-message', label: 'Message', icon: 'fa-comment-medical', sheetTitle: 'Send a Message', sheetSubtitle: 'Typically responds within 2 hours', rows: [
@@ -1216,24 +1254,65 @@
           ]}
         ],
         journal: [
-          { id: 'seed-icu-family', tag: 'Patient Care', readtime: '5 min read', date: 'October 2025', title: 'What I Wish Every Family Knew Before an ICU Admission', excerpt: 'The monitors, the tubes, the beeping — it can feel overwhelming. Here is what actually matters in those first hours.', body: 'When a loved one is admitted to the ICU, everything happens at once.\n\nThis is what I wish every family knew before they walk through those doors.\n\n## The beeping is not always bad\nMonitors alarm for many reasons: a loose sensor, a patient shifting in bed, an artifact from movement.\n\n## Ask these three questions\n— What is the main problem we are treating right now?\n— What is the goal for today?\n— Who is the best person to speak with for an update?\n\n> Take care of yourself too. Eat. Sleep. Step outside. You cannot pour from an empty cup.', icon: 'fa-hospital-user', createdAt: 1698796800000 },
-          { id: 'seed-bp-numbers', tag: 'Prevention', readtime: '4 min read', date: 'September 2025', title: 'The Blood Pressure Numbers You Should Never Ignore', excerpt: 'Most people wait too long. A few simple thresholds can tell you when it is time to seek care.', body: 'High blood pressure is often called the "silent killer".\n\n## The general ranges\n— Normal: below 120/80 mmHg\n— Elevated: 120–129 / below 80\n— Stage 1: 140+ / 90+\n— Crisis: above 180 / 120\n\n> If your reading is above 180/120 with chest pain or severe headache — seek emergency care immediately.', icon: 'fa-heart-pulse', createdAt: 1695081600000 },
-          { id: 'seed-why-critical-care', tag: 'Reflections', readtime: '3 min read', date: 'August 2025', title: 'Why I Chose Critical Care', excerpt: 'It was never about the machines. It was about the person on the other side of them.', body: 'People often ask me why I chose critical care.\n\nI chose it because I believe no one should die alone, and no family should feel abandoned in the worst moment of their lives.\n\n> "What God cannot do, does not exist." That is my anchor.\n\nThis is not just a job for me. It is a calling.', icon: 'fa-heart', createdAt: 1690848000000 }
+          { id: 'seed-icu-family', tag: 'Patient Care', readtime: '5 min read', date: 'October 2025', title: 'What I Wish Every Family Knew Before an ICU Admission', excerpt: 'The monitors, the tubes, the beeping — it can feel overwhelming. Here is what actually matters in those first hours.', body: 'When a loved one is admitted to the ICU, everything happens at once.\n\nThis is what I wish every family knew before they walk through those doors.\n\n## The beeping is not always bad\nMonitors alarm for many reasons: a loose sensor, a patient shifting in bed, an artifact from movement.\n\n## Ask these three questions\n— What is the main problem we are treating right now?\n— What is the goal for today?\n— Who is the best person to speak with for an update?\n\n> Take care of yourself too. Eat. Sleep. Step outside. You cannot pour from an empty cup.', icon: 'fa-hospital-user', photo: '', createdAt: 1698796800000 },
+          { id: 'seed-bp-numbers', tag: 'Prevention', readtime: '4 min read', date: 'September 2025', title: 'The Blood Pressure Numbers You Should Never Ignore', excerpt: 'Most people wait too long. A few simple thresholds can tell you when it is time to seek care.', body: 'High blood pressure is often called the "silent killer".\n\n## The general ranges\n— Normal: below 120/80 mmHg\n— Elevated: 120–129 / below 80\n— Stage 1: 140+ / 90+\n— Crisis: above 180 / 120\n\n> If your reading is above 180/120 with chest pain or severe headache — seek emergency care immediately.', icon: 'fa-heart-pulse', photo: '', createdAt: 1695081600000 },
+          { id: 'seed-why-critical-care', tag: 'Reflections', readtime: '3 min read', date: 'August 2025', title: 'Why I Chose Critical Care', excerpt: 'It was never about the machines. It was about the person on the other side of them.', body: 'People often ask me why I chose critical care.\n\nI chose it because I believe no one should die alone, and no family should feel abandoned in the worst moment of their lives.\n\n> "What God cannot do, does not exist." That is my anchor.\n\nThis is not just a job for me. It is a calling.', icon: 'fa-heart', photo: '', createdAt: 1690848000000 }
         ]
       };
 
-      function loadData() {
+      /* ============================================================
+         CLOUD LOAD / SAVE
+      ============================================================ */
+      function setCloudStatus(state, text) {
+        var el = document.getElementById('cloudStatus');
+        var icon = document.getElementById('cloudStatusIcon');
+        el.className = 'cloud-status ' + state;
+        document.getElementById('cloudStatusText').textContent = text;
+        if (state === 'live') {
+          icon.className = 'fas fa-cloud';
+          cloudOnline = true;
+          document.getElementById('adminBadgeText').textContent = 'Live';
+        } else if (state === 'offline') {
+          icon.className = 'fas fa-cloud-slash';
+          cloudOnline = false;
+          document.getElementById('adminBadgeText').textContent = 'Offline';
+        } else {
+          icon.className = 'fas fa-circle-notch fa-spin';
+          cloudOnline = false;
+        }
+      }
+
+      async function loadFromCloud() {
+        setCloudStatus('checking', 'Connecting to Supabase…');
         try {
-          var raw = localStorage.getItem(STORE_KEY);
-          if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
-          var parsed = JSON.parse(raw);
-          var merged = {
-            profile: Object.assign({}, DEFAULTS.profile, parsed.profile || {}),
-            quickActions: Array.isArray(parsed.quickActions) && parsed.quickActions.length ? parsed.quickActions : JSON.parse(JSON.stringify(DEFAULTS.quickActions)),
-            journal: Array.isArray(parsed.journal) ? parsed.journal : DEFAULTS.journal.slice()
-          };
-          // Ensure competency sheet fields exist (schema migration)
-          merged.profile.competencies = (merged.profile.competencies || DEFAULTS.profile.competencies).map(function(c, i) {
+          var results = await Promise.all([
+            sb.from('profile').select('data').eq('id', 1).maybeSingle(),
+            sb.from('quick_actions').select('data').eq('id', 1).maybeSingle(),
+            sb.from('journal').select('*').order('created_at', { ascending: false })
+          ]);
+
+          var profileRes = results[0], qaRes = results[1], journalRes = results[2];
+          if (profileRes.error) throw profileRes.error;
+          if (qaRes.error) throw qaRes.error;
+          if (journalRes.error) throw journalRes.error;
+
+          setCloudStatus('live', 'Connected · all changes save to the cloud');
+
+          var profileData = (profileRes.data && profileRes.data.data) ? profileRes.data.data : DEFAULTS.profile;
+          var qaData = (qaRes.data && qaRes.data.data) ? qaRes.data.data : DEFAULTS.quickActions;
+          var journalData = (journalRes.data && journalRes.data.length)
+            ? journalRes.data.map(function(r) {
+                return {
+                  id: r.id, tag: r.tag, readtime: r.readtime || '', date: r.date || '',
+                  title: r.title, excerpt: r.excerpt || '', body: r.body || '',
+                  icon: r.icon || 'fa-book-medical', photo: r.photo || '',
+                  createdAt: new Date(r.created_at).getTime()
+                };
+              })
+            : DEFAULTS.journal.slice();
+
+          var mergedProfile = Object.assign({}, DEFAULTS.profile, profileData);
+          mergedProfile.competencies = (mergedProfile.competencies || DEFAULTS.profile.competencies).map(function(c, i) {
             var def = DEFAULTS.profile.competencies[i] || {};
             return {
               name: c.name || def.name || '',
@@ -1246,19 +1325,102 @@
               rows: Array.isArray(c.rows) ? c.rows : (def.rows || [])
             };
           });
+
+          var merged = {
+            profile: mergedProfile,
+            quickActions: Array.isArray(qaData) && qaData.length ? qaData : JSON.parse(JSON.stringify(DEFAULTS.quickActions)),
+            journal: journalData
+          };
+
+          // Cache locally as offline fallback
+          try { localStorage.setItem(STORE_KEY, JSON.stringify(merged)); } catch (e) {}
           return merged;
         } catch (e) {
+          console.error('loadFromCloud failed:', e);
+          setCloudStatus('offline', 'Offline — showing cached copy');
+          var cached = localStorage.getItem(STORE_KEY);
+          if (cached) { try { return JSON.parse(cached); } catch (err) {} }
           return JSON.parse(JSON.stringify(DEFAULTS));
         }
       }
 
-      function saveData(data) {
-        try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); return true; }
-        catch (e) { return false; }
+      async function saveProfileToCloud(profile) {
+        if (!cloudOnline) return { ok: false, error: { message: 'Offline' } };
+        try {
+          var res = await sb.from('profile').upsert({
+            id: 1, data: profile, updated_at: new Date().toISOString()
+          });
+          if (res.error) return { ok: false, error: res.error };
+          try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+          return { ok: true };
+        } catch (e) { return { ok: false, error: e }; }
       }
 
-      var state = loadData();
+      async function saveQuickActionsToCloud(qaArray) {
+        if (!cloudOnline) return { ok: false, error: { message: 'Offline' } };
+        try {
+          var res = await sb.from('quick_actions').upsert({
+            id: 1, data: qaArray, updated_at: new Date().toISOString()
+          });
+          if (res.error) return { ok: false, error: res.error };
+          try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+          return { ok: true };
+        } catch (e) { return { ok: false, error: e }; }
+      }
 
+      async function saveJournalEntryToCloud(entry) {
+        if (!cloudOnline) return { ok: false, error: { message: 'Offline' } };
+        try {
+          var row = {
+            id: entry.id, tag: entry.tag,
+            readtime: entry.readtime || '', date: entry.date || '',
+            title: entry.title, excerpt: entry.excerpt || '',
+            body: entry.body, icon: entry.icon || 'fa-book-medical',
+            photo: entry.photo || ''
+          };
+          var res = await sb.from('journal').upsert(row);
+          if (res.error) return { ok: false, error: res.error };
+          return { ok: true };
+        } catch (e) { return { ok: false, error: e }; }
+      }
+
+      async function deleteJournalEntryFromCloud(id) {
+        if (!cloudOnline) return { ok: false, error: { message: 'Offline' } };
+        try {
+          var res = await sb.from('journal').delete().eq('id', id);
+          if (res.error) return { ok: false, error: res.error };
+          return { ok: true };
+        } catch (e) { return { ok: false, error: e }; }
+      }
+
+      async function uploadPhotoToCloud(dataUrl, entryId) {
+        if (!dataUrl) return '';
+        if (dataUrl.indexOf('http') === 0) return dataUrl; // already a URL
+        if (!cloudOnline) throw new Error('Offline — cannot upload photo');
+
+        // Convert dataURL to Blob
+        var res = await fetch(dataUrl);
+        var blob = await res.blob();
+
+        var path = entryId + '-' + Date.now() + '.jpg';
+        var up = await sb.storage.from(PHOTO_BUCKET).upload(path, blob, {
+          contentType: 'image/jpeg',
+          upsert: true
+        });
+        if (up.error) throw up.error;
+
+        var pub = sb.storage.from(PHOTO_BUCKET).getPublicUrl(path);
+        return pub.data.publicUrl;
+      }
+
+      /* ============================================================
+         STATE
+      ============================================================ */
+      var state = JSON.parse(JSON.stringify(DEFAULTS));
+
+      /* ============================================================
+         TOAST
+      ============================================================ */
       var toastTimer = null;
       function showToast(msg, iconClass) {
         var toast = document.getElementById('toast');
@@ -1268,9 +1430,12 @@
         if (iconClass) icon.className = iconClass;
         toast.classList.add('show');
         if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2400);
+        toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2600);
       }
 
+      /* ============================================================
+         TABS
+      ============================================================ */
       document.querySelectorAll('.admin-tab').forEach(function(tab) {
         tab.addEventListener('click', function() {
           var target = this.getAttribute('data-tab');
@@ -1287,11 +1452,9 @@
         for (var i = 0; i < parts.length - 1; i++) { cur = cur[parts[i]]; }
         cur[parts[parts.length - 1]] = value;
       }
-
       function getByPath(obj, path) {
         return path.split('.').reduce(function(acc, k) { return acc && acc[k]; }, obj);
       }
-
       function escapeAttr(s) {
         return String(s == null ? '' : s)
           .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
@@ -1299,7 +1462,7 @@
       }
 
       /* ============================================================
-         PROFILE
+         PROFILE FORM
       ============================================================ */
       function fillProfileForm() {
         document.querySelectorAll('[data-bind]').forEach(function(el) {
@@ -1310,7 +1473,6 @@
         renderAvailability();
       }
 
-      /* ---------- AVAILABILITY ---------- */
       function renderAvailability() {
         var current = state.profile.availability || 'On Duty';
         document.querySelectorAll('#availabilityToggle .segmented-option').forEach(function(btn) {
@@ -1318,7 +1480,6 @@
         });
         updateStatusPreview(current);
       }
-
       function updateStatusPreview(value) {
         var pill = document.getElementById('statusPreviewPill');
         var text = document.getElementById('statusPreviewText');
@@ -1329,14 +1490,12 @@
         else if (value === 'Away') { pill.classList.add('away'); icon.className = 'fas fa-circle-half-stroke'; }
         else { pill.classList.add('offline'); icon.className = 'fas fa-circle-minus'; }
       }
-
       document.querySelectorAll('#availabilityToggle .segmented-option').forEach(function(btn) {
         btn.addEventListener('click', function() {
           state.profile.availability = this.getAttribute('data-value');
           renderAvailability();
         });
       });
-
       document.querySelectorAll('[data-bind]').forEach(function(el) {
         el.addEventListener('input', function() {
           setByPath(state, this.getAttribute('data-bind'), this.value);
@@ -1344,7 +1503,7 @@
       });
 
       /* ============================================================
-         COMPETENCY EDITOR (expandable cards)
+         COMPETENCY EDITOR
       ============================================================ */
       function renderCompetencyEditor() {
         var wrap = document.getElementById('compList');
@@ -1362,46 +1521,23 @@
               '</div>' +
               '<div class="comp-item-body">' +
                 '<div class="comp-item-body-inner">' +
-
                   '<div class="section-subhead"><i class="fas fa-square"></i> Card (on portfolio)</div>' +
-                  '<div class="field">' +
-                    '<label>Name</label>' +
-                    '<input type="text" data-comp="name" data-idx="' + i + '" value="' + escapeAttr(c.name) + '">' +
-                  '</div>' +
-                  '<div class="field">' +
-                    '<label>Subtitle</label>' +
-                    '<input type="text" data-comp="sub" data-idx="' + i + '" value="' + escapeAttr(c.sub) + '">' +
-                  '</div>' +
+                  '<div class="field"><label>Name</label><input type="text" data-comp="name" data-idx="' + i + '" value="' + escapeAttr(c.name) + '"></div>' +
+                  '<div class="field"><label>Subtitle</label><input type="text" data-comp="sub" data-idx="' + i + '" value="' + escapeAttr(c.sub) + '"></div>' +
                   '<div class="field-row">' +
-                    '<div class="field">' +
-                      '<label>Card Icon</label>' +
-                      '<input type="text" data-comp="icon" data-idx="' + i + '" value="' + escapeAttr(c.icon) + '" placeholder="fa-heart-pulse">' +
-                    '</div>' +
-                    '<div class="field">' +
-                      '<label>Percent</label>' +
-                      '<input type="number" min="0" max="100" data-comp="percent" data-idx="' + i + '" value="' + c.percent + '">' +
-                    '</div>' +
+                    '<div class="field"><label>Card Icon</label><input type="text" data-comp="icon" data-idx="' + i + '" value="' + escapeAttr(c.icon) + '" placeholder="fa-heart-pulse"></div>' +
+                    '<div class="field"><label>Percent</label><input type="number" min="0" max="100" data-comp="percent" data-idx="' + i + '" value="' + c.percent + '"></div>' +
                   '</div>' +
-
                   '<div class="section-subhead"><i class="fas fa-window-restore"></i> Sheet (opens on tap)</div>' +
-                  '<div class="field">' +
-                    '<label>Sheet Icon</label>' +
-                    '<input type="text" data-comp="sheetIcon" data-idx="' + i + '" value="' + escapeAttr(c.sheetIcon || c.icon) + '" placeholder="fa-heart-pulse">' +
-                  '</div>' +
-                  '<div class="field">' +
-                    '<label>Sheet Title</label>' +
-                    '<input type="text" data-comp="sheetTitle" data-idx="' + i + '" value="' + escapeAttr(c.sheetTitle || '') + '" placeholder="Critical Care Nursing">' +
-                  '</div>' +
-                  '<div class="field">' +
-                    '<label>Sheet Subtitle</label>' +
-                    '<input type="text" data-comp="sheetSubtitle" data-idx="' + i + '" value="' + escapeAttr(c.sheetSubtitle || '') + '" placeholder="High-acuity patient management">' +
-                  '</div>' +
+                  '<div class="field"><label>Sheet Icon</label><input type="text" data-comp="sheetIcon" data-idx="' + i + '" value="' + escapeAttr(c.sheetIcon || c.icon) + '"></div>' +
+                  '<div class="field"><label>Sheet Title</label><input type="text" data-comp="sheetTitle" data-idx="' + i + '" value="' + escapeAttr(c.sheetTitle || '') + '"></div>' +
+                  '<div class="field"><label>Sheet Subtitle</label><input type="text" data-comp="sheetSubtitle" data-idx="' + i + '" value="' + escapeAttr(c.sheetSubtitle || '') + '"></div>' +
                   '<div class="field">' +
                     '<label>Sheet Rows</label>' +
-                    '<div class="rows-editor" data-comp-rows-for="' + i + '">' +
+                    '<div class="rows-editor">' +
                       (c.rows || []).map(function(row, ri) {
                         return '' +
-                          '<div class="rows-row" data-row-idx="' + ri + '">' +
+                          '<div class="rows-row">' +
                             '<div class="rows-row-icon"><i class="fas ' + escapeAttr(row.icon) + '"></i></div>' +
                             '<div class="rows-row-fields">' +
                               '<input type="text" data-comp-row="icon" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.icon) + '" placeholder="Icon class">' +
@@ -1415,28 +1551,21 @@
                     '</div>' +
                     '<button type="button" class="rows-add" data-comp-add-row="' + i + '"><i class="fas fa-plus"></i> Add row</button>' +
                   '</div>' +
-
                 '</div>' +
               '</div>' +
             '</div>';
         }).join('');
-
         bindCompetencyEvents();
       }
 
       function bindCompetencyEvents() {
         var wrap = document.getElementById('compList');
-
-        // Toggle open/close
         wrap.querySelectorAll('[data-comp-toggle]').forEach(function(head) {
           head.addEventListener('click', function(e) {
             if (e.target.closest('input, button')) return;
-            var item = this.closest('.comp-item');
-            item.classList.toggle('open');
+            this.closest('.comp-item').classList.toggle('open');
           });
         });
-
-        // Card + sheet fields
         wrap.querySelectorAll('[data-comp]:not([data-comp-row])').forEach(function(input) {
           input.addEventListener('input', function() {
             var idx = parseInt(this.getAttribute('data-idx'), 10);
@@ -1444,29 +1573,13 @@
             var val = this.value;
             if (key === 'percent') val = Math.max(0, Math.min(100, parseInt(val, 10) || 0));
             state.profile.competencies[idx][key] = val;
-
-            // Live sync header
             var item = this.closest('.comp-item');
-            if (key === 'name') {
-              var strong = item.querySelector('.comp-item-info strong');
-              if (strong) strong.textContent = this.value || '(no name)';
-            }
-            if (key === 'sub') {
-              var span = item.querySelector('.comp-item-info span');
-              if (span) span.textContent = this.value || '';
-            }
-            if (key === 'icon') {
-              var iconEl = item.querySelector('.comp-item-icon i');
-              if (iconEl) iconEl.className = 'fas ' + this.value;
-            }
-            if (key === 'percent') {
-              var pct = item.querySelector('.comp-item-pct');
-              if (pct) pct.textContent = val + '%';
-            }
+            if (key === 'name') { var s = item.querySelector('.comp-item-info strong'); if (s) s.textContent = this.value || '(no name)'; }
+            if (key === 'sub') { var sp = item.querySelector('.comp-item-info span'); if (sp) sp.textContent = this.value || ''; }
+            if (key === 'icon') { var ic = item.querySelector('.comp-item-icon i'); if (ic) ic.className = 'fas ' + this.value; }
+            if (key === 'percent') { var pct = item.querySelector('.comp-item-pct'); if (pct) pct.textContent = val + '%'; }
           });
         });
-
-        // Sheet row fields
         wrap.querySelectorAll('[data-comp-row]').forEach(function(input) {
           input.addEventListener('input', function() {
             var compIdx = parseInt(this.getAttribute('data-comp-idx'), 10);
@@ -1474,49 +1587,52 @@
             var key = this.getAttribute('data-comp-row');
             state.profile.competencies[compIdx].rows[rowIdx][key] = this.value;
             if (key === 'icon') {
-              var iconEl = this.closest('.rows-row').querySelector('.rows-row-icon i');
-              if (iconEl) iconEl.className = 'fas ' + this.value;
+              var ic = this.closest('.rows-row').querySelector('.rows-row-icon i');
+              if (ic) ic.className = 'fas ' + this.value;
             }
           });
         });
-
-        // Remove row
         wrap.querySelectorAll('[data-comp-remove-row]').forEach(function(btn) {
           btn.addEventListener('click', function() {
             var compIdx = parseInt(this.getAttribute('data-comp-remove-row'), 10);
             var rowIdx = parseInt(this.getAttribute('data-row-idx'), 10);
             state.profile.competencies[compIdx].rows.splice(rowIdx, 1);
             renderCompetencyEditor();
-            document.querySelector('.comp-item[data-idx="' + compIdx + '"]').classList.add('open');
+            var item = document.querySelector('.comp-item[data-idx="' + compIdx + '"]');
+            if (item) item.classList.add('open');
           });
         });
-
-        // Add row
         wrap.querySelectorAll('[data-comp-add-row]').forEach(function(btn) {
           btn.addEventListener('click', function() {
             var compIdx = parseInt(this.getAttribute('data-comp-add-row'), 10);
             state.profile.competencies[compIdx].rows.push({ icon: 'fa-circle-info', label: 'New row', value: '', link: '' });
             renderCompetencyEditor();
-            document.querySelector('.comp-item[data-idx="' + compIdx + '"]').classList.add('open');
+            var item = document.querySelector('.comp-item[data-idx="' + compIdx + '"]');
+            if (item) item.classList.add('open');
           });
         });
       }
 
-      document.getElementById('profileSave').addEventListener('click', function() {
-        if (saveData(state)) showToast('Profile saved', 'fas fa-check-circle');
-        else showToast('Could not save', 'fas fa-triangle-exclamation');
+      document.getElementById('profileSave').addEventListener('click', async function() {
+        var btn = this;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving…';
+        var r = await saveProfileToCloud(state.profile);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Save to Cloud';
+        if (r.ok) showToast('Profile saved to cloud', 'fas fa-check-circle');
+        else showToast('Save failed: ' + (r.error && r.error.message ? r.error.message : 'unknown'), 'fas fa-triangle-exclamation');
       });
 
       document.getElementById('profileReset').addEventListener('click', function() {
-        if (!confirm('Reset all profile fields to original defaults?')) return;
+        if (!confirm('Reset all profile fields to original defaults? You still need to tap Save to push to cloud.')) return;
         state.profile = JSON.parse(JSON.stringify(DEFAULTS.profile));
-        saveData(state);
         fillProfileForm();
-        showToast('Profile reset', 'fas fa-rotate-left');
+        showToast('Profile reset locally', 'fas fa-rotate-left');
       });
 
       /* ============================================================
-         QUICK ACTIONS (reuse comp-list styling)
+         QUICK ACTIONS
       ============================================================ */
       function renderQuickActions() {
         var wrap = document.getElementById('qaList');
@@ -1535,30 +1651,18 @@
                 '<div class="comp-item-body-inner">' +
                   '<div class="section-subhead"><i class="fas fa-square"></i> Pill (on portfolio)</div>' +
                   '<div class="field-row">' +
-                    '<div class="field">' +
-                      '<label>Button Label</label>' +
-                      '<input type="text" data-qa="label" data-idx="' + i + '" value="' + escapeAttr(qa.label) + '">' +
-                    '</div>' +
-                    '<div class="field">' +
-                      '<label>Icon Class</label>' +
-                      '<input type="text" data-qa="icon" data-idx="' + i + '" value="' + escapeAttr(qa.icon) + '">' +
-                    '</div>' +
+                    '<div class="field"><label>Button Label</label><input type="text" data-qa="label" data-idx="' + i + '" value="' + escapeAttr(qa.label) + '"></div>' +
+                    '<div class="field"><label>Icon Class</label><input type="text" data-qa="icon" data-idx="' + i + '" value="' + escapeAttr(qa.icon) + '"></div>' +
                   '</div>' +
                   '<div class="section-subhead"><i class="fas fa-window-restore"></i> Sheet (opens on tap)</div>' +
-                  '<div class="field">' +
-                    '<label>Sheet Title</label>' +
-                    '<input type="text" data-qa="sheetTitle" data-idx="' + i + '" value="' + escapeAttr(qa.sheetTitle) + '">' +
-                  '</div>' +
-                  '<div class="field">' +
-                    '<label>Sheet Subtitle</label>' +
-                    '<input type="text" data-qa="sheetSubtitle" data-idx="' + i + '" value="' + escapeAttr(qa.sheetSubtitle) + '">' +
-                  '</div>' +
+                  '<div class="field"><label>Sheet Title</label><input type="text" data-qa="sheetTitle" data-idx="' + i + '" value="' + escapeAttr(qa.sheetTitle) + '"></div>' +
+                  '<div class="field"><label>Sheet Subtitle</label><input type="text" data-qa="sheetSubtitle" data-idx="' + i + '" value="' + escapeAttr(qa.sheetSubtitle) + '"></div>' +
                   '<div class="field">' +
                     '<label>Sheet Rows</label>' +
                     '<div class="rows-editor">' +
                       qa.rows.map(function(row, ri) {
                         return '' +
-                          '<div class="rows-row" data-row-idx="' + ri + '">' +
+                          '<div class="rows-row">' +
                             '<div class="rows-row-icon"><i class="fas ' + escapeAttr(row.icon) + '"></i></div>' +
                             '<div class="rows-row-fields">' +
                               '<input type="text" data-qa-row="icon" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.icon) + '" placeholder="Icon class">' +
@@ -1576,41 +1680,31 @@
               '</div>' +
             '</div>';
         }).join('');
-
         bindQuickActionEvents();
       }
 
       function bindQuickActionEvents() {
         var wrap = document.getElementById('qaList');
-
         wrap.querySelectorAll('[data-qa-toggle]').forEach(function(head) {
           head.addEventListener('click', function(e) {
             if (e.target.closest('input, button')) return;
             this.closest('.comp-item').classList.toggle('open');
           });
         });
-
         wrap.querySelectorAll('[data-qa]:not([data-qa-row])').forEach(function(input) {
           input.addEventListener('input', function() {
             var idx = parseInt(this.getAttribute('data-idx'), 10);
             var key = this.getAttribute('data-qa');
             state.quickActions[idx][key] = this.value;
             var item = this.closest('.comp-item');
-            if (key === 'label') {
-              var s = item.querySelector('.comp-item-info strong');
-              if (s) s.textContent = this.value || '(no label)';
-            }
-            if (key === 'icon') {
-              var ic = item.querySelector('.comp-item-icon i');
-              if (ic) ic.className = 'fas ' + this.value;
-            }
+            if (key === 'label') { var s = item.querySelector('.comp-item-info strong'); if (s) s.textContent = this.value || '(no label)'; }
+            if (key === 'icon') { var ic = item.querySelector('.comp-item-icon i'); if (ic) ic.className = 'fas ' + this.value; }
             if (key === 'sheetTitle') {
               var sub = item.querySelector('.comp-item-info span');
               if (sub) sub.textContent = state.quickActions[idx].rows.length + ' rows · ' + this.value;
             }
           });
         });
-
         wrap.querySelectorAll('[data-qa-row]').forEach(function(input) {
           input.addEventListener('input', function() {
             var qaIdx = parseInt(this.getAttribute('data-qa-idx'), 10);
@@ -1623,38 +1717,43 @@
             }
           });
         });
-
         wrap.querySelectorAll('[data-qa-remove-row]').forEach(function(btn) {
           btn.addEventListener('click', function() {
             var qaIdx = parseInt(this.getAttribute('data-qa-remove-row'), 10);
             var rowIdx = parseInt(this.getAttribute('data-row-idx'), 10);
             state.quickActions[qaIdx].rows.splice(rowIdx, 1);
             renderQuickActions();
-            document.querySelector('#qaList .comp-item[data-idx="' + qaIdx + '"]').classList.add('open');
+            var item = document.querySelector('#qaList .comp-item[data-idx="' + qaIdx + '"]');
+            if (item) item.classList.add('open');
           });
         });
-
         wrap.querySelectorAll('[data-qa-add-row]').forEach(function(btn) {
           btn.addEventListener('click', function() {
             var qaIdx = parseInt(this.getAttribute('data-qa-add-row'), 10);
             state.quickActions[qaIdx].rows.push({ icon: 'fa-circle-info', label: 'New row', value: '', link: '' });
             renderQuickActions();
-            document.querySelector('#qaList .comp-item[data-idx="' + qaIdx + '"]').classList.add('open');
+            var item = document.querySelector('#qaList .comp-item[data-idx="' + qaIdx + '"]');
+            if (item) item.classList.add('open');
           });
         });
       }
 
-      document.getElementById('qaSave').addEventListener('click', function() {
-        if (saveData(state)) showToast('Quick actions saved', 'fas fa-check-circle');
-        else showToast('Could not save', 'fas fa-triangle-exclamation');
+      document.getElementById('qaSave').addEventListener('click', async function() {
+        var btn = this;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving…';
+        var r = await saveQuickActionsToCloud(state.quickActions);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Save to Cloud';
+        if (r.ok) showToast('Quick actions saved to cloud', 'fas fa-check-circle');
+        else showToast('Save failed: ' + (r.error && r.error.message ? r.error.message : 'unknown'), 'fas fa-triangle-exclamation');
       });
 
       document.getElementById('qaReset').addEventListener('click', function() {
-        if (!confirm('Reset all quick action buttons to defaults?')) return;
+        if (!confirm('Reset all quick action buttons to defaults? You still need to tap Save to push to cloud.')) return;
         state.quickActions = JSON.parse(JSON.stringify(DEFAULTS.quickActions));
-        saveData(state);
         renderQuickActions();
-        showToast('Quick actions reset', 'fas fa-rotate-left');
+        showToast('Quick actions reset locally', 'fas fa-rotate-left');
       });
 
       /* ============================================================
@@ -1676,8 +1775,12 @@
         }
 
         wrap.innerHTML = items.map(function(item) {
+          var thumb = item.photo
+            ? '<div class="journal-item-thumb"><img src="' + escapeAttr(item.photo) + '" alt=""></div>'
+            : '<div class="journal-item-thumb"><i class="fas ' + escapeAttr(item.icon || 'fa-book-medical') + '"></i></div>';
           return '' +
             '<div class="journal-item" data-id="' + escapeAttr(item.id) + '">' +
+              thumb +
               '<div class="journal-item-body">' +
                 '<div class="journal-item-tags">' +
                   '<span class="journal-item-tag">' + escapeAttr(item.tag) + '</span>' +
@@ -1703,34 +1806,141 @@
         });
 
         wrap.querySelectorAll('[data-delete]').forEach(function(btn) {
-          btn.addEventListener('click', function() {
+          btn.addEventListener('click', async function() {
             var id = this.getAttribute('data-delete');
             var entry = state.journal.find(function(e) { return e.id === id; });
             if (!entry) return;
-            if (!confirm('Delete "' + entry.title + '"?')) return;
+            if (!confirm('Delete "' + entry.title + '" from the cloud?')) return;
+            var r = await deleteJournalEntryFromCloud(id);
+            if (!r.ok) { showToast('Delete failed: ' + (r.error.message || ''), 'fas fa-triangle-exclamation'); return; }
             state.journal = state.journal.filter(function(e) { return e.id !== id; });
-            saveData(state);
             renderJournalList();
             showToast('Entry deleted', 'fas fa-trash');
           });
         });
       }
 
-      document.getElementById('journalReset').addEventListener('click', function() {
-        if (!confirm('Restore the three original journal entries?')) return;
-        state.journal = JSON.parse(JSON.stringify(DEFAULTS.journal));
-        saveData(state);
-        renderJournalList();
-        showToast('Journal reset', 'fas fa-rotate-left');
+      /* ============================================================
+         PHOTO HANDLING
+      ============================================================ */
+      var currentPhoto = '';
+      var photoInput = document.getElementById('photoInput');
+      var photoPicker = document.getElementById('photoPicker');
+      var photoStatusEl = document.getElementById('photoStatus');
+
+      var MAX_WIDTH = 1600;
+      var JPEG_QUALITY = 0.82;
+
+      function compressImage(file, cb) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var img = new Image();
+          img.onload = function() {
+            var canvas = document.createElement('canvas');
+            var w = img.width, h = img.height;
+            if (w > MAX_WIDTH) { h = Math.round(h * (MAX_WIDTH / w)); w = MAX_WIDTH; }
+            canvas.width = w;
+            canvas.height = h;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            try { cb(null, canvas.toDataURL('image/jpeg', JPEG_QUALITY)); }
+            catch (err) { cb(err); }
+          };
+          img.onerror = function() { cb(new Error('Could not read image')); };
+          img.src = e.target.result;
+        };
+        reader.onerror = function() { cb(new Error('Could not read file')); };
+        reader.readAsDataURL(file);
+      }
+
+      function bytesFromDataUrl(dataUrl) {
+        if (!dataUrl) return 0;
+        var base64 = dataUrl.split(',')[1] || '';
+        return Math.round(base64.length * 0.75);
+      }
+      function formatKB(bytes) {
+        var kb = bytes / 1024;
+        if (kb < 1024) return Math.round(kb) + ' KB';
+        return (kb / 1024).toFixed(1) + ' MB';
+      }
+
+      function renderPhotoPicker() {
+        if (currentPhoto) {
+          photoPicker.classList.add('has-photo');
+          photoPicker.innerHTML = '' +
+            '<input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">' +
+            '<img class="photo-preview" src="' + currentPhoto + '" alt="">' +
+            '<div class="photo-overlay">' +
+              '<span class="photo-overlay-text">Cover photo</span>' +
+              '<div class="photo-overlay-actions">' +
+                '<button type="button" class="photo-action-btn" id="photoReplaceBtn" title="Replace"><i class="fas fa-arrows-rotate"></i></button>' +
+                '<button type="button" class="photo-action-btn danger" id="photoRemoveBtn" title="Remove"><i class="fas fa-trash"></i></button>' +
+              '</div>' +
+            '</div>';
+          photoInput = document.getElementById('photoInput');
+          bindPhotoInput();
+          document.getElementById('photoReplaceBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            photoInput.click();
+          });
+          document.getElementById('photoRemoveBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentPhoto = '';
+            renderPhotoPicker();
+            showToast('Photo removed', 'fas fa-trash');
+          });
+          photoStatusEl.style.display = 'flex';
+          if (currentPhoto.indexOf('http') === 0) {
+            document.getElementById('photoStatusText').textContent = 'Photo in cloud storage';
+          } else {
+            document.getElementById('photoStatusText').textContent = 'Ready · ' + formatKB(bytesFromDataUrl(currentPhoto)) + ' (uploads on save)';
+          }
+        } else {
+          photoPicker.classList.remove('has-photo');
+          photoPicker.innerHTML = '' +
+            '<input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">' +
+            '<div class="photo-picker-icon"><i class="fas fa-image"></i></div>' +
+            '<div class="photo-picker-text">Add cover photo</div>' +
+            '<div class="photo-picker-hint">Tap to choose from your device</div>';
+          photoInput = document.getElementById('photoInput');
+          bindPhotoInput();
+          photoStatusEl.style.display = 'none';
+        }
+      }
+
+      function bindPhotoInput() {
+        photoInput.addEventListener('change', function() {
+          var file = this.files && this.files[0];
+          if (!file) return;
+          if (!file.type.match(/^image\//)) {
+            showToast('Please choose an image file', 'fas fa-triangle-exclamation');
+            return;
+          }
+          showToast('Processing photo…', 'fas fa-spinner');
+          compressImage(file, function(err, dataUrl) {
+            if (err) { showToast('Could not process image', 'fas fa-triangle-exclamation'); return; }
+            currentPhoto = dataUrl;
+            renderPhotoPicker();
+            showToast('Photo ready · will upload on save', 'fas fa-check-circle');
+          });
+        });
+      }
+
+      photoPicker.addEventListener('click', function(e) {
+        if (e.target.closest('.photo-action-btn')) return;
+        if (!currentPhoto && photoInput) photoInput.click();
       });
 
-      /* ---------- COMPOSER ---------- */
+      /* ============================================================
+         COMPOSER
+      ============================================================ */
       var composer = document.getElementById('composer');
       var composerOverlay = document.getElementById('composerOverlay');
       var editingId = null;
 
       function openComposer(entry) {
         editingId = entry ? entry.id : null;
+        currentPhoto = entry ? (entry.photo || '') : '';
         document.getElementById('composerKicker').textContent = entry ? 'Edit Entry' : 'New Entry';
         document.getElementById('composerTitle').textContent = entry ? 'Edit journal entry' : 'Write a journal entry';
         document.getElementById('c-tag').value = entry ? entry.tag : 'Patient Care';
@@ -1740,6 +1950,7 @@
         document.getElementById('c-excerpt').value = entry ? entry.excerpt : '';
         document.getElementById('c-body').value = entry ? entry.body : '';
         document.getElementById('c-icon').value = entry ? (entry.icon || '') : '';
+        renderPhotoPicker();
         composer.classList.add('active');
         composerOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -1751,19 +1962,20 @@
         composerOverlay.classList.remove('active');
         document.body.style.overflow = '';
         editingId = null;
+        currentPhoto = '';
       }
 
       document.getElementById('composerClose').addEventListener('click', closeComposer);
       document.getElementById('composerCancel').addEventListener('click', closeComposer);
       composerOverlay.addEventListener('click', closeComposer);
-
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && composer.classList.contains('active')) closeComposer();
       });
 
       document.getElementById('newEntryBtn').addEventListener('click', function() { openComposer(null); });
 
-      document.getElementById('composerSave').addEventListener('click', function() {
+      document.getElementById('composerSave').addEventListener('click', async function() {
+        var btn = this;
         var title = document.getElementById('c-title').value.trim();
         var excerpt = document.getElementById('c-excerpt').value.trim();
         var body = document.getElementById('c-body').value.trim();
@@ -1771,36 +1983,73 @@
         if (!excerpt) { showToast('Excerpt is required', 'fas fa-triangle-exclamation'); return; }
         if (!body) { showToast('Article body is required', 'fas fa-triangle-exclamation'); return; }
 
+        var entryId = editingId || ('entry-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7));
+
         var payload = {
+          id: entryId,
           tag: document.getElementById('c-tag').value,
           readtime: document.getElementById('c-readtime').value.trim(),
           date: document.getElementById('c-date').value.trim(),
           title: title,
           excerpt: excerpt,
           body: body,
-          icon: document.getElementById('c-icon').value.trim() || 'fa-book-medical'
+          icon: document.getElementById('c-icon').value.trim() || 'fa-book-medical',
+          photo: currentPhoto || ''
         };
 
-        if (editingId) {
-          var idx = state.journal.findIndex(function(e) { return e.id === editingId; });
-          if (idx > -1) state.journal[idx] = Object.assign({}, state.journal[idx], payload);
-          showToast('Entry updated', 'fas fa-check-circle');
-        } else {
-          payload.id = 'entry-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
-          payload.createdAt = Date.now();
-          state.journal.push(payload);
-          showToast('Entry published', 'fas fa-check-circle');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving…';
+
+        // Upload photo first if it's a data URL
+        try {
+          if (payload.photo && payload.photo.indexOf('http') !== 0) {
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Uploading photo…';
+            payload.photo = await uploadPhotoToCloud(payload.photo, entryId);
+          }
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Save to Cloud';
+          showToast('Photo upload failed: ' + (err.message || ''), 'fas fa-triangle-exclamation');
+          return;
         }
 
-        saveData(state);
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving…';
+        var r = await saveJournalEntryToCloud(payload);
+        if (!r.ok) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Save to Cloud';
+          showToast('Save failed: ' + (r.error.message || ''), 'fas fa-triangle-exclamation');
+          return;
+        }
+
+        // Update local state
+        if (editingId) {
+          var idx = state.journal.findIndex(function(e) { return e.id === editingId; });
+          if (idx > -1) {
+            state.journal[idx] = Object.assign({}, state.journal[idx], payload, { createdAt: state.journal[idx].createdAt || Date.now() });
+          }
+        } else {
+          payload.createdAt = Date.now();
+          state.journal.push(payload);
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Save to Cloud';
+        showToast(editingId ? 'Entry updated in cloud' : 'Entry published to cloud', 'fas fa-check-circle');
         renderJournalList();
         closeComposer();
       });
 
-      /* ---------- BOOT ---------- */
-      fillProfileForm();
-      renderQuickActions();
-      renderJournalList();
+      /* ============================================================
+         BOOT
+      ============================================================ */
+      (async function boot() {
+        state = await loadFromCloud();
+        fillProfileForm();
+        renderQuickActions();
+        renderJournalList();
+        renderPhotoPicker();
+      })();
 
     })();
   </script>
