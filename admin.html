@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/solid.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <!-- ✅ UMD build — this DOES attach window.supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -131,18 +132,6 @@
       0%,100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.4; transform: scale(1.3); }
     }
-
-    .storage-notice {
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 16px;
-      display: flex; gap: 10px; align-items: flex-start;
-    }
-    .storage-notice i { color: var(--warning); font-size: 0.9rem; margin-top: 2px; flex-shrink: 0; }
-    .storage-notice p { font-size: 0.72rem; color: #78350f; line-height: 1.5; font-weight: 500; }
-    .storage-notice strong { font-weight: 700; }
 
     .admin-tabs {
       display: flex; gap: 6px;
@@ -355,9 +344,6 @@
 
     .btn-secondary { background: var(--primary-light); color: var(--primary-dark); border-color: var(--border-strong); }
     .btn-secondary:hover:not(:disabled) { background: white; border-color: var(--primary); }
-
-    .btn-danger { background: #fef2f2; color: var(--danger); border-color: #fecaca; }
-    .btn-danger:hover:not(:disabled) { background: var(--danger); color: white; border-color: var(--danger); }
 
     .btn-sm { padding: 8px 14px; font-size: 0.72rem; }
     .btn-block { width: 100%; }
@@ -856,9 +842,8 @@
       </button>
     </div>
 
-    <!-- ============ PROFILE ============ -->
+    <!-- PROFILE -->
     <section class="admin-panel active" data-panel="profile">
-
       <div class="admin-card">
         <div class="admin-card-head">
           <h2><i class="fas fa-user"></i> Identity</h2>
@@ -866,19 +851,10 @@
         </div>
         <div class="admin-card-body">
           <div class="field-row">
-            <div class="field">
-              <label for="p-name">Full Name</label>
-              <input type="text" id="p-name" data-bind="profile.name">
-            </div>
-            <div class="field">
-              <label for="p-initials">Monogram</label>
-              <input type="text" id="p-initials" data-bind="profile.initials" maxlength="3">
-            </div>
+            <div class="field"><label for="p-name">Full Name</label><input type="text" id="p-name" data-bind="profile.name"></div>
+            <div class="field"><label for="p-initials">Monogram</label><input type="text" id="p-initials" data-bind="profile.initials" maxlength="3"></div>
           </div>
-          <div class="field">
-            <label for="p-role">Role / Title</label>
-            <input type="text" id="p-role" data-bind="profile.role">
-          </div>
+          <div class="field"><label for="p-role">Role / Title</label><input type="text" id="p-role" data-bind="profile.role"></div>
           <div class="field">
             <label for="p-tags">Certification Tags</label>
             <input type="text" id="p-tags" data-bind="profile.tags">
@@ -896,15 +872,9 @@
           <div class="field">
             <label>Current Status</label>
             <div class="segmented" id="availabilityToggle">
-              <button type="button" class="segmented-option" data-value="On Duty">
-                <i class="fas fa-circle"></i> On Duty
-              </button>
-              <button type="button" class="segmented-option" data-value="Away">
-                <i class="fas fa-circle-half-stroke"></i> Away
-              </button>
-              <button type="button" class="segmented-option" data-value="Offline">
-                <i class="fas fa-circle-minus"></i> Offline
-              </button>
+              <button type="button" class="segmented-option" data-value="On Duty"><i class="fas fa-circle"></i> On Duty</button>
+              <button type="button" class="segmented-option" data-value="Away"><i class="fas fa-circle-half-stroke"></i> Away</button>
+              <button type="button" class="segmented-option" data-value="Offline"><i class="fas fa-circle-minus"></i> Offline</button>
             </div>
           </div>
           <div class="status-preview">
@@ -924,19 +894,10 @@
         </div>
         <div class="admin-card-body">
           <div class="field-row">
-            <div class="field">
-              <label for="p-license-num">License Number</label>
-              <input type="text" id="p-license-num" data-bind="profile.licenseNumber">
-            </div>
-            <div class="field">
-              <label for="p-license-status">License Status</label>
-              <input type="text" id="p-license-status" data-bind="profile.licenseStatus">
-            </div>
+            <div class="field"><label for="p-license-num">License Number</label><input type="text" id="p-license-num" data-bind="profile.licenseNumber"></div>
+            <div class="field"><label for="p-license-status">License Status</label><input type="text" id="p-license-status" data-bind="profile.licenseStatus"></div>
           </div>
-          <div class="field">
-            <label for="p-license-detail">License Detail (expanded view)</label>
-            <textarea id="p-license-detail" data-bind="profile.licenseDetail"></textarea>
-          </div>
+          <div class="field"><label for="p-license-detail">License Detail (expanded view)</label><textarea id="p-license-detail" data-bind="profile.licenseDetail"></textarea></div>
         </div>
       </div>
 
@@ -946,14 +907,8 @@
           <span class="head-hint">Clinical profile</span>
         </div>
         <div class="admin-card-body">
-          <div class="field">
-            <label for="p-philosophy">Quote</label>
-            <textarea id="p-philosophy" data-bind="profile.philosophy"></textarea>
-          </div>
-          <div class="field">
-            <label for="p-philosophy-detail">Expanded Reflection</label>
-            <textarea id="p-philosophy-detail" data-bind="profile.philosophyDetail"></textarea>
-          </div>
+          <div class="field"><label for="p-philosophy">Quote</label><textarea id="p-philosophy" data-bind="profile.philosophy"></textarea></div>
+          <div class="field"><label for="p-philosophy-detail">Expanded Reflection</label><textarea id="p-philosophy-detail" data-bind="profile.philosophyDetail"></textarea></div>
         </div>
       </div>
 
@@ -963,14 +918,8 @@
           <span class="head-hint">Clinical profile</span>
         </div>
         <div class="admin-card-body">
-          <div class="field">
-            <label for="p-education">Summary Line</label>
-            <input type="text" id="p-education" data-bind="profile.education">
-          </div>
-          <div class="field">
-            <label for="p-education-detail">Full Detail</label>
-            <textarea id="p-education-detail" data-bind="profile.educationDetail"></textarea>
-          </div>
+          <div class="field"><label for="p-education">Summary Line</label><input type="text" id="p-education" data-bind="profile.education"></div>
+          <div class="field"><label for="p-education-detail">Full Detail</label><textarea id="p-education-detail" data-bind="profile.educationDetail"></textarea></div>
         </div>
       </div>
 
@@ -980,9 +929,7 @@
           <span class="head-hint">Tap card to edit</span>
         </div>
         <div class="admin-card-body">
-          <div class="field-help" style="margin-bottom:14px;">
-            Each competency has a card that appears on the portfolio, plus a bottom sheet that opens when someone taps the card.
-          </div>
+          <div class="field-help" style="margin-bottom:14px;">Each competency has a card that appears on the portfolio, plus a bottom sheet that opens when someone taps the card.</div>
           <div class="comp-list" id="compList"></div>
         </div>
       </div>
@@ -993,24 +940,12 @@
           <span class="head-hint">Featured quote</span>
         </div>
         <div class="admin-card-body">
-          <div class="field">
-            <label for="p-testimonial">Quote</label>
-            <textarea id="p-testimonial" data-bind="profile.testimonial"></textarea>
-          </div>
+          <div class="field"><label for="p-testimonial">Quote</label><textarea id="p-testimonial" data-bind="profile.testimonial"></textarea></div>
           <div class="field-row">
-            <div class="field">
-              <label for="p-testimonial-author">Author Name</label>
-              <input type="text" id="p-testimonial-author" data-bind="profile.testimonialAuthor">
-            </div>
-            <div class="field">
-              <label for="p-testimonial-role">Author Relation</label>
-              <input type="text" id="p-testimonial-role" data-bind="profile.testimonialRole">
-            </div>
+            <div class="field"><label for="p-testimonial-author">Author Name</label><input type="text" id="p-testimonial-author" data-bind="profile.testimonialAuthor"></div>
+            <div class="field"><label for="p-testimonial-role">Author Relation</label><input type="text" id="p-testimonial-role" data-bind="profile.testimonialRole"></div>
           </div>
-          <div class="field">
-            <label for="p-testimonial-initials">Author Initials</label>
-            <input type="text" id="p-testimonial-initials" data-bind="profile.testimonialInitials" maxlength="3">
-          </div>
+          <div class="field"><label for="p-testimonial-initials">Author Initials</label><input type="text" id="p-testimonial-initials" data-bind="profile.testimonialInitials" maxlength="3"></div>
         </div>
       </div>
 
@@ -1020,43 +955,23 @@
           <span class="head-hint">Contact panel</span>
         </div>
         <div class="admin-card-body">
-          <div class="field">
-            <label for="p-email">Email</label>
-            <input type="email" id="p-email" data-bind="profile.email">
-          </div>
-          <div class="field">
-            <label for="p-phone">Phone</label>
-            <input type="tel" id="p-phone" data-bind="profile.phone">
-          </div>
-          <div class="field">
-            <label for="p-whatsapp">WhatsApp</label>
-            <input type="tel" id="p-whatsapp" data-bind="profile.whatsapp">
-          </div>
+          <div class="field"><label for="p-email">Email</label><input type="email" id="p-email" data-bind="profile.email"></div>
+          <div class="field"><label for="p-phone">Phone</label><input type="tel" id="p-phone" data-bind="profile.phone"></div>
+          <div class="field"><label for="p-whatsapp">WhatsApp</label><input type="tel" id="p-whatsapp" data-bind="profile.whatsapp"></div>
           <div class="field-row">
-            <div class="field">
-              <label for="p-city">City</label>
-              <input type="text" id="p-city" data-bind="profile.city">
-            </div>
-            <div class="field">
-              <label for="p-state">State</label>
-              <input type="text" id="p-state" data-bind="profile.state">
-            </div>
+            <div class="field"><label for="p-city">City</label><input type="text" id="p-city" data-bind="profile.city"></div>
+            <div class="field"><label for="p-state">State</label><input type="text" id="p-state" data-bind="profile.state"></div>
           </div>
         </div>
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-secondary" id="profileReset">
-          <i class="fas fa-rotate-left"></i> Reset
-        </button>
-        <button class="btn btn-primary" id="profileSave">
-          <i class="fas fa-cloud-arrow-up"></i> Save to Cloud
-        </button>
+        <button class="btn btn-secondary" id="profileReset"><i class="fas fa-rotate-left"></i> Reset</button>
+        <button class="btn btn-primary" id="profileSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
       </div>
-
     </section>
 
-    <!-- ============ QUICK ACTIONS ============ -->
+    <!-- QUICK ACTIONS -->
     <section class="admin-panel" data-panel="actions">
       <div class="admin-card">
         <div class="admin-card-head">
@@ -1064,23 +979,17 @@
           <span class="head-hint">Pills & sheets</span>
         </div>
         <div class="admin-card-body">
-          <div class="field-help" style="margin-bottom:14px;">
-            Edit the label, icon, and content of each pill. Order follows top-to-bottom.
-          </div>
+          <div class="field-help" style="margin-bottom:14px;">Edit the label, icon, and content of each pill. Order follows top-to-bottom.</div>
           <div class="comp-list" id="qaList"></div>
           <div class="btn-row">
-            <button class="btn btn-secondary btn-sm" id="qaReset">
-              <i class="fas fa-rotate-left"></i> Reset
-            </button>
-            <button class="btn btn-primary btn-sm" id="qaSave">
-              <i class="fas fa-cloud-arrow-up"></i> Save to Cloud
-            </button>
+            <button class="btn btn-secondary btn-sm" id="qaReset"><i class="fas fa-rotate-left"></i> Reset</button>
+            <button class="btn btn-primary btn-sm" id="qaSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ JOURNAL ============ -->
+    <!-- JOURNAL -->
     <section class="admin-panel" data-panel="journal">
       <div class="admin-card">
         <div class="admin-card-head">
@@ -1088,9 +997,7 @@
           <span class="head-hint" id="journalCount">0 entries</span>
         </div>
         <div class="admin-card-body">
-          <button class="btn btn-primary btn-block" id="newEntryBtn">
-            <i class="fas fa-plus"></i> New Entry
-          </button>
+          <button class="btn btn-primary btn-block" id="newEntryBtn"><i class="fas fa-plus"></i> New Entry</button>
           <div id="journalList" style="margin-top: 18px;"></div>
         </div>
       </div>
@@ -1109,7 +1016,6 @@
       <button class="composer-close" id="composerClose"><i class="fas fa-times"></i></button>
     </div>
     <div class="composer-body">
-
       <div class="field">
         <label>Cover Photo <span style="text-transform:none; font-weight:500; letter-spacing:0; color:var(--text-muted);">(optional)</span></label>
         <div class="photo-picker" id="photoPicker">
@@ -1118,12 +1024,8 @@
           <div class="photo-picker-text" id="photoPickerText">Add cover photo</div>
           <div class="photo-picker-hint" id="photoPickerHint">Tap to choose from your device</div>
         </div>
-        <div class="photo-status" id="photoStatus" style="display:none;">
-          <i class="fas fa-check-circle"></i>
-          <span id="photoStatusText"></span>
-        </div>
+        <div class="photo-status" id="photoStatus" style="display:none;"><i class="fas fa-check-circle"></i><span id="photoStatusText"></span></div>
       </div>
-
       <div class="field-row">
         <div class="field">
           <label for="c-tag">Category Tag</label>
@@ -1135,23 +1037,11 @@
             <option value="Professional">Professional</option>
           </select>
         </div>
-        <div class="field">
-          <label for="c-readtime">Read Time</label>
-          <input type="text" id="c-readtime" placeholder="5 min read">
-        </div>
+        <div class="field"><label for="c-readtime">Read Time</label><input type="text" id="c-readtime" placeholder="5 min read"></div>
       </div>
-      <div class="field">
-        <label for="c-date">Date Label</label>
-        <input type="text" id="c-date" placeholder="October 2025">
-      </div>
-      <div class="field">
-        <label for="c-title">Title</label>
-        <input type="text" id="c-title">
-      </div>
-      <div class="field">
-        <label for="c-excerpt">Excerpt</label>
-        <textarea id="c-excerpt"></textarea>
-      </div>
+      <div class="field"><label for="c-date">Date Label</label><input type="text" id="c-date" placeholder="October 2025"></div>
+      <div class="field"><label for="c-title">Title</label><input type="text" id="c-title"></div>
+      <div class="field"><label for="c-excerpt">Excerpt</label><textarea id="c-excerpt"></textarea></div>
       <div class="field">
         <label for="c-body">Article Body</label>
         <textarea id="c-body" class="tall"></textarea>
@@ -1183,11 +1073,20 @@
       var PHOTO_BUCKET = 'journal-photos';
       var STORE_KEY = 'prosper_admin_data_v1';
 
+      // ---- SDK guard: fail loud if the SDK did not load ----
+      if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+        document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#991b1b;background:#fee2e2;border:1px solid #fecaca;border-radius:12px;margin:20px;">' +
+          '<h2 style="margin:0 0 10px;font-size:1.1rem;">Supabase SDK failed to load</h2>' +
+          '<p style="font-size:.9rem;line-height:1.5;">The page could not find <code>window.supabase</code>. Check your network connection and reload.</p>' +
+          '</div>';
+        return;
+      }
+
       var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       var cloudOnline = false;
 
       /* ============================================================
-         DEFAULT DATA (used as fallback + reset source)
+         DEFAULT DATA
       ============================================================ */
       var DEFAULTS = {
         profile: {
@@ -1261,18 +1160,18 @@
       };
 
       /* ============================================================
-         CLOUD LOAD / SAVE
+         CLOUD STATUS
       ============================================================ */
-      function setCloudStatus(state, text) {
+      function setCloudStatus(statusState, text) {
         var el = document.getElementById('cloudStatus');
         var icon = document.getElementById('cloudStatusIcon');
-        el.className = 'cloud-status ' + state;
+        el.className = 'cloud-status ' + statusState;
         document.getElementById('cloudStatusText').textContent = text;
-        if (state === 'live') {
+        if (statusState === 'live') {
           icon.className = 'fas fa-cloud';
           cloudOnline = true;
           document.getElementById('adminBadgeText').textContent = 'Live';
-        } else if (state === 'offline') {
+        } else if (statusState === 'offline') {
           icon.className = 'fas fa-cloud-slash';
           cloudOnline = false;
           document.getElementById('adminBadgeText').textContent = 'Offline';
@@ -1282,6 +1181,9 @@
         }
       }
 
+      /* ============================================================
+         CLOUD LOAD / SAVE
+      ============================================================ */
       async function loadFromCloud() {
         setCloudStatus('checking', 'Connecting to Supabase…');
         try {
@@ -1332,12 +1234,13 @@
             journal: journalData
           };
 
-          // Cache locally as offline fallback
           try { localStorage.setItem(STORE_KEY, JSON.stringify(merged)); } catch (e) {}
           return merged;
         } catch (e) {
           console.error('loadFromCloud failed:', e);
-          setCloudStatus('offline', 'Offline — showing cached copy');
+          var errMsg = (e && e.message) ? e.message : (typeof e === 'string' ? e : 'Unknown error');
+          setCloudStatus('offline', 'Error: ' + errMsg);
+          alert('SUPABASE ERROR:\n\n' + errMsg + '\n\nURL: ' + SUPABASE_URL + '\nOnline: ' + navigator.onLine);
           var cached = localStorage.getItem(STORE_KEY);
           if (cached) { try { return JSON.parse(cached); } catch (err) {} }
           return JSON.parse(JSON.stringify(DEFAULTS));
@@ -1347,9 +1250,7 @@
       async function saveProfileToCloud(profile) {
         if (!cloudOnline) return { ok: false, error: { message: 'Offline' } };
         try {
-          var res = await sb.from('profile').upsert({
-            id: 1, data: profile, updated_at: new Date().toISOString()
-          });
+          var res = await sb.from('profile').upsert({ id: 1, data: profile, updated_at: new Date().toISOString() });
           if (res.error) return { ok: false, error: res.error };
           try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
           return { ok: true };
@@ -1359,9 +1260,7 @@
       async function saveQuickActionsToCloud(qaArray) {
         if (!cloudOnline) return { ok: false, error: { message: 'Offline' } };
         try {
-          var res = await sb.from('quick_actions').upsert({
-            id: 1, data: qaArray, updated_at: new Date().toISOString()
-          });
+          var res = await sb.from('quick_actions').upsert({ id: 1, data: qaArray, updated_at: new Date().toISOString() });
           if (res.error) return { ok: false, error: res.error };
           try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
           return { ok: true };
@@ -1395,32 +1294,23 @@
 
       async function uploadPhotoToCloud(dataUrl, entryId) {
         if (!dataUrl) return '';
-        if (dataUrl.indexOf('http') === 0) return dataUrl; // already a URL
+        if (dataUrl.indexOf('http') === 0) return dataUrl;
         if (!cloudOnline) throw new Error('Offline — cannot upload photo');
 
-        // Convert dataURL to Blob
         var res = await fetch(dataUrl);
         var blob = await res.blob();
-
         var path = entryId + '-' + Date.now() + '.jpg';
-        var up = await sb.storage.from(PHOTO_BUCKET).upload(path, blob, {
-          contentType: 'image/jpeg',
-          upsert: true
-        });
+        var up = await sb.storage.from(PHOTO_BUCKET).upload(path, blob, { contentType: 'image/jpeg', upsert: true });
         if (up.error) throw up.error;
-
         var pub = sb.storage.from(PHOTO_BUCKET).getPublicUrl(path);
         return pub.data.publicUrl;
       }
 
       /* ============================================================
-         STATE
+         STATE + TOAST
       ============================================================ */
       var state = JSON.parse(JSON.stringify(DEFAULTS));
 
-      /* ============================================================
-         TOAST
-      ============================================================ */
       var toastTimer = null;
       function showToast(msg, iconClass) {
         var toast = document.getElementById('toast');
@@ -1512,47 +1402,41 @@
             '<div class="comp-item" data-idx="' + i + '">' +
               '<div class="comp-item-head" data-comp-toggle="' + i + '">' +
                 '<div class="comp-item-icon"><i class="fas ' + escapeAttr(c.icon) + '"></i></div>' +
-                '<div class="comp-item-info">' +
-                  '<strong>' + escapeAttr(c.name) + '</strong>' +
-                  '<span>' + escapeAttr(c.sub) + '</span>' +
-                '</div>' +
+                '<div class="comp-item-info"><strong>' + escapeAttr(c.name) + '</strong><span>' + escapeAttr(c.sub) + '</span></div>' +
                 '<span class="comp-item-pct">' + c.percent + '%</span>' +
                 '<span class="comp-chevron"><i class="fas fa-chevron-down"></i></span>' +
               '</div>' +
-              '<div class="comp-item-body">' +
-                '<div class="comp-item-body-inner">' +
-                  '<div class="section-subhead"><i class="fas fa-square"></i> Card (on portfolio)</div>' +
-                  '<div class="field"><label>Name</label><input type="text" data-comp="name" data-idx="' + i + '" value="' + escapeAttr(c.name) + '"></div>' +
-                  '<div class="field"><label>Subtitle</label><input type="text" data-comp="sub" data-idx="' + i + '" value="' + escapeAttr(c.sub) + '"></div>' +
-                  '<div class="field-row">' +
-                    '<div class="field"><label>Card Icon</label><input type="text" data-comp="icon" data-idx="' + i + '" value="' + escapeAttr(c.icon) + '" placeholder="fa-heart-pulse"></div>' +
-                    '<div class="field"><label>Percent</label><input type="number" min="0" max="100" data-comp="percent" data-idx="' + i + '" value="' + c.percent + '"></div>' +
-                  '</div>' +
-                  '<div class="section-subhead"><i class="fas fa-window-restore"></i> Sheet (opens on tap)</div>' +
-                  '<div class="field"><label>Sheet Icon</label><input type="text" data-comp="sheetIcon" data-idx="' + i + '" value="' + escapeAttr(c.sheetIcon || c.icon) + '"></div>' +
-                  '<div class="field"><label>Sheet Title</label><input type="text" data-comp="sheetTitle" data-idx="' + i + '" value="' + escapeAttr(c.sheetTitle || '') + '"></div>' +
-                  '<div class="field"><label>Sheet Subtitle</label><input type="text" data-comp="sheetSubtitle" data-idx="' + i + '" value="' + escapeAttr(c.sheetSubtitle || '') + '"></div>' +
-                  '<div class="field">' +
-                    '<label>Sheet Rows</label>' +
-                    '<div class="rows-editor">' +
-                      (c.rows || []).map(function(row, ri) {
-                        return '' +
-                          '<div class="rows-row">' +
-                            '<div class="rows-row-icon"><i class="fas ' + escapeAttr(row.icon) + '"></i></div>' +
-                            '<div class="rows-row-fields">' +
-                              '<input type="text" data-comp-row="icon" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.icon) + '" placeholder="Icon class">' +
-                              '<input type="text" data-comp-row="label" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.label) + '" placeholder="Label">' +
-                              '<input type="text" data-comp-row="value" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.value) + '" placeholder="Value / text">' +
-                              '<input type="text" data-comp-row="link" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.link || '') + '" placeholder="Link (optional)">' +
-                            '</div>' +
-                            '<button type="button" class="rows-row-remove" data-comp-remove-row="' + i + '" data-row-idx="' + ri + '"><i class="fas fa-trash"></i></button>' +
-                          '</div>';
-                      }).join('') +
-                    '</div>' +
-                    '<button type="button" class="rows-add" data-comp-add-row="' + i + '"><i class="fas fa-plus"></i> Add row</button>' +
-                  '</div>' +
+              '<div class="comp-item-body"><div class="comp-item-body-inner">' +
+                '<div class="section-subhead"><i class="fas fa-square"></i> Card (on portfolio)</div>' +
+                '<div class="field"><label>Name</label><input type="text" data-comp="name" data-idx="' + i + '" value="' + escapeAttr(c.name) + '"></div>' +
+                '<div class="field"><label>Subtitle</label><input type="text" data-comp="sub" data-idx="' + i + '" value="' + escapeAttr(c.sub) + '"></div>' +
+                '<div class="field-row">' +
+                  '<div class="field"><label>Card Icon</label><input type="text" data-comp="icon" data-idx="' + i + '" value="' + escapeAttr(c.icon) + '"></div>' +
+                  '<div class="field"><label>Percent</label><input type="number" min="0" max="100" data-comp="percent" data-idx="' + i + '" value="' + c.percent + '"></div>' +
                 '</div>' +
-              '</div>' +
+                '<div class="section-subhead"><i class="fas fa-window-restore"></i> Sheet (opens on tap)</div>' +
+                '<div class="field"><label>Sheet Icon</label><input type="text" data-comp="sheetIcon" data-idx="' + i + '" value="' + escapeAttr(c.sheetIcon || c.icon) + '"></div>' +
+                '<div class="field"><label>Sheet Title</label><input type="text" data-comp="sheetTitle" data-idx="' + i + '" value="' + escapeAttr(c.sheetTitle || '') + '"></div>' +
+                '<div class="field"><label>Sheet Subtitle</label><input type="text" data-comp="sheetSubtitle" data-idx="' + i + '" value="' + escapeAttr(c.sheetSubtitle || '') + '"></div>' +
+                '<div class="field">' +
+                  '<label>Sheet Rows</label>' +
+                  '<div class="rows-editor">' +
+                    (c.rows || []).map(function(row, ri) {
+                      return '<div class="rows-row">' +
+                        '<div class="rows-row-icon"><i class="fas ' + escapeAttr(row.icon) + '"></i></div>' +
+                        '<div class="rows-row-fields">' +
+                          '<input type="text" data-comp-row="icon" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.icon) + '" placeholder="Icon class">' +
+                          '<input type="text" data-comp-row="label" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.label) + '" placeholder="Label">' +
+                          '<input type="text" data-comp-row="value" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.value) + '" placeholder="Value / text">' +
+                          '<input type="text" data-comp-row="link" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.link || '') + '" placeholder="Link (optional)">' +
+                        '</div>' +
+                        '<button type="button" class="rows-row-remove" data-comp-remove-row="' + i + '" data-row-idx="' + ri + '"><i class="fas fa-trash"></i></button>' +
+                      '</div>';
+                    }).join('') +
+                  '</div>' +
+                  '<button type="button" class="rows-add" data-comp-add-row="' + i + '"><i class="fas fa-plus"></i> Add row</button>' +
+                '</div>' +
+              '</div></div>' +
             '</div>';
         }).join('');
         bindCompetencyEvents();
@@ -1637,48 +1521,41 @@
       function renderQuickActions() {
         var wrap = document.getElementById('qaList');
         wrap.innerHTML = state.quickActions.map(function(qa, i) {
-          return '' +
-            '<div class="comp-item" data-idx="' + i + '">' +
-              '<div class="comp-item-head" data-qa-toggle="' + i + '">' +
-                '<div class="comp-item-icon"><i class="fas ' + escapeAttr(qa.icon) + '"></i></div>' +
-                '<div class="comp-item-info">' +
-                  '<strong>' + escapeAttr(qa.label) + '</strong>' +
-                  '<span>' + qa.rows.length + ' row' + (qa.rows.length === 1 ? '' : 's') + ' · ' + escapeAttr(qa.sheetTitle) + '</span>' +
-                '</div>' +
-                '<span class="comp-chevron"><i class="fas fa-chevron-down"></i></span>' +
+          return '<div class="comp-item" data-idx="' + i + '">' +
+            '<div class="comp-item-head" data-qa-toggle="' + i + '">' +
+              '<div class="comp-item-icon"><i class="fas ' + escapeAttr(qa.icon) + '"></i></div>' +
+              '<div class="comp-item-info"><strong>' + escapeAttr(qa.label) + '</strong><span>' + qa.rows.length + ' row' + (qa.rows.length === 1 ? '' : 's') + ' · ' + escapeAttr(qa.sheetTitle) + '</span></div>' +
+              '<span class="comp-chevron"><i class="fas fa-chevron-down"></i></span>' +
+            '</div>' +
+            '<div class="comp-item-body"><div class="comp-item-body-inner">' +
+              '<div class="section-subhead"><i class="fas fa-square"></i> Pill (on portfolio)</div>' +
+              '<div class="field-row">' +
+                '<div class="field"><label>Button Label</label><input type="text" data-qa="label" data-idx="' + i + '" value="' + escapeAttr(qa.label) + '"></div>' +
+                '<div class="field"><label>Icon Class</label><input type="text" data-qa="icon" data-idx="' + i + '" value="' + escapeAttr(qa.icon) + '"></div>' +
               '</div>' +
-              '<div class="comp-item-body">' +
-                '<div class="comp-item-body-inner">' +
-                  '<div class="section-subhead"><i class="fas fa-square"></i> Pill (on portfolio)</div>' +
-                  '<div class="field-row">' +
-                    '<div class="field"><label>Button Label</label><input type="text" data-qa="label" data-idx="' + i + '" value="' + escapeAttr(qa.label) + '"></div>' +
-                    '<div class="field"><label>Icon Class</label><input type="text" data-qa="icon" data-idx="' + i + '" value="' + escapeAttr(qa.icon) + '"></div>' +
-                  '</div>' +
-                  '<div class="section-subhead"><i class="fas fa-window-restore"></i> Sheet (opens on tap)</div>' +
-                  '<div class="field"><label>Sheet Title</label><input type="text" data-qa="sheetTitle" data-idx="' + i + '" value="' + escapeAttr(qa.sheetTitle) + '"></div>' +
-                  '<div class="field"><label>Sheet Subtitle</label><input type="text" data-qa="sheetSubtitle" data-idx="' + i + '" value="' + escapeAttr(qa.sheetSubtitle) + '"></div>' +
-                  '<div class="field">' +
-                    '<label>Sheet Rows</label>' +
-                    '<div class="rows-editor">' +
-                      qa.rows.map(function(row, ri) {
-                        return '' +
-                          '<div class="rows-row">' +
-                            '<div class="rows-row-icon"><i class="fas ' + escapeAttr(row.icon) + '"></i></div>' +
-                            '<div class="rows-row-fields">' +
-                              '<input type="text" data-qa-row="icon" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.icon) + '" placeholder="Icon class">' +
-                              '<input type="text" data-qa-row="label" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.label) + '" placeholder="Label">' +
-                              '<input type="text" data-qa-row="value" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.value) + '" placeholder="Value / text">' +
-                              '<input type="text" data-qa-row="link" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.link || '') + '" placeholder="Link (optional)">' +
-                            '</div>' +
-                            '<button type="button" class="rows-row-remove" data-qa-remove-row="' + i + '" data-row-idx="' + ri + '"><i class="fas fa-trash"></i></button>' +
-                          '</div>';
-                      }).join('') +
-                    '</div>' +
-                    '<button type="button" class="rows-add" data-qa-add-row="' + i + '"><i class="fas fa-plus"></i> Add row</button>' +
-                  '</div>' +
+              '<div class="section-subhead"><i class="fas fa-window-restore"></i> Sheet (opens on tap)</div>' +
+              '<div class="field"><label>Sheet Title</label><input type="text" data-qa="sheetTitle" data-idx="' + i + '" value="' + escapeAttr(qa.sheetTitle) + '"></div>' +
+              '<div class="field"><label>Sheet Subtitle</label><input type="text" data-qa="sheetSubtitle" data-idx="' + i + '" value="' + escapeAttr(qa.sheetSubtitle) + '"></div>' +
+              '<div class="field">' +
+                '<label>Sheet Rows</label>' +
+                '<div class="rows-editor">' +
+                  qa.rows.map(function(row, ri) {
+                    return '<div class="rows-row">' +
+                      '<div class="rows-row-icon"><i class="fas ' + escapeAttr(row.icon) + '"></i></div>' +
+                      '<div class="rows-row-fields">' +
+                        '<input type="text" data-qa-row="icon" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.icon) + '" placeholder="Icon class">' +
+                        '<input type="text" data-qa-row="label" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.label) + '" placeholder="Label">' +
+                        '<input type="text" data-qa-row="value" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.value) + '" placeholder="Value / text">' +
+                        '<input type="text" data-qa-row="link" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.link || '') + '" placeholder="Link (optional)">' +
+                      '</div>' +
+                      '<button type="button" class="rows-row-remove" data-qa-remove-row="' + i + '" data-row-idx="' + ri + '"><i class="fas fa-trash"></i></button>' +
+                    '</div>';
+                  }).join('') +
                 '</div>' +
+                '<button type="button" class="rows-add" data-qa-add-row="' + i + '"><i class="fas fa-plus"></i> Add row</button>' +
               '</div>' +
-            '</div>';
+            '</div></div>' +
+          '</div>';
         }).join('');
         bindQuickActionEvents();
       }
@@ -1778,23 +1655,22 @@
           var thumb = item.photo
             ? '<div class="journal-item-thumb"><img src="' + escapeAttr(item.photo) + '" alt=""></div>'
             : '<div class="journal-item-thumb"><i class="fas ' + escapeAttr(item.icon || 'fa-book-medical') + '"></i></div>';
-          return '' +
-            '<div class="journal-item" data-id="' + escapeAttr(item.id) + '">' +
-              thumb +
-              '<div class="journal-item-body">' +
-                '<div class="journal-item-tags">' +
-                  '<span class="journal-item-tag">' + escapeAttr(item.tag) + '</span>' +
-                  '<span class="journal-item-meta">' + escapeAttr(item.readtime || '') + '</span>' +
-                '</div>' +
-                '<h3>' + escapeAttr(item.title) + '</h3>' +
-                '<p>' + escapeAttr(item.excerpt) + '</p>' +
-                '<div class="journal-item-meta" style="margin-top:6px;">' + escapeAttr(item.date || '') + '</div>' +
+          return '<div class="journal-item" data-id="' + escapeAttr(item.id) + '">' +
+            thumb +
+            '<div class="journal-item-body">' +
+              '<div class="journal-item-tags">' +
+                '<span class="journal-item-tag">' + escapeAttr(item.tag) + '</span>' +
+                '<span class="journal-item-meta">' + escapeAttr(item.readtime || '') + '</span>' +
               '</div>' +
-              '<div class="journal-item-actions">' +
-                '<button class="icon-btn" data-edit="' + escapeAttr(item.id) + '"><i class="fas fa-pen"></i></button>' +
-                '<button class="icon-btn danger" data-delete="' + escapeAttr(item.id) + '"><i class="fas fa-trash"></i></button>' +
-              '</div>' +
-            '</div>';
+              '<h3>' + escapeAttr(item.title) + '</h3>' +
+              '<p>' + escapeAttr(item.excerpt) + '</p>' +
+              '<div class="journal-item-meta" style="margin-top:6px;">' + escapeAttr(item.date || '') + '</div>' +
+            '</div>' +
+            '<div class="journal-item-actions">' +
+              '<button class="icon-btn" data-edit="' + escapeAttr(item.id) + '"><i class="fas fa-pen"></i></button>' +
+              '<button class="icon-btn danger" data-delete="' + escapeAttr(item.id) + '"><i class="fas fa-trash"></i></button>' +
+            '</div>' +
+          '</div>';
         }).join('');
 
         wrap.querySelectorAll('[data-edit]').forEach(function(btn) {
@@ -1867,8 +1743,7 @@
       function renderPhotoPicker() {
         if (currentPhoto) {
           photoPicker.classList.add('has-photo');
-          photoPicker.innerHTML = '' +
-            '<input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">' +
+          photoPicker.innerHTML = '<input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">' +
             '<img class="photo-preview" src="' + currentPhoto + '" alt="">' +
             '<div class="photo-overlay">' +
               '<span class="photo-overlay-text">Cover photo</span>' +
@@ -1897,8 +1772,7 @@
           }
         } else {
           photoPicker.classList.remove('has-photo');
-          photoPicker.innerHTML = '' +
-            '<input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">' +
+          photoPicker.innerHTML = '<input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">' +
             '<div class="photo-picker-icon"><i class="fas fa-image"></i></div>' +
             '<div class="photo-picker-text">Add cover photo</div>' +
             '<div class="photo-picker-hint">Tap to choose from your device</div>';
@@ -2000,7 +1874,6 @@
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving…';
 
-        // Upload photo first if it's a data URL
         try {
           if (payload.photo && payload.photo.indexOf('http') !== 0) {
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Uploading photo…';
@@ -2022,7 +1895,6 @@
           return;
         }
 
-        // Update local state
         if (editingId) {
           var idx = state.journal.findIndex(function(e) { return e.id === editingId; });
           if (idx > -1) {
@@ -2044,11 +1916,22 @@
          BOOT
       ============================================================ */
       (async function boot() {
-        state = await loadFromCloud();
-        fillProfileForm();
-        renderQuickActions();
-        renderJournalList();
-        renderPhotoPicker();
+        try {
+          state = await loadFromCloud();
+          fillProfileForm();
+          renderQuickActions();
+          renderJournalList();
+          renderPhotoPicker();
+        } catch (err) {
+          console.error('BOOT FAILED:', err);
+          setCloudStatus('offline', 'Boot error: ' + (err.message || err));
+          alert('BOOT FAILED:\n\n' + (err && err.stack ? err.stack : err));
+          state = JSON.parse(JSON.stringify(DEFAULTS));
+          fillProfileForm();
+          renderQuickActions();
+          renderJournalList();
+          renderPhotoPicker();
+        }
       })();
 
     })();
