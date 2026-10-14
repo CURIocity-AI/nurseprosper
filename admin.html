@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Admin · Prosper Bassey RN</title>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --primary-glow: rgba(2, 132, 199, 0.25);
+      --navy: #0f2a4a;
+      --navy-light: #1e3a5f;
+      --sky: #7dd3fc;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --offline: #94a3b8;
+      --text: #0f172a;
+      --text-light: #475569;
+      --text-muted: #94a3b8;
+      --bg: #eef4fb;
+      --card: #ffffff;
+      --border: #dbe7f5;
+      --border-strong: #b8d1ec;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .admin-topbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 80;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding-top: env(safe-area-inset-top);
+    }
+
+    .admin-topbar-inner {
+      max-width: 900px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 18px; gap: 12px;
+    }
+
+    .admin-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+    .admin-brand-mark {
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--navy));
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .admin-brand-text { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
+    .admin-brand-text strong {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.88rem; font-weight: 700; color: var(--navy);
+      letter-spacing: -0.01em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .admin-brand-text span {
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--primary);
+    }
+
+    .admin-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--navy);
+      background: var(--primary-light);
+      border: 1px solid var(--border-strong);
+      padding: 5px 10px; border-radius: 40px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    .admin-badge i { font-size: 0.55rem; color: var(--primary); }
+
+    .admin-page {
+      max-width: 900px; margin: 0 auto;
+      padding: calc(76px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom));
+    }
+
+    .admin-tabs {
+      display: flex; gap: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 5px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 14px -8px rgba(15, 42, 74, 0.2);
+    }
+
+    .admin-tab {
+      flex: 1;
+      padding: 11px 14px;
+      border-radius: 50px;
+      border: none;
+      background: transparent;
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+    }
+
+    .admin-tab i { font-size: 0.8rem; }
+
+    .admin-tab.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 8px 20px -10px var(--primary-glow);
+    }
+
+    .admin-tab:active { transform: scale(0.97); }
+
+    .admin-panel { display: none; animation: panelIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .admin-panel.active { display: block; }
+
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .admin-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px -14px rgba(15, 42, 74, 0.2);
+    }
+
+    .admin-card-head {
+      padding: 16px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+      background: #f8fbfe;
+    }
+
+    .admin-card-head h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.98rem; font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .admin-card-head h2 i { color: var(--primary); font-size: 0.9rem; }
+
+    .admin-card-head .head-hint {
+      font-size: 0.65rem; font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+
+    .admin-card-body { padding: 18px 20px 20px; }
+
+    .field { margin-bottom: 14px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field label {
+      display: block;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 12px;
+      background: #f8fbfe;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 500;
+      line-height: 1.5;
+      transition: all 0.25s;
+      outline: none;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+
+    .field textarea { min-height: 90px; resize: vertical; }
+    .field textarea.tall { min-height: 200px; }
+
+    .field .field-help {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .field-row { grid-template-columns: 1fr; }
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: #f1f6fc;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 14px;
+      padding: 5px;
+    }
+
+    .segmented-option {
+      padding: 12px 8px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+
+    .segmented-option i { font-size: 0.7rem; transition: all 0.3s; }
+    .segmented-option:active { transform: scale(0.96); }
+
+    .segmented-option.active {
+      background: white;
+      color: var(--navy);
+      box-shadow: 0 4px 12px -6px rgba(15, 42, 74, 0.25);
+    }
+
+    .segmented-option.active i { color: var(--primary); }
+
+    .segmented-option[data-value="On Duty"].active { background: #dcfce7; color: #166534; }
+    .segmented-option[data-value="On Duty"].active i { color: var(--success); }
+
+    .segmented-option[data-value="Away"].active { background: #fef3c7; color: #92400e; }
+    .segmented-option[data-value="Away"].active i { color: var(--warning); }
+
+    .segmented-option[data-value="Offline"].active { background: #f1f5f9; color: #475569; }
+    .segmented-option[data-value="Offline"].active i { color: var(--offline); }
+
+    .status-preview {
+      margin-top: 10px;
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 12px;
+      background: #f8fbfe;
+      border: 1px dashed var(--border-strong);
+      border-radius: 12px;
+      font-size: 0.72rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .status-preview-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px;
+      border-radius: 40px;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border: 1px solid;
+    }
+
+    .status-preview-pill.duty { background: #dcfce7; border-color: #bbf7d0; color: #166534; }
+    .status-preview-pill.away { background: #fef3c7; border-color: #fde68a; color: #92400e; }
+    .status-preview-pill.offline { background: #f1f5f9; border-color: #cbd5e1; color: #475569; }
+
+    .status-preview-pill i { font-size: 0.5rem; }
+    .status-preview-pill.duty i { color: var(--success); animation: statusPulse 2s infinite; }
+    .status-preview-pill.away i { color: var(--warning); }
+    .status-preview-pill.offline i { color: var(--offline); }
+
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 50px;
+      border: 1.5px solid transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
+    }
+
+    .btn:active { transform: scale(0.96); }
+
+    .btn-primary { background: var(--navy); color: white; border-color: var(--navy); }
+    .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+
+    .btn-secondary { background: var(--primary-light); color: var(--primary-dark); border-color: var(--border-strong); }
+    .btn-secondary:hover { background: white; border-color: var(--primary); }
+
+    .btn-sm { padding: 8px 14px; font-size: 0.72rem; }
+    .btn-block { width: 100%; }
+
+    .btn-row {
+      display: flex; gap: 10px;
+      margin-top: 16px; flex-wrap: wrap;
+    }
+
+    .btn-row .btn { flex: 1; min-width: 120px; }
+
+    /* ---------- COMPETENCY EDITOR (expandable cards) ---------- */
+    .comp-list {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+
+    .comp-item {
+      background: #f8fbfe;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .comp-item.open {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+
+    .comp-item-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+
+    .comp-item-head:hover { background: #eef6fd; }
+
+    .comp-item-icon {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .comp-item-info { flex: 1; min-width: 0; }
+
+    .comp-item-info strong {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+      display: block;
+      line-height: 1.25;
+    }
+
+    .comp-item-info span {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: block;
+      margin-top: 1px;
+    }
+
+    .comp-item-pct {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 800;
+      color: var(--primary);
+      padding: 4px 10px;
+      background: white;
+      border: 1px solid var(--border-strong);
+      border-radius: 40px;
+      flex-shrink: 0;
+    }
+
+    .comp-chevron {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--border-strong);
+      color: var(--text-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0;
+    }
+
+    .comp-item.open .comp-chevron {
+      transform: rotate(180deg);
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .comp-item-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border-top: 1px solid transparent;
+    }
+
+    .comp-item.open .comp-item-body {
+      max-height: 3000px;
+      border-top-color: var(--border);
+    }
+
+    .comp-item-body-inner { padding: 16px 14px 14px; }
+
+    /* Reusable rows editor (shared by QA + Comp) */
+    .rows-editor {
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .rows-row {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 34px 1fr 34px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .rows-row-icon {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    .rows-row-fields { display: flex; flex-direction: column; gap: 6px; }
+
+    .rows-row-fields input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #f8fbfe;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; font-weight: 500;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .rows-row-fields input:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    .rows-row-fields input::placeholder { color: var(--text-muted); }
+
+    .rows-row-remove {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      border: 1px solid #fecaca;
+      background: #fef2f2;
+      color: var(--danger);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .rows-row-remove:hover { background: var(--danger); color: white; border-color: var(--danger); }
+    .rows-row-remove:active { transform: scale(0.92); }
+
+    .rows-add {
+      width: 100%;
+      padding: 10px;
+      border: 1.5px dashed var(--border-strong);
+      border-radius: 12px;
+      background: transparent;
+      color: var(--primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .rows-add:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      border-style: solid;
+    }
+
+    .rows-add:active { transform: scale(0.98); }
+
+    .section-subhead {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 18px 0 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed var(--border-strong);
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .section-subhead:first-child { margin-top: 0; }
+
+    .section-subhead i { color: var(--primary); font-size: 0.7rem; }
+
+    /* ---------- JOURNAL (unchanged) ---------- */
+    .journal-item {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px dashed var(--border-strong);
+    }
+
+    .journal-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .journal-item:first-child { padding-top: 0; }
+
+    .journal-item-body { flex: 1; min-width: 0; }
+
+    .journal-item-tags {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 6px; flex-wrap: wrap;
+    }
+
+    .journal-item-tag {
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 40px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border: 1px solid var(--border-strong);
+    }
+
+    .journal-item-meta {
+      font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .journal-item h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .journal-item p {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .journal-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+    .icon-btn {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--border-strong);
+      background: #fff;
+      color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .icon-btn:hover { background: var(--primary-light); border-color: var(--primary); }
+    .icon-btn.danger { color: var(--danger); border-color: #fecaca; }
+    .icon-btn.danger:hover { background: var(--danger); color: white; border-color: var(--danger); }
+    .icon-btn:active { transform: scale(0.92); }
+
+    /* ---------- COMPOSER (journal) ---------- */
+    .composer-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15, 42, 74, 0.5);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 200;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s;
+    }
+    .composer-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .composer {
+      position: fixed;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%) translateY(100%);
+      width: 100%; max-width: 720px;
+      background: #fff;
+      border-radius: 26px 26px 0 0;
+      z-index: 201;
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 -20px 50px -15px rgba(0, 0, 0, 0.3);
+    }
+    .composer.active { transform: translateX(-50%) translateY(0); }
+
+    .composer-head {
+      position: sticky; top: 0; z-index: 5;
+      background: #fff;
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+    }
+
+    .composer-head-text { display: flex; flex-direction: column; gap: 2px; }
+
+    .composer-head h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1rem; font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+
+    .composer-head .kicker {
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    .composer-close {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      background: #fff;
+      color: var(--text-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      flex-shrink: 0;
+    }
+
+    .composer-close:hover { background: var(--danger); color: white; border-color: var(--danger); }
+    .composer-close:active { transform: rotate(90deg); }
+
+    .composer-body { padding: 20px 22px 22px; }
+
+    .composer-foot {
+      position: sticky; bottom: 0; z-index: 5;
+      background: #fff;
+      padding: 14px 22px calc(18px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--border);
+      display: flex; gap: 10px;
+    }
+
+    .composer-foot .btn { flex: 1; }
+
+    /* ---------- STORAGE NOTICE ---------- */
+    .storage-notice {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+
+    .storage-notice i {
+      color: var(--warning);
+      font-size: 0.9rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .storage-notice p {
+      font-size: 0.72rem;
+      color: #78350f;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .storage-notice strong { font-weight: 700; }
+
+    /* ---------- TOAST ---------- */
+    .toast {
+      position: fixed;
+      bottom: 90px; left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--navy);
+      color: white;
+      padding: 12px 22px;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.76rem; font-weight: 600;
+      letter-spacing: 0.02em;
+      z-index: 300;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 12px 28px -8px rgba(15, 42, 74, 0.5);
+      white-space: nowrap;
+      max-width: 90vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toast i { color: var(--sky); font-size: 0.85rem; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="admin-topbar">
+    <div class="admin-topbar-inner">
+      <div class="admin-brand">
+        <div class="admin-brand-mark">PB</div>
+        <div class="admin-brand-text">
+          <strong>Prosper Bassey · Admin</strong>
+          <span>Content Manager</span>
+        </div>
+      </div>
+      <div class="admin-badge">
+        <i class="fas fa-pen-to-square"></i> Editing
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-page">
+
+    <div class="storage-notice">
+      <i class="fas fa-triangle-exclamation"></i>
+      <p><strong>Local preview mode.</strong> Changes save to this browser only and won't appear for visitors yet. Once the backend is connected, edits will publish live to the portfolio.</p>
+    </div>
+
+    <div class="admin-tabs" role="tablist">
+      <button class="admin-tab active" data-tab="profile" role="tab">
+        <i class="fas fa-id-card"></i> Profile
+      </button>
+      <button class="admin-tab" data-tab="actions" role="tab">
+        <i class="fas fa-bolt"></i> Quick Actions
+      </button>
+      <button class="admin-tab" data-tab="journal" role="tab">
+        <i class="fas fa-book-medical"></i> Journal
+      </button>
+    </div>
+
+    <!-- ============ PROFILE ============ -->
+    <section class="admin-panel active" data-panel="profile">
+
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="fas fa-user"></i> Identity</h2>
+          <span class="head-hint">Top of page</span>
+        </div>
+        <div class="admin-card-body">
+          <div class="field-row">
+            <div class="field">
+              <label for="p-name">Full Name</label>
+              <input type="text" id="p-name" data-bind="profile.name">
+            </div>
+            <div class="field">
+              <label for="p-initials">Monogram</label>
+              <input type="text" id="p-initials" data-bind="profile.initials" maxlength="3">
+            </div>
+          </div>
+          <div class="field">
+            <label for="p-role">Role / Title</label>
+            <input type="text" id="p-role" data-bind="profile.role">
+          </div>
+          <div class="field">
+            <label for="p-tags">Certification Tags</label>
+            <input type="text" id="p-tags" data-bind="profile.tags">
+            <div class="field-help">Comma-separated. These show as pills under the name.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="fas fa-signal"></i> Availability</h2>
+          <span class="head-hint">Status pill</span>
+        </div>
+        <div class="admin-card-body">
+          <div class="field">
+            <label>Current Status</label>
+            <div class="segmented" id="availabilityToggle">
+              <button type="button" class="segmented-option" data-value="On Duty">
+                <i class="fas fa-circle"></i> On Duty
+              </button>
+              <button type="button" class="segmented-option" data-value="Away">
+                <i class="fas fa-circle-half-stroke"></i> Away
+              </button>
+              <button type="button" class="segmented-option" data-value="Offline">
+                <i class="fas fa-circle-minus"></i> Offline
+              </button>
+            </div>
+          </div>
+          <div class="status-preview">
+            <span>Preview:</span>
+            <span class="status-preview-pill duty" id="statusPreviewPill">
+              <i class="fas fa-circle"></i>
+              <span id="statusPreviewText">On Duty</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="fas fa-id-card"></i> License</h2>
+          <span class="head-hint">ID banner</span>
+        </div>
+        <div class="admin-card-body">
+          <div class="field-row">
+            <div class="field">
+              <label for="p-license-num">License Number</label>
+              <input type="text" id="p-license-num" data-bind="profile.licenseNumber">
+            </div>
+            <div class="field">
+              <label for="p-license-status">License Status</label>
+              <input type="text" id="p-license-status" data-bind="profile.licenseStatus">
+            </div>
+          </div>
+          <div class="field">
+            <label for="p-license-detail">License Detail (expanded view)</label>
+            <textarea id="p-license-detail" data-bind="profile.licenseDetail"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="fas fa-quote-left"></i> Philosophy of Care</h2>
+          <span class="head-hint">Clinical profile</span>
+        </div>
+        <div class="admin-card-body">
+          <div class="field">
+            <label for="p-philosophy">Quote</label>
+            <textarea id="p-philosophy" data-bind="profile.philosophy"></textarea>
+          </div>
+          <div class="field">
+            <label for="p-philosophy-detail">Expanded Reflection</label>
+            <textarea id="p-philosophy-detail" data-bind="profile.philosophyDetail"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+          <span class="head-hint">Clinical profile</span>
+        </div>
+        <div class="admin-card-body">
+          <div class="field">
+            <label for="p-education">Summary Line</label>
+            <input type="text" id="p-education" data-bind="profile.education">
+          </div>
+          <div class="field">
+            <label for="p-education-detail">Full Detail</label>
+            <textarea id="p-education-detail" data-bind="profile.educationDetail"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPETENCIES -->
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="fas fa-chart-simple"></i> Competencies</h2>
+          <span class="head-hint">Tap card to edit</span>
+        </div>
+        <div class="admin-card-body">
+          <div class="field-help" style="margin-bottom:14px;">
+            Each competency has a card that appears on the portfolio, plus a bottom sheet that opens when someone taps the card. Fill in both.
+          </div>
+          <div class="comp-list" id="compList"></div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="fas fa-comment-dots"></i> Testimonial</h2>
+          <span class="head-hint">Featured quote</span>
+        </div>
+        <div class="admin-card-body">
+          <div class="field">
+            <label for="p-testimonial">Quote</label>
+            <textarea id="p-testimonial" data-bind="profile.testimonial"></textarea>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="p-testimonial-author">Author Name</label>
+              <input type="text" id="p-testimonial-author" data-bind="profile.testimonialAuthor">
+            </div>
+            <div class="field">
+              <label for="p-testimonial-role">Author Relation</label>
+              <input type="text" id="p-testimonial-role" data-bind="profile.testimonialRole">
+            </div>
+          </div>
+          <div class="field">
+            <label for="p-testimonial-initials">Author Initials</label>
+            <input type="text" id="p-testimonial-initials" data-bind="profile.testimonialInitials" maxlength="3">
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="fas fa-address-card"></i> Contact</h2>
+          <span class="head-hint">Contact panel</span>
+        </div>
+        <div class="admin-card-body">
+          <div class="field">
+            <label for="p-email">Email</label>
+            <input type="email" id="p-email" data-bind="profile.email">
+          </div>
+          <div class="field">
+            <label for="p-phone">Phone</label>
+            <input type="tel" id="p-phone" data-bind="profile.phone">
+          </div>
+          <div class="field">
+            <label for="p-whatsapp">WhatsApp</label>
+            <input type="tel" id="p-whatsapp" data-bind="profile.whatsapp">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="p-city">City</label>
+              <input type="text" id="p-city" data-bind="profile.city">
+            </div>
+            <div class="field">
+              <label for="p-state">State</label>
+              <input type="text" id="p-state" data-bind="profile.state">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="profileReset">
+          <i class="fas fa-rotate-left"></i> Reset to defaults
+        </button>
+        <button class="btn btn-primary" id="profileSave">
+          <i class="fas fa-check"></i> Save Profile
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ============ QUICK ACTIONS ============ -->
+    <section class="admin-panel" data-panel="actions">
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="fas fa-bolt"></i> Quick Action Buttons</h2>
+          <span class="head-hint">Pills & sheets</span>
+        </div>
+        <div class="admin-card-body">
+          <div class="field-help" style="margin-bottom:14px;">
+            Edit the label, icon, and content of each pill. Order follows top-to-bottom.
+          </div>
+          <div class="comp-list" id="qaList"></div>
+          <div class="btn-row">
+            <button class="btn btn-secondary btn-sm" id="qaReset">
+              <i class="fas fa-rotate-left"></i> Reset
+            </button>
+            <button class="btn btn-primary btn-sm" id="qaSave">
+              <i class="fas fa-check"></i> Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ JOURNAL ============ -->
+    <section class="admin-panel" data-panel="journal">
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="fas fa-book-medical"></i> Journal Entries</h2>
+          <span class="head-hint" id="journalCount">0 entries</span>
+        </div>
+        <div class="admin-card-body">
+          <button class="btn btn-primary btn-block" id="newEntryBtn">
+            <i class="fas fa-plus"></i> New Entry
+          </button>
+          <div id="journalList" style="margin-top: 18px;"></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="journalReset">
+          <i class="fas fa-rotate-left"></i> Reset to defaults
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- COMPOSER -->
+  <div class="composer-overlay" id="composerOverlay"></div>
+  <div class="composer" id="composer">
+    <div class="composer-head">
+      <div class="composer-head-text">
+        <span class="kicker" id="composerKicker">New Entry</span>
+        <h2 id="composerTitle">Write a journal entry</h2>
+      </div>
+      <button class="composer-close" id="composerClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="composer-body">
+      <div class="field-row">
+        <div class="field">
+          <label for="c-tag">Category Tag</label>
+          <select id="c-tag">
+            <option value="Patient Care">Patient Care</option>
+            <option value="Prevention">Prevention</option>
+            <option value="Reflections">Reflections</option>
+            <option value="Family Guidance">Family Guidance</option>
+            <option value="Professional">Professional</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="c-readtime">Read Time</label>
+          <input type="text" id="c-readtime" placeholder="5 min read">
+        </div>
+      </div>
+      <div class="field">
+        <label for="c-date">Date Label</label>
+        <input type="text" id="c-date" placeholder="October 2025">
+      </div>
+      <div class="field">
+        <label for="c-title">Title</label>
+        <input type="text" id="c-title">
+      </div>
+      <div class="field">
+        <label for="c-excerpt">Excerpt</label>
+        <textarea id="c-excerpt"></textarea>
+      </div>
+      <div class="field">
+        <label for="c-body">Article Body</label>
+        <textarea id="c-body" class="tall"></textarea>
+        <div class="field-help">Plain text. Blank line = new paragraph. <strong>##</strong> = heading. <strong>—</strong> = bullet. <strong>&gt;</strong> = callout.</div>
+      </div>
+      <div class="field">
+        <label for="c-icon">Icon (Font Awesome class)</label>
+        <input type="text" id="c-icon" placeholder="fa-hospital-user">
+      </div>
+    </div>
+    <div class="composer-foot">
+      <button class="btn btn-secondary" id="composerCancel">Cancel</button>
+      <button class="btn btn-primary" id="composerSave"><i class="fas fa-check"></i> Save Entry</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><i class="fas fa-circle-info"></i><span id="toastText"></span></div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      var STORE_KEY = 'prosper_admin_data_v1';
+
+      var DEFAULTS = {
+        profile: {
+          name: 'Prosper Bassey',
+          initials: 'PB',
+          role: 'BSN, RN · Critical Care Nurse',
+          tags: 'ACLS, PALS, BLS',
+          availability: 'On Duty',
+          licenseNumber: '#RN-9017297650',
+          licenseStatus: 'Verified Active',
+          licenseDetail: 'Licensed by the Nursing and Midwifery Council of Nigeria. Current in good standing with continuing education credits completed for 2025. Valid through December 2026.',
+          philosophy: '"What God cannot do, does not exist. I bring that same faith and dedication to every patient I serve."',
+          philosophyDetail: 'I believe in holistic, patient-centered care that addresses physical, emotional, and spiritual needs. Every patient deserves dignity, compassion, and my full attention — regardless of circumstance.',
+          education: 'BSN · Ikot Apkaden, Akwa Ibom',
+          educationDetail: 'Bachelor of Science in Nursing. Specialized training in critical care, Pediatric Advanced Life Support (PALS), and Advanced Cardiac Life Support (ACLS). Based in Akwa Ibom State, Nigeria.',
+          competencies: [
+            {
+              name: 'Critical Care',
+              sub: 'ICU · Ventilators · ACLS',
+              icon: 'fa-heart-pulse',
+              percent: 95,
+              sheetIcon: 'fa-heart-pulse',
+              sheetTitle: 'Critical Care Nursing',
+              sheetSubtitle: 'High-acuity patient management',
+              rows: [
+                { icon: 'fa-heartbeat', label: 'Hemodynamic Monitoring', value: 'Advanced cardiac and blood pressure management', link: '' },
+                { icon: 'fa-lungs', label: 'Ventilator Management', value: 'Invasive and non-invasive ventilation expertise', link: '' },
+                { icon: 'fa-syringe', label: 'Rapid Response', value: 'Code blue and emergency intervention certified', link: '' }
+              ]
+            },
+            {
+              name: 'Pediatric & Maternal',
+              sub: 'NICU · Postpartum · PALS',
+              icon: 'fa-child',
+              percent: 88,
+              sheetIcon: 'fa-child',
+              sheetTitle: 'Pediatric & Maternal Care',
+              sheetSubtitle: 'Family-centered compassionate care',
+              rows: [
+                { icon: 'fa-baby', label: 'Neonatal Care', value: 'NICU trained with premature infant expertise', link: '' },
+                { icon: 'fa-female', label: 'Postpartum Support', value: 'Mother-baby bonding and lactation support', link: '' },
+                { icon: 'fa-child', label: 'Pediatric Assessment', value: 'Age-appropriate care for children 0–18', link: '' }
+              ]
+            },
+            {
+              name: 'Community Health',
+              sub: 'Public Health · Education',
+              icon: 'fa-house-medical',
+              percent: 82,
+              sheetIcon: 'fa-house-medical',
+              sheetTitle: 'Community Health',
+              sheetSubtitle: 'Preventive care and health education',
+              rows: [
+                { icon: 'fa-people-group', label: 'Health Screenings', value: 'Blood pressure, diabetes, and wellness checks', link: '' },
+                { icon: 'fa-book-medical', label: 'Patient Education', value: 'Chronic disease management and prevention', link: '' },
+                { icon: 'fa-hand-holding-heart', label: 'Outreach Programs', value: 'Community health initiatives and vaccination drives', link: '' }
+              ]
+            },
+            {
+              name: 'Mental Health',
+              sub: 'Crisis · Psychiatric Care',
+              icon: 'fa-brain',
+              percent: 76,
+              sheetIcon: 'fa-brain',
+              sheetTitle: 'Mental Health Nursing',
+              sheetSubtitle: 'Psychiatric and crisis care',
+              rows: [
+                { icon: 'fa-comments', label: 'Crisis Intervention', value: 'De-escalation and acute psychiatric support', link: '' },
+                { icon: 'fa-hands-holding', label: 'Therapeutic Communication', value: 'Trauma-informed patient engagement', link: '' },
+                { icon: 'fa-pills', label: 'Medication Support', value: 'Psychotropic medication management', link: '' }
+              ]
+            }
+          ],
+          testimonial: 'Nurse Prosper stayed past her shift to sit with my mother through a difficult night. That is not just nursing — that is calling. Our family will never forget it.',
+          testimonialAuthor: 'Ekemini N.',
+          testimonialRole: 'Family of Patient',
+          testimonialInitials: 'EN',
+          email: 'prosperbassey06@gmail.com',
+          phone: '09017297650',
+          whatsapp: '09017297650',
+          city: 'Ikot Apkaden',
+          state: 'Akwa Ibom'
+        },
+        quickActions: [
+          { id: 'qa-message', label: 'Message', icon: 'fa-comment-medical', sheetTitle: 'Send a Message', sheetSubtitle: 'Typically responds within 2 hours', rows: [
+            { icon: 'fa-envelope', label: 'Email', value: 'prosperbassey06@gmail.com', link: 'mailto:prosperbassey06@gmail.com' },
+            { icon: 'fa-whatsapp', label: 'WhatsApp', value: '09017297650', link: 'https://wa.me/2349017297650' },
+            { icon: 'fa-clock', label: 'Response Time', value: 'Usually within 2 hours, Mon–Sat', link: '' }
+          ]},
+          { id: 'qa-book', label: 'Book', icon: 'fa-calendar-check', sheetTitle: 'Book an Appointment', sheetSubtitle: 'Choose a format that works for you', rows: [
+            { icon: 'fa-video', label: 'Virtual Consultation', value: '30 min · Secure video call', link: '' },
+            { icon: 'fa-hospital', label: 'In-Person Visit', value: '45 min · At your location', link: '' },
+            { icon: 'fa-phone', label: 'Phone Consultation', value: '20 min · Voice call', link: '' }
+          ]},
+          { id: 'qa-call', label: 'Call', icon: 'fa-phone-alt', sheetTitle: 'Call Prosper Bassey', sheetSubtitle: 'Available Mon–Sat, 8am–8pm', rows: [
+            { icon: 'fa-mobile-alt', label: 'Primary Phone', value: '09017297650', link: 'tel:09017297650' },
+            { icon: 'fa-whatsapp', label: 'WhatsApp', value: '09017297650', link: 'https://wa.me/2349017297650' },
+            { icon: 'fa-map-marker-alt', label: 'Location', value: 'Ikot Apkaden, Akwa Ibom', link: '' }
+          ]},
+          { id: 'qa-records', label: 'Records', icon: 'fa-file-medical', sheetTitle: 'Medical Records', sheetSubtitle: 'Secure, confidential, HIPAA-aligned', rows: [
+            { icon: 'fa-lock', label: 'Patient Portal', value: 'Access your records securely online', link: '' },
+            { icon: 'fa-file-pdf', label: 'Request Records', value: 'Submit a records request form', link: '' },
+            { icon: 'fa-shield', label: 'Privacy Guaranteed', value: 'Your information is protected end-to-end', link: '' }
+          ]},
+          { id: 'qa-share', label: 'Share', icon: 'fa-share-nodes', sheetTitle: 'Share Prosper\'s Profile', sheetSubtitle: 'Help others connect with quality care', rows: [
+            { icon: 'fa-link', label: 'Copy Link', value: 'Copy profile URL to clipboard', link: '' },
+            { icon: 'fa-envelope', label: 'Email', value: 'Share via email', link: '' },
+            { icon: 'fa-whatsapp', label: 'WhatsApp', value: 'Share via WhatsApp', link: '' }
+          ]}
+        ],
+        journal: [
+          { id: 'seed-icu-family', tag: 'Patient Care', readtime: '5 min read', date: 'October 2025', title: 'What I Wish Every Family Knew Before an ICU Admission', excerpt: 'The monitors, the tubes, the beeping — it can feel overwhelming. Here is what actually matters in those first hours.', body: 'When a loved one is admitted to the ICU, everything happens at once.\n\nThis is what I wish every family knew before they walk through those doors.\n\n## The beeping is not always bad\nMonitors alarm for many reasons: a loose sensor, a patient shifting in bed, an artifact from movement.\n\n## Ask these three questions\n— What is the main problem we are treating right now?\n— What is the goal for today?\n— Who is the best person to speak with for an update?\n\n> Take care of yourself too. Eat. Sleep. Step outside. You cannot pour from an empty cup.', icon: 'fa-hospital-user', createdAt: 1698796800000 },
+          { id: 'seed-bp-numbers', tag: 'Prevention', readtime: '4 min read', date: 'September 2025', title: 'The Blood Pressure Numbers You Should Never Ignore', excerpt: 'Most people wait too long. A few simple thresholds can tell you when it is time to seek care.', body: 'High blood pressure is often called the "silent killer".\n\n## The general ranges\n— Normal: below 120/80 mmHg\n— Elevated: 120–129 / below 80\n— Stage 1: 140+ / 90+\n— Crisis: above 180 / 120\n\n> If your reading is above 180/120 with chest pain or severe headache — seek emergency care immediately.', icon: 'fa-heart-pulse', createdAt: 1695081600000 },
+          { id: 'seed-why-critical-care', tag: 'Reflections', readtime: '3 min read', date: 'August 2025', title: 'Why I Chose Critical Care', excerpt: 'It was never about the machines. It was about the person on the other side of them.', body: 'People often ask me why I chose critical care.\n\nI chose it because I believe no one should die alone, and no family should feel abandoned in the worst moment of their lives.\n\n> "What God cannot do, does not exist." That is my anchor.\n\nThis is not just a job for me. It is a calling.', icon: 'fa-heart', createdAt: 1690848000000 }
+        ]
+      };
+
+      function loadData() {
+        try {
+          var raw = localStorage.getItem(STORE_KEY);
+          if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
+          var parsed = JSON.parse(raw);
+          var merged = {
+            profile: Object.assign({}, DEFAULTS.profile, parsed.profile || {}),
+            quickActions: Array.isArray(parsed.quickActions) && parsed.quickActions.length ? parsed.quickActions : JSON.parse(JSON.stringify(DEFAULTS.quickActions)),
+            journal: Array.isArray(parsed.journal) ? parsed.journal : DEFAULTS.journal.slice()
+          };
+          // Ensure competency sheet fields exist (schema migration)
+          merged.profile.competencies = (merged.profile.competencies || DEFAULTS.profile.competencies).map(function(c, i) {
+            var def = DEFAULTS.profile.competencies[i] || {};
+            return {
+              name: c.name || def.name || '',
+              sub: c.sub || def.sub || '',
+              icon: c.icon || def.icon || 'fa-circle',
+              percent: (typeof c.percent === 'number') ? c.percent : (def.percent || 0),
+              sheetIcon: c.sheetIcon || def.sheetIcon || c.icon || 'fa-circle',
+              sheetTitle: c.sheetTitle || def.sheetTitle || (c.name || ''),
+              sheetSubtitle: c.sheetSubtitle || def.sheetSubtitle || (c.sub || ''),
+              rows: Array.isArray(c.rows) ? c.rows : (def.rows || [])
+            };
+          });
+          return merged;
+        } catch (e) {
+          return JSON.parse(JSON.stringify(DEFAULTS));
+        }
+      }
+
+      function saveData(data) {
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); return true; }
+        catch (e) { return false; }
+      }
+
+      var state = loadData();
+
+      var toastTimer = null;
+      function showToast(msg, iconClass) {
+        var toast = document.getElementById('toast');
+        var text = document.getElementById('toastText');
+        var icon = toast.querySelector('i');
+        text.textContent = msg;
+        if (iconClass) icon.className = iconClass;
+        toast.classList.add('show');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2400);
+      }
+
+      document.querySelectorAll('.admin-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var target = this.getAttribute('data-tab');
+          document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
+          document.querySelectorAll('.admin-panel').forEach(function(p) { p.classList.remove('active'); });
+          this.classList.add('active');
+          document.querySelector('[data-panel="' + target + '"]').classList.add('active');
+        });
+      });
+
+      function setByPath(obj, path, value) {
+        var parts = path.split('.');
+        var cur = obj;
+        for (var i = 0; i < parts.length - 1; i++) { cur = cur[parts[i]]; }
+        cur[parts[parts.length - 1]] = value;
+      }
+
+      function getByPath(obj, path) {
+        return path.split('.').reduce(function(acc, k) { return acc && acc[k]; }, obj);
+      }
+
+      function escapeAttr(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+          .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      /* ============================================================
+         PROFILE
+      ============================================================ */
+      function fillProfileForm() {
+        document.querySelectorAll('[data-bind]').forEach(function(el) {
+          var val = getByPath(state, el.getAttribute('data-bind'));
+          if (val !== undefined && val !== null) el.value = val;
+        });
+        renderCompetencyEditor();
+        renderAvailability();
+      }
+
+      /* ---------- AVAILABILITY ---------- */
+      function renderAvailability() {
+        var current = state.profile.availability || 'On Duty';
+        document.querySelectorAll('#availabilityToggle .segmented-option').forEach(function(btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-value') === current);
+        });
+        updateStatusPreview(current);
+      }
+
+      function updateStatusPreview(value) {
+        var pill = document.getElementById('statusPreviewPill');
+        var text = document.getElementById('statusPreviewText');
+        var icon = pill.querySelector('i');
+        text.textContent = value;
+        pill.className = 'status-preview-pill';
+        if (value === 'On Duty') { pill.classList.add('duty'); icon.className = 'fas fa-circle'; }
+        else if (value === 'Away') { pill.classList.add('away'); icon.className = 'fas fa-circle-half-stroke'; }
+        else { pill.classList.add('offline'); icon.className = 'fas fa-circle-minus'; }
+      }
+
+      document.querySelectorAll('#availabilityToggle .segmented-option').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          state.profile.availability = this.getAttribute('data-value');
+          renderAvailability();
+        });
+      });
+
+      document.querySelectorAll('[data-bind]').forEach(function(el) {
+        el.addEventListener('input', function() {
+          setByPath(state, this.getAttribute('data-bind'), this.value);
+        });
+      });
+
+      /* ============================================================
+         COMPETENCY EDITOR (expandable cards)
+      ============================================================ */
+      function renderCompetencyEditor() {
+        var wrap = document.getElementById('compList');
+        wrap.innerHTML = state.profile.competencies.map(function(c, i) {
+          return '' +
+            '<div class="comp-item" data-idx="' + i + '">' +
+              '<div class="comp-item-head" data-comp-toggle="' + i + '">' +
+                '<div class="comp-item-icon"><i class="fas ' + escapeAttr(c.icon) + '"></i></div>' +
+                '<div class="comp-item-info">' +
+                  '<strong>' + escapeAttr(c.name) + '</strong>' +
+                  '<span>' + escapeAttr(c.sub) + '</span>' +
+                '</div>' +
+                '<span class="comp-item-pct">' + c.percent + '%</span>' +
+                '<span class="comp-chevron"><i class="fas fa-chevron-down"></i></span>' +
+              '</div>' +
+              '<div class="comp-item-body">' +
+                '<div class="comp-item-body-inner">' +
+
+                  '<div class="section-subhead"><i class="fas fa-square"></i> Card (on portfolio)</div>' +
+                  '<div class="field">' +
+                    '<label>Name</label>' +
+                    '<input type="text" data-comp="name" data-idx="' + i + '" value="' + escapeAttr(c.name) + '">' +
+                  '</div>' +
+                  '<div class="field">' +
+                    '<label>Subtitle</label>' +
+                    '<input type="text" data-comp="sub" data-idx="' + i + '" value="' + escapeAttr(c.sub) + '">' +
+                  '</div>' +
+                  '<div class="field-row">' +
+                    '<div class="field">' +
+                      '<label>Card Icon</label>' +
+                      '<input type="text" data-comp="icon" data-idx="' + i + '" value="' + escapeAttr(c.icon) + '" placeholder="fa-heart-pulse">' +
+                    '</div>' +
+                    '<div class="field">' +
+                      '<label>Percent</label>' +
+                      '<input type="number" min="0" max="100" data-comp="percent" data-idx="' + i + '" value="' + c.percent + '">' +
+                    '</div>' +
+                  '</div>' +
+
+                  '<div class="section-subhead"><i class="fas fa-window-restore"></i> Sheet (opens on tap)</div>' +
+                  '<div class="field">' +
+                    '<label>Sheet Icon</label>' +
+                    '<input type="text" data-comp="sheetIcon" data-idx="' + i + '" value="' + escapeAttr(c.sheetIcon || c.icon) + '" placeholder="fa-heart-pulse">' +
+                  '</div>' +
+                  '<div class="field">' +
+                    '<label>Sheet Title</label>' +
+                    '<input type="text" data-comp="sheetTitle" data-idx="' + i + '" value="' + escapeAttr(c.sheetTitle || '') + '" placeholder="Critical Care Nursing">' +
+                  '</div>' +
+                  '<div class="field">' +
+                    '<label>Sheet Subtitle</label>' +
+                    '<input type="text" data-comp="sheetSubtitle" data-idx="' + i + '" value="' + escapeAttr(c.sheetSubtitle || '') + '" placeholder="High-acuity patient management">' +
+                  '</div>' +
+                  '<div class="field">' +
+                    '<label>Sheet Rows</label>' +
+                    '<div class="rows-editor" data-comp-rows-for="' + i + '">' +
+                      (c.rows || []).map(function(row, ri) {
+                        return '' +
+                          '<div class="rows-row" data-row-idx="' + ri + '">' +
+                            '<div class="rows-row-icon"><i class="fas ' + escapeAttr(row.icon) + '"></i></div>' +
+                            '<div class="rows-row-fields">' +
+                              '<input type="text" data-comp-row="icon" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.icon) + '" placeholder="Icon class">' +
+                              '<input type="text" data-comp-row="label" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.label) + '" placeholder="Label">' +
+                              '<input type="text" data-comp-row="value" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.value) + '" placeholder="Value / text">' +
+                              '<input type="text" data-comp-row="link" data-comp-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.link || '') + '" placeholder="Link (optional)">' +
+                            '</div>' +
+                            '<button type="button" class="rows-row-remove" data-comp-remove-row="' + i + '" data-row-idx="' + ri + '"><i class="fas fa-trash"></i></button>' +
+                          '</div>';
+                      }).join('') +
+                    '</div>' +
+                    '<button type="button" class="rows-add" data-comp-add-row="' + i + '"><i class="fas fa-plus"></i> Add row</button>' +
+                  '</div>' +
+
+                '</div>' +
+              '</div>' +
+            '</div>';
+        }).join('');
+
+        bindCompetencyEvents();
+      }
+
+      function bindCompetencyEvents() {
+        var wrap = document.getElementById('compList');
+
+        // Toggle open/close
+        wrap.querySelectorAll('[data-comp-toggle]').forEach(function(head) {
+          head.addEventListener('click', function(e) {
+            if (e.target.closest('input, button')) return;
+            var item = this.closest('.comp-item');
+            item.classList.toggle('open');
+          });
+        });
+
+        // Card + sheet fields
+        wrap.querySelectorAll('[data-comp]:not([data-comp-row])').forEach(function(input) {
+          input.addEventListener('input', function() {
+            var idx = parseInt(this.getAttribute('data-idx'), 10);
+            var key = this.getAttribute('data-comp');
+            var val = this.value;
+            if (key === 'percent') val = Math.max(0, Math.min(100, parseInt(val, 10) || 0));
+            state.profile.competencies[idx][key] = val;
+
+            // Live sync header
+            var item = this.closest('.comp-item');
+            if (key === 'name') {
+              var strong = item.querySelector('.comp-item-info strong');
+              if (strong) strong.textContent = this.value || '(no name)';
+            }
+            if (key === 'sub') {
+              var span = item.querySelector('.comp-item-info span');
+              if (span) span.textContent = this.value || '';
+            }
+            if (key === 'icon') {
+              var iconEl = item.querySelector('.comp-item-icon i');
+              if (iconEl) iconEl.className = 'fas ' + this.value;
+            }
+            if (key === 'percent') {
+              var pct = item.querySelector('.comp-item-pct');
+              if (pct) pct.textContent = val + '%';
+            }
+          });
+        });
+
+        // Sheet row fields
+        wrap.querySelectorAll('[data-comp-row]').forEach(function(input) {
+          input.addEventListener('input', function() {
+            var compIdx = parseInt(this.getAttribute('data-comp-idx'), 10);
+            var rowIdx = parseInt(this.getAttribute('data-row-idx'), 10);
+            var key = this.getAttribute('data-comp-row');
+            state.profile.competencies[compIdx].rows[rowIdx][key] = this.value;
+            if (key === 'icon') {
+              var iconEl = this.closest('.rows-row').querySelector('.rows-row-icon i');
+              if (iconEl) iconEl.className = 'fas ' + this.value;
+            }
+          });
+        });
+
+        // Remove row
+        wrap.querySelectorAll('[data-comp-remove-row]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var compIdx = parseInt(this.getAttribute('data-comp-remove-row'), 10);
+            var rowIdx = parseInt(this.getAttribute('data-row-idx'), 10);
+            state.profile.competencies[compIdx].rows.splice(rowIdx, 1);
+            renderCompetencyEditor();
+            document.querySelector('.comp-item[data-idx="' + compIdx + '"]').classList.add('open');
+          });
+        });
+
+        // Add row
+        wrap.querySelectorAll('[data-comp-add-row]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var compIdx = parseInt(this.getAttribute('data-comp-add-row'), 10);
+            state.profile.competencies[compIdx].rows.push({ icon: 'fa-circle-info', label: 'New row', value: '', link: '' });
+            renderCompetencyEditor();
+            document.querySelector('.comp-item[data-idx="' + compIdx + '"]').classList.add('open');
+          });
+        });
+      }
+
+      document.getElementById('profileSave').addEventListener('click', function() {
+        if (saveData(state)) showToast('Profile saved', 'fas fa-check-circle');
+        else showToast('Could not save', 'fas fa-triangle-exclamation');
+      });
+
+      document.getElementById('profileReset').addEventListener('click', function() {
+        if (!confirm('Reset all profile fields to original defaults?')) return;
+        state.profile = JSON.parse(JSON.stringify(DEFAULTS.profile));
+        saveData(state);
+        fillProfileForm();
+        showToast('Profile reset', 'fas fa-rotate-left');
+      });
+
+      /* ============================================================
+         QUICK ACTIONS (reuse comp-list styling)
+      ============================================================ */
+      function renderQuickActions() {
+        var wrap = document.getElementById('qaList');
+        wrap.innerHTML = state.quickActions.map(function(qa, i) {
+          return '' +
+            '<div class="comp-item" data-idx="' + i + '">' +
+              '<div class="comp-item-head" data-qa-toggle="' + i + '">' +
+                '<div class="comp-item-icon"><i class="fas ' + escapeAttr(qa.icon) + '"></i></div>' +
+                '<div class="comp-item-info">' +
+                  '<strong>' + escapeAttr(qa.label) + '</strong>' +
+                  '<span>' + qa.rows.length + ' row' + (qa.rows.length === 1 ? '' : 's') + ' · ' + escapeAttr(qa.sheetTitle) + '</span>' +
+                '</div>' +
+                '<span class="comp-chevron"><i class="fas fa-chevron-down"></i></span>' +
+              '</div>' +
+              '<div class="comp-item-body">' +
+                '<div class="comp-item-body-inner">' +
+                  '<div class="section-subhead"><i class="fas fa-square"></i> Pill (on portfolio)</div>' +
+                  '<div class="field-row">' +
+                    '<div class="field">' +
+                      '<label>Button Label</label>' +
+                      '<input type="text" data-qa="label" data-idx="' + i + '" value="' + escapeAttr(qa.label) + '">' +
+                    '</div>' +
+                    '<div class="field">' +
+                      '<label>Icon Class</label>' +
+                      '<input type="text" data-qa="icon" data-idx="' + i + '" value="' + escapeAttr(qa.icon) + '">' +
+                    '</div>' +
+                  '</div>' +
+                  '<div class="section-subhead"><i class="fas fa-window-restore"></i> Sheet (opens on tap)</div>' +
+                  '<div class="field">' +
+                    '<label>Sheet Title</label>' +
+                    '<input type="text" data-qa="sheetTitle" data-idx="' + i + '" value="' + escapeAttr(qa.sheetTitle) + '">' +
+                  '</div>' +
+                  '<div class="field">' +
+                    '<label>Sheet Subtitle</label>' +
+                    '<input type="text" data-qa="sheetSubtitle" data-idx="' + i + '" value="' + escapeAttr(qa.sheetSubtitle) + '">' +
+                  '</div>' +
+                  '<div class="field">' +
+                    '<label>Sheet Rows</label>' +
+                    '<div class="rows-editor">' +
+                      qa.rows.map(function(row, ri) {
+                        return '' +
+                          '<div class="rows-row" data-row-idx="' + ri + '">' +
+                            '<div class="rows-row-icon"><i class="fas ' + escapeAttr(row.icon) + '"></i></div>' +
+                            '<div class="rows-row-fields">' +
+                              '<input type="text" data-qa-row="icon" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.icon) + '" placeholder="Icon class">' +
+                              '<input type="text" data-qa-row="label" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.label) + '" placeholder="Label">' +
+                              '<input type="text" data-qa-row="value" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.value) + '" placeholder="Value / text">' +
+                              '<input type="text" data-qa-row="link" data-qa-idx="' + i + '" data-row-idx="' + ri + '" value="' + escapeAttr(row.link || '') + '" placeholder="Link (optional)">' +
+                            '</div>' +
+                            '<button type="button" class="rows-row-remove" data-qa-remove-row="' + i + '" data-row-idx="' + ri + '"><i class="fas fa-trash"></i></button>' +
+                          '</div>';
+                      }).join('') +
+                    '</div>' +
+                    '<button type="button" class="rows-add" data-qa-add-row="' + i + '"><i class="fas fa-plus"></i> Add row</button>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+        }).join('');
+
+        bindQuickActionEvents();
+      }
+
+      function bindQuickActionEvents() {
+        var wrap = document.getElementById('qaList');
+
+        wrap.querySelectorAll('[data-qa-toggle]').forEach(function(head) {
+          head.addEventListener('click', function(e) {
+            if (e.target.closest('input, button')) return;
+            this.closest('.comp-item').classList.toggle('open');
+          });
+        });
+
+        wrap.querySelectorAll('[data-qa]:not([data-qa-row])').forEach(function(input) {
+          input.addEventListener('input', function() {
+            var idx = parseInt(this.getAttribute('data-idx'), 10);
+            var key = this.getAttribute('data-qa');
+            state.quickActions[idx][key] = this.value;
+            var item = this.closest('.comp-item');
+            if (key === 'label') {
+              var s = item.querySelector('.comp-item-info strong');
+              if (s) s.textContent = this.value || '(no label)';
+            }
+            if (key === 'icon') {
+              var ic = item.querySelector('.comp-item-icon i');
+              if (ic) ic.className = 'fas ' + this.value;
+            }
+            if (key === 'sheetTitle') {
+              var sub = item.querySelector('.comp-item-info span');
+              if (sub) sub.textContent = state.quickActions[idx].rows.length + ' rows · ' + this.value;
+            }
+          });
+        });
+
+        wrap.querySelectorAll('[data-qa-row]').forEach(function(input) {
+          input.addEventListener('input', function() {
+            var qaIdx = parseInt(this.getAttribute('data-qa-idx'), 10);
+            var rowIdx = parseInt(this.getAttribute('data-row-idx'), 10);
+            var key = this.getAttribute('data-qa-row');
+            state.quickActions[qaIdx].rows[rowIdx][key] = this.value;
+            if (key === 'icon') {
+              var ic = this.closest('.rows-row').querySelector('.rows-row-icon i');
+              if (ic) ic.className = 'fas ' + this.value;
+            }
+          });
+        });
+
+        wrap.querySelectorAll('[data-qa-remove-row]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var qaIdx = parseInt(this.getAttribute('data-qa-remove-row'), 10);
+            var rowIdx = parseInt(this.getAttribute('data-row-idx'), 10);
+            state.quickActions[qaIdx].rows.splice(rowIdx, 1);
+            renderQuickActions();
+            document.querySelector('#qaList .comp-item[data-idx="' + qaIdx + '"]').classList.add('open');
+          });
+        });
+
+        wrap.querySelectorAll('[data-qa-add-row]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var qaIdx = parseInt(this.getAttribute('data-qa-add-row'), 10);
+            state.quickActions[qaIdx].rows.push({ icon: 'fa-circle-info', label: 'New row', value: '', link: '' });
+            renderQuickActions();
+            document.querySelector('#qaList .comp-item[data-idx="' + qaIdx + '"]').classList.add('open');
+          });
+        });
+      }
+
+      document.getElementById('qaSave').addEventListener('click', function() {
+        if (saveData(state)) showToast('Quick actions saved', 'fas fa-check-circle');
+        else showToast('Could not save', 'fas fa-triangle-exclamation');
+      });
+
+      document.getElementById('qaReset').addEventListener('click', function() {
+        if (!confirm('Reset all quick action buttons to defaults?')) return;
+        state.quickActions = JSON.parse(JSON.stringify(DEFAULTS.quickActions));
+        saveData(state);
+        renderQuickActions();
+        showToast('Quick actions reset', 'fas fa-rotate-left');
+      });
+
+      /* ============================================================
+         JOURNAL
+      ============================================================ */
+      function sortedJournal() {
+        return state.journal.slice().sort(function(a, b) { return (b.createdAt || 0) - (a.createdAt || 0); });
+      }
+
+      function renderJournalList() {
+        var wrap = document.getElementById('journalList');
+        var count = document.getElementById('journalCount');
+        var items = sortedJournal();
+        count.textContent = items.length + (items.length === 1 ? ' entry' : ' entries');
+
+        if (!items.length) {
+          wrap.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);"><i class="fas fa-book-open" style="font-size:2.4rem;color:var(--border-strong);display:block;margin-bottom:14px;"></i><p style="font-size:.85rem;font-weight:500;">No journal entries yet.</p></div>';
+          return;
+        }
+
+        wrap.innerHTML = items.map(function(item) {
+          return '' +
+            '<div class="journal-item" data-id="' + escapeAttr(item.id) + '">' +
+              '<div class="journal-item-body">' +
+                '<div class="journal-item-tags">' +
+                  '<span class="journal-item-tag">' + escapeAttr(item.tag) + '</span>' +
+                  '<span class="journal-item-meta">' + escapeAttr(item.readtime || '') + '</span>' +
+                '</div>' +
+                '<h3>' + escapeAttr(item.title) + '</h3>' +
+                '<p>' + escapeAttr(item.excerpt) + '</p>' +
+                '<div class="journal-item-meta" style="margin-top:6px;">' + escapeAttr(item.date || '') + '</div>' +
+              '</div>' +
+              '<div class="journal-item-actions">' +
+                '<button class="icon-btn" data-edit="' + escapeAttr(item.id) + '"><i class="fas fa-pen"></i></button>' +
+                '<button class="icon-btn danger" data-delete="' + escapeAttr(item.id) + '"><i class="fas fa-trash"></i></button>' +
+              '</div>' +
+            '</div>';
+        }).join('');
+
+        wrap.querySelectorAll('[data-edit]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var id = this.getAttribute('data-edit');
+            var entry = state.journal.find(function(e) { return e.id === id; });
+            if (entry) openComposer(entry);
+          });
+        });
+
+        wrap.querySelectorAll('[data-delete]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var id = this.getAttribute('data-delete');
+            var entry = state.journal.find(function(e) { return e.id === id; });
+            if (!entry) return;
+            if (!confirm('Delete "' + entry.title + '"?')) return;
+            state.journal = state.journal.filter(function(e) { return e.id !== id; });
+            saveData(state);
+            renderJournalList();
+            showToast('Entry deleted', 'fas fa-trash');
+          });
+        });
+      }
+
+      document.getElementById('journalReset').addEventListener('click', function() {
+        if (!confirm('Restore the three original journal entries?')) return;
+        state.journal = JSON.parse(JSON.stringify(DEFAULTS.journal));
+        saveData(state);
+        renderJournalList();
+        showToast('Journal reset', 'fas fa-rotate-left');
+      });
+
+      /* ---------- COMPOSER ---------- */
+      var composer = document.getElementById('composer');
+      var composerOverlay = document.getElementById('composerOverlay');
+      var editingId = null;
+
+      function openComposer(entry) {
+        editingId = entry ? entry.id : null;
+        document.getElementById('composerKicker').textContent = entry ? 'Edit Entry' : 'New Entry';
+        document.getElementById('composerTitle').textContent = entry ? 'Edit journal entry' : 'Write a journal entry';
+        document.getElementById('c-tag').value = entry ? entry.tag : 'Patient Care';
+        document.getElementById('c-readtime').value = entry ? (entry.readtime || '') : '';
+        document.getElementById('c-date').value = entry ? (entry.date || '') : '';
+        document.getElementById('c-title').value = entry ? entry.title : '';
+        document.getElementById('c-excerpt').value = entry ? entry.excerpt : '';
+        document.getElementById('c-body').value = entry ? entry.body : '';
+        document.getElementById('c-icon').value = entry ? (entry.icon || '') : '';
+        composer.classList.add('active');
+        composerOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        composer.scrollTop = 0;
+      }
+
+      function closeComposer() {
+        composer.classList.remove('active');
+        composerOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        editingId = null;
+      }
+
+      document.getElementById('composerClose').addEventListener('click', closeComposer);
+      document.getElementById('composerCancel').addEventListener('click', closeComposer);
+      composerOverlay.addEventListener('click', closeComposer);
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && composer.classList.contains('active')) closeComposer();
+      });
+
+      document.getElementById('newEntryBtn').addEventListener('click', function() { openComposer(null); });
+
+      document.getElementById('composerSave').addEventListener('click', function() {
+        var title = document.getElementById('c-title').value.trim();
+        var excerpt = document.getElementById('c-excerpt').value.trim();
+        var body = document.getElementById('c-body').value.trim();
+        if (!title) { showToast('Title is required', 'fas fa-triangle-exclamation'); return; }
+        if (!excerpt) { showToast('Excerpt is required', 'fas fa-triangle-exclamation'); return; }
+        if (!body) { showToast('Article body is required', 'fas fa-triangle-exclamation'); return; }
+
+        var payload = {
+          tag: document.getElementById('c-tag').value,
+          readtime: document.getElementById('c-readtime').value.trim(),
+          date: document.getElementById('c-date').value.trim(),
+          title: title,
+          excerpt: excerpt,
+          body: body,
+          icon: document.getElementById('c-icon').value.trim() || 'fa-book-medical'
+        };
+
+        if (editingId) {
+          var idx = state.journal.findIndex(function(e) { return e.id === editingId; });
+          if (idx > -1) state.journal[idx] = Object.assign({}, state.journal[idx], payload);
+          showToast('Entry updated', 'fas fa-check-circle');
+        } else {
+          payload.id = 'entry-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
+          payload.createdAt = Date.now();
+          state.journal.push(payload);
+          showToast('Entry published', 'fas fa-check-circle');
+        }
+
+        saveData(state);
+        renderJournalList();
+        closeComposer();
+      });
+
+      /* ---------- BOOT ---------- */
+      fillProfileForm();
+      renderQuickActions();
+      renderJournalList();
+
+    })();
+  </script>
+</body>
+</html>
