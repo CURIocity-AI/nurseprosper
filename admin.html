@@ -1269,7 +1269,7 @@
       var GC_SITE = 'nurseprosper';
       var GC_ENDPOINT = 'https://nurseprosper.goatcounter.com';
       var GC_TOKEN = 'f1yexh9obvpf224uhhbkikpw31nck7mqs5txw91i66jqmycu49g';
-      var GC_PROXY = 'https://api.allorigins.win/raw?url=';
+      var GC_PROXY = 'https://corsproxy.io/?url=';
       
       if (!window.supabase || typeof window.supabase.createClient !== 'function') {
         document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#991b1b;background:#fee2e2;border:1px solid #fecaca;border-radius:12px;margin:20px;">' +
@@ -2246,17 +2246,25 @@
         var start30 = new Date(today); start30.setDate(today.getDate() - 29);
 
         try {
-          var results = await Promise.all([
-            gcFetch('/stats/hits',    { start: gcDateISO(today),  end: gcDateISO(today),  limit: 1 }),
-            gcFetch('/stats/hits',    { start: gcDateISO(start7), end: gcDateISO(today),  limit: 1 }),
-            gcFetch('/stats/hits',    { start: gcDateISO(start30),end: gcDateISO(today),  limit: 1 }),
-            gcFetch('/stats/hits',    { start: gcDateISO(start7), end: gcDateISO(today),  group: 'day' }),
-            gcFetch('/stats/hits',    { start: gcDateISO(start7), end: gcDateISO(today),  group: 'path', limit: 10 }),
-            gcFetch('/stats/hits',    { start: gcDateISO(start7), end: gcDateISO(today),  group: 'ref', limit: 10 })
-          ]);
-
-          var todayHits = results[0], weekHits = results[1], monthHits = results[2];
-          var dailyHits = results[3], topPages = results[4], topRefs = results[5];
+  var fnRes = await sb.functions.invoke('traffic', {
+    body: {
+      today: gcDateISO(today),
+      start7: gcDateISO(start7),
+      start30: gcDateISO(start30)
+    }
+  });
+  
+  if (fnRes.error) throw new Error(fnRes.error.message || 'Edge function error');
+  var data = fnRes.data;
+  if (!data) throw new Error('No data returned');
+  if (data.error) throw new Error(data.error);
+  
+  var todayHits = data.today;
+  var weekHits = data.week;
+  var monthHits = data.month;
+  var dailyHits = data.daily;
+  var topPages = data.pages;
+  var topRefs = data.referrers;
 
           document.getElementById('trafficToday').textContent      = gcNum(todayHits.total);
           document.getElementById('trafficTodayPages').textContent  = gcNum(todayHits.total_events) + ' views';
