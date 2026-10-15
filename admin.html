@@ -191,7 +191,7 @@
     }
 
     /* ============================
-       MAIN ADMIN (unchanged)
+       MAIN ADMIN
     ============================ */
     .admin-shell { display: none; }
     .admin-shell.visible { display: block; }
@@ -289,9 +289,14 @@
       padding: 5px;
       margin-bottom: 18px;
       box-shadow: 0 4px 14px -8px rgba(15, 42, 74, 0.2);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .admin-tabs::-webkit-scrollbar { display: none; }
     .admin-tab {
       flex: 1;
+      min-width: fit-content;
       padding: 11px 14px;
       border-radius: 50px;
       border: none;
@@ -303,6 +308,7 @@
       cursor: pointer;
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: flex; align-items: center; justify-content: center; gap: 7px;
+      white-space: nowrap;
     }
     .admin-tab i { font-size: 0.8rem; }
     .admin-tab.active {
@@ -919,7 +925,7 @@
   </div>
 
   <!-- ============================
-       MAIN ADMIN (hidden until logged in)
+       MAIN ADMIN
   ============================ -->
   <div class="admin-shell" id="adminShell">
 
@@ -950,9 +956,18 @@
       </div>
 
       <div class="admin-tabs" role="tablist">
-        <button class="admin-tab active" data-tab="profile" role="tab"><i class="fas fa-id-card"></i> Profile</button>
-        <button class="admin-tab" data-tab="actions" role="tab"><i class="fas fa-bolt"></i> Quick Actions</button>
-        <button class="admin-tab" data-tab="journal" role="tab"><i class="fas fa-book-medical"></i> Journal</button>
+        <button class="admin-tab active" data-tab="profile" role="tab">
+          <i class="fas fa-id-card"></i> Profile
+        </button>
+        <button class="admin-tab" data-tab="actions" role="tab">
+          <i class="fas fa-bolt"></i> Actions
+        </button>
+        <button class="admin-tab" data-tab="journal" role="tab">
+          <i class="fas fa-book-medical"></i> Journal
+        </button>
+        <button class="admin-tab" data-tab="traffic" role="tab">
+          <i class="fas fa-chart-line"></i> Traffic
+        </button>
       </div>
 
       <!-- PROFILE -->
@@ -1102,6 +1117,66 @@
         </div>
       </section>
 
+      <!-- TRAFFIC -->
+      <section class="admin-panel" data-panel="traffic">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-chart-line"></i> Visitors</h2>
+            <span class="head-hint" id="trafficUpdatedAt">Loading…</span>
+          </div>
+          <div class="admin-card-body">
+            <div id="trafficError" style="display:none;background:#fee2e2;border:1px solid #fecaca;color:#991b1b;padding:12px 14px;border-radius:12px;font-size:0.8rem;font-weight:500;margin-bottom:14px;"></div>
+
+            <div class="traffic-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;">
+              <div class="traffic-stat" style="background:#f8fbfe;border:1.5px solid var(--border-strong);border-radius:14px;padding:14px 12px;text-align:center;">
+                <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Today</div>
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:var(--navy);line-height:1;" id="trafficToday">—</div>
+                <div style="font-size:0.62rem;font-weight:600;color:var(--text-muted);margin-top:4px;" id="trafficTodayPages">— views</div>
+              </div>
+              <div class="traffic-stat" style="background:#f8fbfe;border:1.5px solid var(--border-strong);border-radius:14px;padding:14px 12px;text-align:center;">
+                <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">7 days</div>
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:var(--primary);line-height:1;" id="traffic7d">—</div>
+                <div style="font-size:0.62rem;font-weight:600;color:var(--text-muted);margin-top:4px;" id="traffic7dPages">— views</div>
+              </div>
+              <div class="traffic-stat" style="background:#f8fbfe;border:1.5px solid var(--border-strong);border-radius:14px;padding:14px 12px;text-align:center;">
+                <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">30 days</div>
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:var(--navy);line-height:1;" id="traffic30d">—</div>
+                <div style="font-size:0.62rem;font-weight:600;color:var(--text-muted);margin-top:4px;" id="traffic30dPages">— views</div>
+              </div>
+            </div>
+
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Last 7 days</div>
+            <div id="trafficChart" style="display:flex;align-items:flex-end;gap:6px;height:110px;padding:6px 0;"></div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-fire"></i> Top Pages</h2>
+            <span class="head-hint">Last 7 days</span>
+          </div>
+          <div class="admin-card-body" id="trafficTopPages">
+            <div style="color:var(--text-muted);font-size:0.8rem;text-align:center;padding:20px;">Loading…</div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-link"></i> Top Referrers</h2>
+            <span class="head-hint">Last 7 days</span>
+          </div>
+          <div class="admin-card-body" id="trafficReferrers">
+            <div style="color:var(--text-muted);font-size:0.8rem;text-align:center;padding:20px;">Loading…</div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="trafficRefresh">
+            <i class="fas fa-rotate-right"></i> Refresh
+          </button>
+        </div>
+      </section>
+
       <!-- JOURNAL -->
       <section class="admin-panel" data-panel="journal">
         <div class="admin-card">
@@ -1187,6 +1262,13 @@
       var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVic2liYXdvZWlyZGFyb3BwaXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5ODE3NDQsImV4cCI6MjEwNzU1Nzc0NH0.yAxq67ToicxV94_hLANoQk9F5J2sFyKpl5wPuxFJIiA';
       var PHOTO_BUCKET = 'journal-photos';
       var STORE_KEY = 'prosper_admin_data_v1';
+
+      /* ============================================================
+         GOATCOUNTER CONFIG
+      ============================================================ */
+      var GC_SITE = 'nurseprosper';
+      var GC_ENDPOINT = 'https://nurseprosper.goatcounter.com';
+      var GC_TOKEN = 'f1yexh9obvpf224uhhbkikpw31nck7mqs5txw91i66jqmycu49g';
 
       if (!window.supabase || typeof window.supabase.createClient !== 'function') {
         document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#991b1b;background:#fee2e2;border:1px solid #fecaca;border-radius:12px;margin:20px;">' +
@@ -1355,7 +1437,6 @@
         showLogin();
       }
 
-      /* Auto-logout on token expiry */
       sb.auth.onAuthStateChange(function(event, session) {
         if (event === 'SIGNED_OUT' || !session) {
           currentUser = null;
@@ -1366,13 +1447,13 @@
       /* ============================================================
          CLOUD STATUS
       ============================================================ */
-      function setCloudStatus(state, text) {
+      function setCloudStatus(statusState, text) {
         var el = document.getElementById('cloudStatus');
         var textEl = document.getElementById('cloudStatusText');
         if (!el || !textEl) return;
-        el.className = 'cloud-status ' + state;
+        el.className = 'cloud-status ' + statusState;
         textEl.textContent = text;
-        cloudOnline = (state === 'live');
+        cloudOnline = (statusState === 'live');
       }
 
       /* ============================================================
@@ -1526,8 +1607,14 @@
           document.querySelectorAll('.admin-panel').forEach(function(p) { p.classList.remove('active'); });
           this.classList.add('active');
           document.querySelector('[data-panel="' + target + '"]').classList.add('active');
+          if (target === 'traffic') loadTraffic();
         });
       });
+
+      var trafficRefreshBtn = document.getElementById('trafficRefresh');
+      if (trafficRefreshBtn) {
+        trafficRefreshBtn.addEventListener('click', loadTraffic);
+      }
 
       function setByPath(obj, path, value) {
         var parts = path.split('.');
@@ -2104,6 +2191,147 @@
         renderJournalList();
         closeComposer();
       });
+
+      /* ============================================================
+         GOATCOUNTER TRAFFIC
+      ============================================================ */
+      function gcDateISO(d) {
+        var y = d.getFullYear();
+        var m = ('0' + (d.getMonth() + 1)).slice(-2);
+        var dd = ('0' + d.getDate()).slice(-2);
+        return y + '-' + m + '-' + dd;
+      }
+
+      async function gcFetch(path, params) {
+        var url = GC_ENDPOINT + '/api/v0' + path;
+        if (params) {
+          var qs = Object.keys(params).map(function(k) {
+            return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+          }).join('&');
+          url += '?' + qs;
+        }
+        var res = await fetch(url, {
+          headers: {
+            'Authorization': 'Bearer ' + GC_TOKEN,
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!res.ok) {
+          var errText = await res.text();
+          throw new Error('GoatCounter ' + res.status + ': ' + errText);
+        }
+        return await res.json();
+      }
+
+      function gcShowError(msg) {
+        var el = document.getElementById('trafficError');
+        el.textContent = msg;
+        el.style.display = 'block';
+      }
+      function gcHideError() {
+        var el = document.getElementById('trafficError');
+        el.style.display = 'none';
+      }
+      function gcNum(n) {
+        if (typeof n !== 'number') return '—';
+        return n.toLocaleString();
+      }
+
+      async function loadTraffic() {
+        gcHideError();
+        var now = new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        var start7 = new Date(today); start7.setDate(today.getDate() - 6);
+        var start30 = new Date(today); start30.setDate(today.getDate() - 29);
+
+        try {
+          var results = await Promise.all([
+            gcFetch('/stats/hits',    { start: gcDateISO(today),  end: gcDateISO(today),  limit: 1 }),
+            gcFetch('/stats/hits',    { start: gcDateISO(start7), end: gcDateISO(today),  limit: 1 }),
+            gcFetch('/stats/hits',    { start: gcDateISO(start30),end: gcDateISO(today),  limit: 1 }),
+            gcFetch('/stats/hits',    { start: gcDateISO(start7), end: gcDateISO(today),  group: 'day' }),
+            gcFetch('/stats/hits',    { start: gcDateISO(start7), end: gcDateISO(today),  group: 'path', limit: 10 }),
+            gcFetch('/stats/hits',    { start: gcDateISO(start7), end: gcDateISO(today),  group: 'ref', limit: 10 })
+          ]);
+
+          var todayHits = results[0], weekHits = results[1], monthHits = results[2];
+          var dailyHits = results[3], topPages = results[4], topRefs = results[5];
+
+          document.getElementById('trafficToday').textContent      = gcNum(todayHits.total);
+          document.getElementById('trafficTodayPages').textContent  = gcNum(todayHits.total_events) + ' views';
+          document.getElementById('traffic7d').textContent          = gcNum(weekHits.total);
+          document.getElementById('traffic7dPages').textContent     = gcNum(weekHits.total_events) + ' views';
+          document.getElementById('traffic30d').textContent         = gcNum(monthHits.total);
+          document.getElementById('traffic30dPages').textContent    = gcNum(monthHits.total_events) + ' views';
+
+          var chartEl = document.getElementById('trafficChart');
+          var dayMap = {};
+          (dailyHits.hits || []).forEach(function(row) { dayMap[row.day] = row.count; });
+          var days = [];
+          for (var i = 6; i >= 0; i--) {
+            var d = new Date(today); d.setDate(today.getDate() - i);
+            var key = gcDateISO(d);
+            days.push({ key: key, label: d.toLocaleDateString(undefined, { weekday: 'short' }).slice(0, 2), count: dayMap[key] || 0 });
+          }
+          var maxCount = Math.max.apply(null, days.map(function(x) { return x.count; })) || 1;
+          chartEl.innerHTML = days.map(function(d) {
+            var pct = maxCount === 0 ? 0 : Math.round((d.count / maxCount) * 100);
+            return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">' +
+              '<div style="font-size:0.62rem;font-weight:700;color:var(--text-light);">' + (d.count || '') + '</div>' +
+              '<div style="width:100%;height:' + Math.max(4, Math.round(pct)) + '%;min-height:4px;background:linear-gradient(180deg,var(--primary),var(--sky));border-radius:6px 6px 3px 3px;"></div>' +
+              '<div style="font-size:0.6rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">' + d.label + '</div>' +
+            '</div>';
+          }).join('');
+
+          var pagesEl = document.getElementById('trafficTopPages');
+          var hits = (topPages.hits || []).filter(function(h) { return h.count > 0; });
+          if (!hits.length) {
+            pagesEl.innerHTML = '<div style="color:var(--text-muted);font-size:0.82rem;text-align:center;padding:20px;">No page views yet this week. Share your portfolio to start collecting data.</div>';
+          } else {
+            var maxPageCount = hits[0].count;
+            pagesEl.innerHTML = hits.map(function(h) {
+              var pct = Math.round((h.count / maxPageCount) * 100);
+              return '<div style="margin-bottom:12px;">' +
+                '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:5px;">' +
+                  '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:0.8rem;font-weight:600;color:var(--navy);word-break:break-all;">' + escapeAttr(h.path || '/') + '</span>' +
+                  '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:0.85rem;font-weight:800;color:var(--primary);flex-shrink:0;">' + h.count + '</span>' +
+                '</div>' +
+                '<div style="height:4px;background:var(--primary-light);border-radius:4px;overflow:hidden;">' +
+                  '<div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,var(--primary),var(--sky));"></div>' +
+                '</div>' +
+              '</div>';
+            }).join('');
+          }
+
+          var refsEl = document.getElementById('trafficReferrers');
+          var refs = (topRefs.hits || []).filter(function(h) { return h.count > 0; });
+          if (!refs.length) {
+            refsEl.innerHTML = '<div style="color:var(--text-muted);font-size:0.82rem;text-align:center;padding:20px;">No referrer data yet. Direct visits and WhatsApp clicks will show up here.</div>';
+          } else {
+            var maxRefCount = refs[0].count;
+            refsEl.innerHTML = refs.map(function(h) {
+              var pct = Math.round((h.count / maxRefCount) * 100);
+              var label = h.ref || 'Direct / none';
+              return '<div style="margin-bottom:12px;">' +
+                '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:5px;">' +
+                  '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:0.8rem;font-weight:600;color:var(--navy);word-break:break-all;">' + escapeAttr(label) + '</span>' +
+                  '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:0.85rem;font-weight:800;color:var(--primary);flex-shrink:0;">' + h.count + '</span>' +
+                '</div>' +
+                '<div style="height:4px;background:var(--primary-light);border-radius:4px;overflow:hidden;">' +
+                  '<div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,var(--primary),var(--sky));"></div>' +
+                '</div>' +
+              '</div>';
+            }).join('');
+          }
+
+          document.getElementById('trafficUpdatedAt').textContent = 'Updated ' + new Date().toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+
+        } catch (err) {
+          console.error('Traffic fetch failed:', err);
+          gcShowError('Could not load traffic: ' + (err.message || err));
+          document.getElementById('trafficUpdatedAt').textContent = 'Failed';
+        }
+      }
 
       /* ============================================================
          BOOT (only called when signed in)
