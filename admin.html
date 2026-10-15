@@ -1269,7 +1269,8 @@
       var GC_SITE = 'nurseprosper';
       var GC_ENDPOINT = 'https://nurseprosper.goatcounter.com';
       var GC_TOKEN = 'f1yexh9obvpf224uhhbkikpw31nck7mqs5txw91i66jqmycu49g';
-
+      var GC_PROXY = 'https://api.allorigins.win/raw?url=';
+      
       if (!window.supabase || typeof window.supabase.createClient !== 'function') {
         document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#991b1b;background:#fee2e2;border:1px solid #fecaca;border-radius:12px;margin:20px;">' +
           '<h2 style="margin:0 0 10px;font-size:1.1rem;">Supabase SDK failed to load</h2>' +
@@ -2202,27 +2203,27 @@
         return y + '-' + m + '-' + dd;
       }
 
-      async function gcFetch(path, params) {
-        var url = GC_ENDPOINT + '/api/v0' + path;
-        if (params) {
-          var qs = Object.keys(params).map(function(k) {
-            return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
-          }).join('&');
-          url += '?' + qs;
-        }
-        var res = await fetch(url, {
-          headers: {
-            'Authorization': 'Bearer ' + GC_TOKEN,
-            'Content-Type': 'application/json'
-          }
-        });
-        if (!res.ok) {
-          var errText = await res.text();
-          throw new Error('GoatCounter ' + res.status + ': ' + errText);
-        }
-        return await res.json();
-      }
-
+     async function gcFetch(path, params) {
+  var target = GC_ENDPOINT + '/api/v0' + path;
+  if (params) {
+    var qs = Object.keys(params).map(function(k) {
+      return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+    }).join('&');
+    target += '?' + qs;
+  }
+  var url = GC_PROXY + encodeURIComponent(target);
+  var res = await fetch(url, {
+    headers: {
+      'Authorization': 'Bearer ' + GC_TOKEN,
+      'Content-Type': 'application/json'
+    }
+  });
+  if (!res.ok) {
+    var errText = await res.text();
+    throw new Error('GoatCounter ' + res.status + ': ' + errText);
+  }
+  return await res.json();
+}
       function gcShowError(msg) {
         var el = document.getElementById('trafficError');
         el.textContent = msg;
