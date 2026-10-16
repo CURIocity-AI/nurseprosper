@@ -804,6 +804,62 @@
     }
     .photo-input-hidden { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
+    /* === Photo source tabs (device vs URL) === */
+    .photo-source-tabs {
+      display: flex; gap: 6px;
+      background: #f1f6fc;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 10px;
+    }
+    .photo-source-tab {
+      flex: 1;
+      padding: 9px 10px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.74rem; font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .photo-source-tab i { font-size: 0.75rem; }
+    .photo-source-tab.active {
+      background: white;
+      color: var(--navy);
+      box-shadow: 0 4px 12px -6px rgba(15, 42, 74, 0.25);
+    }
+    .photo-source-tab.active i { color: var(--primary); }
+    .photo-source-tab:active { transform: scale(0.97); }
+    .photo-url-panel { display: none; margin-bottom: 12px; }
+    .photo-url-panel.visible { display: block; }
+    .photo-url-panel input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 12px;
+      background: #f8fbfe;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem; font-weight: 500;
+      outline: none;
+      transition: all 0.25s;
+      word-break: break-all;
+    }
+    .photo-url-panel input:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+    .photo-url-actions {
+      display: flex; gap: 8px; margin-top: 8px;
+    }
+    .photo-url-actions .btn { flex: 1; }
+
     .crop-hint {
       font-size: 0.68rem;
       color: var(--primary);
@@ -1010,7 +1066,6 @@
       color: var(--navy);
     }
 
-    /* Cropper */
     .cropper-wrap {
       position: fixed; inset: 0;
       background: rgba(15, 42, 74, 0.95);
@@ -1226,7 +1281,6 @@
         </button>
       </div>
 
-      <!-- PROFILE -->
       <section class="admin-panel active" data-panel="profile">
         <div class="admin-card">
           <div class="admin-card-head">
@@ -1244,6 +1298,37 @@
               <input type="text" id="p-tags" data-bind="profile.tags">
               <div class="field-help">Comma-separated. These show as pills under the name.</div>
             </div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-circle-user"></i> Profile Photo</h2>
+            <span class="head-hint">Avatar in ID banner</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field-help" style="margin-bottom:12px;">This is the round photo at the top of your portfolio. Upload from your device or paste a direct image URL.</div>
+            <div class="photo-source-tabs" id="profilePhotoSourceTabs">
+              <button type="button" class="photo-source-tab active" data-source="device"><i class="fas fa-mobile-screen"></i> Upload from device</button>
+              <button type="button" class="photo-source-tab" data-source="url"><i class="fas fa-link"></i> Paste image URL</button>
+            </div>
+            <div class="photo-url-panel" id="profilePhotoUrlPanel">
+              <input type="url" id="profilePhotoUrlInput" placeholder="https://... (paste a direct image link)" autocomplete="off">
+              <div class="photo-url-actions">
+                <button type="button" class="btn btn-secondary btn-sm" id="profilePhotoUrlClear"><i class="fas fa-xmark"></i> Clear</button>
+                <button type="button" class="btn btn-primary btn-sm" id="profilePhotoUrlApply"><i class="fas fa-check"></i> Use this URL</button>
+              </div>
+              <div class="field-help" style="margin-top:8px;">Direct link ending in .jpg, .png, or .webp.</div>
+            </div>
+            <div id="profilePhotoDevicePanel">
+              <div class="photo-picker" id="profilePhotoPicker" style="aspect-ratio: 1 / 1; max-width: 260px; margin: 0 auto;">
+                <input type="file" accept="image/*" class="photo-input-hidden" id="profilePhotoInput">
+                <div class="photo-picker-icon"><i class="fas fa-user"></i></div>
+                <div class="photo-picker-text">Add profile photo</div>
+                <div class="photo-picker-hint">Square crop recommended</div>
+              </div>
+            </div>
+            <div class="photo-status" id="profilePhotoStatus" style="display:none; justify-content:center;"><i class="fas fa-check-circle"></i><span id="profilePhotoStatusText"></span></div>
           </div>
         </div>
 
@@ -1355,7 +1440,6 @@
         </div>
       </section>
 
-      <!-- QUICK ACTIONS -->
       <section class="admin-panel" data-panel="actions">
         <div class="admin-card">
           <div class="admin-card-head">
@@ -1373,7 +1457,6 @@
         </div>
       </section>
 
-      <!-- TRAFFIC -->
       <section class="admin-panel" data-panel="traffic">
         <div class="admin-card">
           <div class="admin-card-head">
@@ -1433,7 +1516,6 @@
         </div>
       </section>
 
-      <!-- JOURNAL -->
       <section class="admin-panel" data-panel="journal">
         <div class="admin-card">
           <div class="admin-card-head">
@@ -1447,7 +1529,6 @@
         </div>
       </section>
 
-      <!-- TESTIMONIALS -->
       <section class="admin-panel" data-panel="testimonials">
         <div class="admin-card">
           <div class="admin-card-head">
@@ -1461,7 +1542,6 @@
         </div>
       </section>
 
-      <!-- ADS / ANNOUNCEMENTS -->
       <section class="admin-panel" data-panel="ads">
         <div class="admin-card">
           <div class="admin-card-head">
@@ -1478,7 +1558,6 @@
 
     </main>
 
-    <!-- JOURNAL COMPOSER -->
     <div class="composer-overlay" id="composerOverlay"></div>
     <div class="composer" id="composer">
       <div class="composer-head">
@@ -1491,13 +1570,31 @@
       <div class="composer-body">
         <div class="field">
           <label>Cover Photo <span style="text-transform:none; font-weight:500; letter-spacing:0; color:var(--text-muted);">(optional)</span></label>
-          <div class="photo-picker" id="photoPicker">
-            <input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">
-            <div class="photo-picker-icon" id="photoPickerIcon"><i class="fas fa-image"></i></div>
-            <div class="photo-picker-text" id="photoPickerText">Add cover photo</div>
-            <div class="photo-picker-hint" id="photoPickerHint">Tap to choose from your device</div>
+
+          <div class="photo-source-tabs" id="journalPhotoSourceTabs">
+            <button type="button" class="photo-source-tab active" data-source="device"><i class="fas fa-mobile-screen"></i> Upload from device</button>
+            <button type="button" class="photo-source-tab" data-source="url"><i class="fas fa-link"></i> Paste image URL</button>
           </div>
-          <div class="crop-hint" id="journalCropHint" style="display:none;"><i class="fas fa-crop-simple"></i> Crop tool opens after you pick a photo</div>
+
+          <div class="photo-url-panel" id="journalPhotoUrlPanel">
+            <input type="url" id="journalPhotoUrlInput" placeholder="https://... (paste a direct image link)" autocomplete="off">
+            <div class="photo-url-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="journalPhotoUrlClear"><i class="fas fa-xmark"></i> Clear</button>
+              <button type="button" class="btn btn-primary btn-sm" id="journalPhotoUrlApply"><i class="fas fa-check"></i> Use this URL</button>
+            </div>
+            <div class="field-help" style="margin-top:8px;">Paste a direct link ending in .jpg, .png, or .webp. You can use GitHub raw links, Supabase public URLs, or any image host.</div>
+          </div>
+
+          <div id="journalPhotoDevicePanel">
+            <div class="photo-picker" id="photoPicker">
+              <input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">
+              <div class="photo-picker-icon" id="photoPickerIcon"><i class="fas fa-image"></i></div>
+              <div class="photo-picker-text" id="photoPickerText">Add cover photo</div>
+              <div class="photo-picker-hint" id="photoPickerHint">Tap to choose from your device</div>
+            </div>
+            <div class="crop-hint" id="journalCropHint" style="display:none;"><i class="fas fa-crop-simple"></i> Crop tool opens after you pick a photo</div>
+          </div>
+
           <div class="photo-status" id="photoStatus" style="display:none;"><i class="fas fa-check-circle"></i><span id="photoStatusText"></span></div>
         </div>
         <div class="field-row">
@@ -1533,7 +1630,6 @@
       </div>
     </div>
 
-    <!-- TESTIMONIAL COMPOSER -->
     <div class="composer-overlay" id="testimonialOverlay"></div>
     <div class="composer" id="testimonialComposer">
       <div class="composer-head">
@@ -1563,7 +1659,6 @@
       </div>
     </div>
 
-    <!-- AD COMPOSER -->
     <div class="composer-overlay" id="adOverlay"></div>
     <div class="composer" id="adComposer">
       <div class="composer-head">
@@ -1576,13 +1671,31 @@
       <div class="composer-body">
         <div class="field">
           <label>Product Photo <span style="text-transform:none; font-weight:500; letter-spacing:0; color:var(--text-muted);">(optional but recommended)</span></label>
-          <div class="photo-picker" id="adPhotoPicker">
-            <input type="file" accept="image/*" class="photo-input-hidden" id="adPhotoInput">
-            <div class="photo-picker-icon"><i class="fas fa-image"></i></div>
-            <div class="photo-picker-text">Add product photo</div>
-            <div class="photo-picker-hint">Tap to choose from your device</div>
+
+          <div class="photo-source-tabs" id="adPhotoSourceTabs">
+            <button type="button" class="photo-source-tab active" data-source="device"><i class="fas fa-mobile-screen"></i> Upload from device</button>
+            <button type="button" class="photo-source-tab" data-source="url"><i class="fas fa-link"></i> Paste image URL</button>
           </div>
-          <div class="crop-hint" id="adCropHint" style="display:none;"><i class="fas fa-crop-simple"></i> Crop tool opens after you pick a photo</div>
+
+          <div class="photo-url-panel" id="adPhotoUrlPanel">
+            <input type="url" id="adPhotoUrlInput" placeholder="https://... (paste a direct image link)" autocomplete="off">
+            <div class="photo-url-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="adPhotoUrlClear"><i class="fas fa-xmark"></i> Clear</button>
+              <button type="button" class="btn btn-primary btn-sm" id="adPhotoUrlApply"><i class="fas fa-check"></i> Use this URL</button>
+            </div>
+            <div class="field-help" style="margin-top:8px;">Paste a direct link ending in .jpg, .png, or .webp. You can use GitHub raw links, Supabase public URLs, or any image host.</div>
+          </div>
+
+          <div id="adPhotoDevicePanel">
+            <div class="photo-picker" id="adPhotoPicker">
+              <input type="file" accept="image/*" class="photo-input-hidden" id="adPhotoInput">
+              <div class="photo-picker-icon"><i class="fas fa-image"></i></div>
+              <div class="photo-picker-text">Add product photo</div>
+              <div class="photo-picker-hint">Tap to choose from your device</div>
+            </div>
+            <div class="crop-hint" id="adCropHint" style="display:none;"><i class="fas fa-crop-simple"></i> Crop tool opens after you pick a photo</div>
+          </div>
+
           <div class="photo-status" id="adPhotoStatus" style="display:none;"><i class="fas fa-check-circle"></i><span id="adPhotoStatusText"></span></div>
         </div>
 
@@ -1663,7 +1776,6 @@
       </div>
     </div>
 
-    <!-- CROPPER (modal) -->
     <div class="cropper-wrap" id="cropperWrap">
       <div class="cropper-canvas-wrap" id="cropperCanvasWrap">
         <canvas id="cropperCanvas"></canvas>
@@ -1684,7 +1796,6 @@
   </div>
 
   <div class="toast" id="toast"><i class="fas fa-circle-info"></i><span id="toastText"></span></div>
-
   <script>
     (function() {
       'use strict';
@@ -1712,6 +1823,7 @@
         profile: {
           name: 'Prosper Bassey', initials: 'PB', role: 'BSN, RN · Critical Care Nurse',
           tags: 'ACLS, PALS, BLS', availability: 'On Duty',
+          photo: '',
           licenseNumber: '#RN-9017297650', licenseStatus: 'Verified Active',
           licenseDetail: 'Licensed by the Nursing and Midwifery Council of Nigeria. Current in good standing with continuing education credits completed for 2025. Valid through December 2026.',
           philosophy: '"What God cannot do, does not exist. I bring that same faith and dedication to every patient I serve."',
@@ -2043,6 +2155,9 @@
         });
         renderCompetencyEditor();
         renderAvailability();
+        profileCurrentPhoto = state.profile.photo || '';
+        initProfilePhotoTabs();
+        renderProfilePhotoPicker();
       }
 
       function renderAvailability() {
@@ -2179,6 +2294,23 @@
       document.getElementById('profileSave').addEventListener('click', async function() {
         var btn = this;
         btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving…';
+
+        // Upload the avatar if it's a fresh data URL
+        if (state.profile.photo && state.profile.photo.indexOf('http') !== 0) {
+          try {
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Uploading photo…';
+            state.profile.photo = await uploadPhotoToCloud(state.profile.photo, 'avatar');
+            profileCurrentPhoto = state.profile.photo;
+            renderProfilePhotoPicker();
+          } catch (err) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Save to Cloud';
+            showToast('Photo upload failed: ' + (err.message || ''), 'fas fa-triangle-exclamation');
+            return;
+          }
+        }
+
         btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving…';
         var r = await saveProfileToCloud(state.profile);
         btn.disabled = false;
@@ -2548,9 +2680,6 @@
         btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Save to Cloud';
       });
 
-      /* ============================================================
-         ADS / ANNOUNCEMENTS
-      ============================================================ */
       var adComposer = document.getElementById('adComposer');
       var adOverlay = document.getElementById('adOverlay');
       var editingAdId = null;
@@ -2726,6 +2855,17 @@
       }
 
       function renderAdPhotoPicker() {
+        var adTabs = document.getElementById('adPhotoSourceTabs');
+        if (adTabs) {
+          adTabs.querySelectorAll('.photo-source-tab').forEach(function(t) {
+            t.classList.toggle('active', t.getAttribute('data-source') === 'device');
+          });
+        }
+        var adUrlPanel = document.getElementById('adPhotoUrlPanel');
+        if (adUrlPanel) adUrlPanel.classList.remove('visible');
+        var adDevicePanel = document.getElementById('adPhotoDevicePanel');
+        if (adDevicePanel) adDevicePanel.style.display = 'block';
+
         if (adCurrentPhoto) {
           adPhotoPicker.classList.add('has-photo');
           adPhotoPicker.innerHTML = '<img class="photo-preview" src="' + adCurrentPhoto + '" alt="">' +
@@ -2803,6 +2943,7 @@
 
       function openAdComposer(ad) {
         editingAdId = ad ? ad.id : null;
+        initAdPhotoTabs();
         document.getElementById('adKicker').textContent = ad ? 'Edit Announcement' : 'New Announcement';
         document.getElementById('adTitle').textContent = ad ? 'Edit announcement' : 'Create announcement';
         document.getElementById('ad-title-input').value = ad ? ad.title : '';
@@ -3124,6 +3265,217 @@
       });
 
       /* ============================================================
+         PHOTO SOURCE TABS (device upload OR URL)
+      ============================================================ */
+      function wirePhotoSourceTabs(tabContainerId, urlPanelId, devicePanelId, urlInputId, applyBtnId, clearBtnId, getCurrentPhoto, setPhoto) {
+        var tabContainer = document.getElementById(tabContainerId);
+        var urlPanel = document.getElementById(urlPanelId);
+        var devicePanel = document.getElementById(devicePanelId);
+        var urlInput = document.getElementById(urlInputId);
+        var applyBtn = document.getElementById(applyBtnId);
+        var clearBtn = document.getElementById(clearBtnId);
+        if (!tabContainer) return;
+
+        var freshTabContainer = tabContainer.cloneNode(true);
+        tabContainer.parentNode.replaceChild(freshTabContainer, tabContainer);
+        tabContainer = freshTabContainer;
+
+        tabContainer.querySelectorAll('.photo-source-tab').forEach(function(tab) {
+          tab.addEventListener('click', function() {
+            var source = this.getAttribute('data-source');
+            tabContainer.querySelectorAll('.photo-source-tab').forEach(function(t) { t.classList.remove('active'); });
+            this.classList.add('active');
+            if (source === 'url') {
+              urlPanel.classList.add('visible');
+              devicePanel.style.display = 'none';
+              urlInput.focus();
+            } else {
+              urlPanel.classList.remove('visible');
+              devicePanel.style.display = 'block';
+            }
+          });
+        });
+
+        if (applyBtn) {
+          var freshApply = applyBtn.cloneNode(true);
+          applyBtn.parentNode.replaceChild(freshApply, applyBtn);
+          applyBtn = freshApply;
+
+          applyBtn.addEventListener('click', function() {
+            var url = urlInput.value.trim();
+            if (!url) { showToast('Paste an image URL first', 'fas fa-triangle-exclamation'); return; }
+            if (!/^https?:\/\//i.test(url)) { showToast('URL must start with http:// or https://', 'fas fa-triangle-exclamation'); return; }
+            showToast('Loading image…', 'fas fa-spinner');
+
+            var testImg = new Image();
+            testImg.crossOrigin = 'anonymous';
+            testImg.onload = function() {
+              var c = document.createElement('canvas');
+              var maxW = 2000;
+              var w = testImg.naturalWidth, h = testImg.naturalHeight;
+              if (w > maxW) { h = Math.round(h * (maxW / w)); w = maxW; }
+              c.width = w; c.height = h;
+              var ctx = c.getContext('2d');
+              ctx.drawImage(testImg, 0, 0, w, h);
+              var dataUrl;
+              try { dataUrl = c.toDataURL('image/jpeg', 0.9); }
+              catch (err) { showToast('Could not load that image (CORS)', 'fas fa-triangle-exclamation'); return; }
+              openCropper(dataUrl, function(croppedDataUrl) {
+                setPhoto(croppedDataUrl);
+                urlInput.value = '';
+                showToast('Image cropped · will upload on save', 'fas fa-check-circle');
+              });
+            };
+            testImg.onerror = function() { showToast('Could not load that URL', 'fas fa-triangle-exclamation'); };
+            testImg.src = url;
+          });
+        }
+
+        if (clearBtn) {
+          var freshClear = clearBtn.cloneNode(true);
+          clearBtn.parentNode.replaceChild(freshClear, clearBtn);
+          clearBtn = freshClear;
+
+          clearBtn.addEventListener('click', function() {
+            urlInput.value = '';
+            setPhoto('');
+            showToast('Photo cleared', 'fas fa-trash');
+          });
+        }
+      }
+
+      function initJournalPhotoTabs() {
+        wirePhotoSourceTabs(
+          'journalPhotoSourceTabs', 'journalPhotoUrlPanel', 'journalPhotoDevicePanel',
+          'journalPhotoUrlInput', 'journalPhotoUrlApply', 'journalPhotoUrlClear',
+          function() { return currentPhoto; },
+          function(val) { currentPhoto = val; renderPhotoPicker(); }
+        );
+      }
+
+      function initAdPhotoTabs() {
+        wirePhotoSourceTabs(
+          'adPhotoSourceTabs', 'adPhotoUrlPanel', 'adPhotoDevicePanel',
+          'adPhotoUrlInput', 'adPhotoUrlApply', 'adPhotoUrlClear',
+          function() { return adCurrentPhoto; },
+          function(val) { adCurrentPhoto = val; renderAdPhotoPicker(); }
+        );
+      }
+
+      function initProfilePhotoTabs() {
+        wirePhotoSourceTabs(
+          'profilePhotoSourceTabs', 'profilePhotoUrlPanel', 'profilePhotoDevicePanel',
+          'profilePhotoUrlInput', 'profilePhotoUrlApply', 'profilePhotoUrlClear',
+          function() { return profileCurrentPhoto; },
+          function(val) {
+            profileCurrentPhoto = val;
+            state.profile.photo = val;
+            renderProfilePhotoPicker();
+          }
+        );
+      }
+
+      /* ============================================================
+         PROFILE PHOTO PICKER
+      ============================================================ */
+      var profileCurrentPhoto = '';
+      var profilePhotoInput = document.getElementById('profilePhotoInput');
+      var profilePhotoPicker = document.getElementById('profilePhotoPicker');
+      var profilePhotoStatusEl = document.getElementById('profilePhotoStatus');
+
+      function renderProfilePhotoPicker() {
+        var tabs = document.getElementById('profilePhotoSourceTabs');
+        if (tabs) {
+          tabs.querySelectorAll('.photo-source-tab').forEach(function(t) {
+            t.classList.toggle('active', t.getAttribute('data-source') === 'device');
+          });
+        }
+        var urlPanel = document.getElementById('profilePhotoUrlPanel');
+        if (urlPanel) urlPanel.classList.remove('visible');
+        var devicePanel = document.getElementById('profilePhotoDevicePanel');
+        if (devicePanel) devicePanel.style.display = 'block';
+
+        if (profileCurrentPhoto) {
+          profilePhotoPicker.classList.add('has-photo');
+          profilePhotoPicker.innerHTML = '<input type="file" accept="image/*" class="photo-input-hidden" id="profilePhotoInput">' +
+            '<img class="photo-preview" src="' + profileCurrentPhoto + '" alt="" style="object-fit:cover;">' +
+            '<div class="photo-overlay">' +
+              '<span class="photo-overlay-text">Profile photo</span>' +
+              '<div class="photo-overlay-actions">' +
+                '<button type="button" class="photo-action-btn" id="profilePhotoCropBtn" title="Crop"><i class="fas fa-crop-simple"></i></button>' +
+                '<button type="button" class="photo-action-btn" id="profilePhotoReplaceBtn" title="Replace"><i class="fas fa-arrows-rotate"></i></button>' +
+                '<button type="button" class="photo-action-btn danger" id="profilePhotoRemoveBtn" title="Remove"><i class="fas fa-trash"></i></button>' +
+              '</div>' +
+            '</div>';
+          profilePhotoInput = document.getElementById('profilePhotoInput');
+          bindProfilePhotoInput();
+
+          document.getElementById('profilePhotoCropBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            openCropper(profileCurrentPhoto, function(newDataUrl) {
+              profileCurrentPhoto = newDataUrl;
+              state.profile.photo = newDataUrl;
+              renderProfilePhotoPicker();
+              showToast('Profile photo cropped', 'fas fa-check-circle');
+            });
+          });
+          document.getElementById('profilePhotoReplaceBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            profilePhotoInput.click();
+          });
+          document.getElementById('profilePhotoRemoveBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            profileCurrentPhoto = '';
+            state.profile.photo = '';
+            renderProfilePhotoPicker();
+            showToast('Profile photo removed', 'fas fa-trash');
+          });
+
+          profilePhotoStatusEl.style.display = 'flex';
+          if (profileCurrentPhoto.indexOf('http') === 0) {
+            document.getElementById('profilePhotoStatusText').textContent = 'Photo in cloud storage';
+          } else {
+            document.getElementById('profilePhotoStatusText').textContent = 'Ready · ' + formatKB(bytesFromDataUrl(profileCurrentPhoto)) + ' (uploads on save)';
+          }
+        } else {
+          profilePhotoPicker.classList.remove('has-photo');
+          profilePhotoPicker.innerHTML = '<input type="file" accept="image/*" class="photo-input-hidden" id="profilePhotoInput">' +
+            '<div class="photo-picker-icon"><i class="fas fa-user"></i></div>' +
+            '<div class="photo-picker-text">Add profile photo</div>' +
+            '<div class="photo-picker-hint">Square crop recommended</div>';
+          profilePhotoInput = document.getElementById('profilePhotoInput');
+          bindProfilePhotoInput();
+          profilePhotoStatusEl.style.display = 'none';
+        }
+      }
+
+      function bindProfilePhotoInput() {
+        profilePhotoInput.addEventListener('change', function() {
+          var file = this.files && this.files[0];
+          if (!file) return;
+          if (!file.type.match(/^image\//)) {
+            showToast('Please choose an image file', 'fas fa-triangle-exclamation');
+            return;
+          }
+          showToast('Processing photo…', 'fas fa-spinner');
+          compressImage(file, function(err, dataUrl) {
+            if (err) { showToast('Could not process image', 'fas fa-triangle-exclamation'); return; }
+            openCropper(dataUrl, function(croppedDataUrl) {
+              profileCurrentPhoto = croppedDataUrl;
+              state.profile.photo = croppedDataUrl;
+              renderProfilePhotoPicker();
+              showToast('Profile photo ready · uploads on save', 'fas fa-check-circle');
+            });
+          });
+        });
+      }
+
+      profilePhotoPicker.addEventListener('click', function(e) {
+        if (e.target.closest('.photo-action-btn')) return;
+        if (!profileCurrentPhoto && profilePhotoInput) profilePhotoInput.click();
+      });
+
+      /* ============================================================
          JOURNAL COMPOSER + PHOTO
       ============================================================ */
       var currentPhoto = '';
@@ -3133,6 +3485,17 @@
       var journalCropHint = document.getElementById('journalCropHint');
 
       function renderPhotoPicker() {
+        var journalTabs = document.getElementById('journalPhotoSourceTabs');
+        if (journalTabs) {
+          journalTabs.querySelectorAll('.photo-source-tab').forEach(function(t) {
+            t.classList.toggle('active', t.getAttribute('data-source') === 'device');
+          });
+        }
+        var journalUrlPanel = document.getElementById('journalPhotoUrlPanel');
+        if (journalUrlPanel) journalUrlPanel.classList.remove('visible');
+        var journalDevicePanel = document.getElementById('journalPhotoDevicePanel');
+        if (journalDevicePanel) journalDevicePanel.style.display = 'block';
+
         if (currentPhoto) {
           photoPicker.classList.add('has-photo');
           photoPicker.innerHTML = '<input type="file" accept="image/*" class="photo-input-hidden" id="photoInput">' +
@@ -3218,6 +3581,7 @@
       function openComposer(entry) {
         editingId = entry ? entry.id : null;
         currentPhoto = entry ? (entry.photo || '') : '';
+        initJournalPhotoTabs();
         document.getElementById('composerKicker').textContent = entry ? 'Edit Entry' : 'New Entry';
         document.getElementById('composerTitle').textContent = entry ? 'Edit journal entry' : 'Write a journal entry';
         document.getElementById('c-tag').value = entry ? entry.tag : 'Patient Care';
