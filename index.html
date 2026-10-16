@@ -4,14 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>Prosper Bassey · Registered Nurse</title>
-<!-- ============================================================
-     SOCIAL SHARE / OPEN GRAPH META TAGS
-============================================================ -->
 <meta name="description" content="Prosper Bassey, RN — Critical Care Nurse. BSN, ACLS, PALS, and BLS certified. Compassionate critical care in Akwa Ibom, Nigeria.">
 <meta name="author" content="Prosper Bassey">
 <meta name="theme-color" content="#0f2a4a">
 
-<!-- Open Graph (WhatsApp, Facebook, LinkedIn, etc.) -->
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Prosper Bassey, RN — Critical Care Nurse">
 <meta property="og:description" content="BSN, RN · ACLS, PALS, BLS certified. Compassionate critical care in Akwa Ibom, Nigeria.">
@@ -22,23 +18,19 @@
 <meta property="og:url" content="https://curiocity-ai.github.io/nurseprosper/">
 <meta property="og:site_name" content="Prosper Bassey, RN">
 
-<!-- Twitter / X Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Prosper Bassey, RN — Critical Care Nurse">
 <meta name="twitter:description" content="BSN, RN · ACLS, PALS, BLS certified. Compassionate critical care in Akwa Ibom, Nigeria.">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/CURIocity-AI/imagery@master/og-card.png">
 
-<!-- Favicon (small tab icon) -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230f2a4a'/><text x='50' y='68' font-size='52' font-family='sans-serif' font-weight='800' fill='%237dd3fc' text-anchor='middle'>PB</text></svg>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/solid.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Supabase UMD build -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <!-- GoatCounter analytics -->
-<script data-goatcounter="https://nurseprosper.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+  <script data-goatcounter="https://nurseprosper.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -53,6 +45,9 @@
       --success: #22c55e;
       --warning: #f59e0b;
       --offline: #94a3b8;
+      --gold: #d4a574;
+      --gold-light: #fef3c7;
+      --gold-dark: #92400e;
       --text: #0f172a;
       --text-light: #475569;
       --text-muted: #94a3b8;
@@ -899,6 +894,410 @@
       opacity: 0.85;
     }
 
+    /* ============================================================
+       REVIEWS SLIDER
+    ============================================================ */
+    .reviews-section {
+      padding: 24px 0 0;
+      animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+    }
+
+    .reviews-section .chart-header {
+      padding: 0 16px;
+      margin-bottom: 14px;
+    }
+
+    .reviews-slider-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0 8px;
+    }
+
+    .reviews-viewport {
+      flex: 1;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .reviews-track {
+      display: flex;
+      gap: 0;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+      align-items: stretch;
+    }
+
+    .review-slide {
+      width: 100%;
+      min-width: 100%;
+      max-width: 100%;
+      flex: 0 0 100%;
+      padding: 0 4px;
+      box-sizing: border-box;
+    }
+
+    .review-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 32px 24px 22px;
+      position: relative;
+      box-shadow: 0 12px 30px -18px rgba(15, 42, 74, 0.3);
+      min-height: 220px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .review-card::before {
+      content: '"';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 4rem;
+      font-weight: 800;
+      color: var(--primary);
+      opacity: 0.15;
+      line-height: 1;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .review-quote {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.55;
+      margin: 14px 0 22px;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: -0.01em;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      max-width: 100%;
+    }
+
+    .review-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .review-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--sky));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: 0 6px 14px -6px var(--primary-glow);
+    }
+
+    .review-author {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+      text-align: left;
+    }
+
+    .review-author strong {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+    }
+
+    .review-author span {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    .reviews-nav {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1.5px solid var(--border-strong);
+      color: var(--navy);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px -6px rgba(15, 42, 74, 0.15);
+      padding: 0;
+    }
+
+    .reviews-nav:active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: scale(0.92);
+    }
+
+    .reviews-nav svg { width: 16px; height: 16px; }
+
+    .reviews-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .reviews-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 16px;
+      padding: 0 16px;
+    }
+
+    .reviews-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border-strong);
+      border: none;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      padding: 0;
+    }
+
+    .reviews-dot.active {
+      background: var(--primary);
+      width: 22px;
+      border-radius: 999px;
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .reviews-loading,
+    .reviews-empty {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      width: 100%;
+      background: var(--card);
+      border: 1px dashed var(--border-strong);
+      border-radius: 22px;
+    }
+
+    @media (max-width: 380px) {
+      .reviews-nav { display: none; }
+      .reviews-slider-wrap { padding: 0 16px; gap: 0; }
+    }
+
+    /* ============================================================
+       ANNOUNCEMENTS BANNER (with photo on top)
+    ============================================================ */
+    .announcement-section {
+      padding: 24px 16px 0;
+      display: none;
+      animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+    }
+    .announcement-section.visible { display: block; }
+
+    .announcement-banner {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px -20px rgba(15, 42, 74, 0.4);
+      transition: background 0.4s ease;
+      border: 1px solid transparent;
+    }
+
+    .announcement-banner.accent-gold {
+      background: linear-gradient(135deg, #fef9e7, #fde8b5);
+      border-color: #fcd34d;
+    }
+    .announcement-banner.accent-blue {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-color: #93c5fd;
+    }
+    .announcement-banner.accent-green {
+      background: linear-gradient(135deg, #ecfdf5, #bbf7d0);
+      border-color: #86efac;
+    }
+    .announcement-banner.accent-red {
+      background: linear-gradient(135deg, #fef2f2, #fecaca);
+      border-color: #fca5a5;
+    }
+
+    .announcement-photo {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--navy-light);
+      position: relative;
+    }
+
+    .announcement-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .announcement-sponsor-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-size: 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 40px;
+      background: rgba(15, 42, 74, 0.75);
+      color: white;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 2;
+    }
+    .announcement-sponsor-tag i { font-size: 0.55rem; opacity: 0.85; }
+
+    .announcement-share-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      border: none;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 2;
+      box-shadow: 0 4px 12px -4px rgba(0,0,0,0.25);
+    }
+    .announcement-share-btn:hover { transform: scale(1.08); background: white; }
+    .announcement-share-btn:active { transform: scale(0.92); }
+
+    .announcement-body {
+      padding: 20px 20px 22px;
+      position: relative;
+    }
+
+    .announcement-label {
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .accent-gold .announcement-label { color: #92400e; }
+    .accent-blue .announcement-label { color: var(--primary-dark); }
+    .accent-green .announcement-label { color: #166534; }
+    .accent-red .announcement-label { color: #991b1b; }
+
+    .announcement-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .announcement-message {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .announcement-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 40px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: none;
+      cursor: pointer;
+    }
+
+    .accent-gold .announcement-cta { background: #92400e; color: white; }
+    .accent-gold .announcement-cta:hover { background: #78350f; }
+
+    .accent-blue .announcement-cta { background: var(--primary); color: white; }
+    .accent-blue .announcement-cta:hover { background: var(--primary-dark); }
+
+    .accent-green .announcement-cta { background: #166534; color: white; }
+    .accent-green .announcement-cta:hover { background: #14532d; }
+
+    .accent-red .announcement-cta { background: #991b1b; color: white; }
+    .accent-red .announcement-cta:hover { background: #7f1d1d; }
+
+    .announcement-cta:active { transform: scale(0.96); }
+
+    .announcement-nav {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .announcement-nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border-strong);
+      border: none;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      padding: 0;
+    }
+
+    .announcement-nav-dot.active {
+      background: var(--primary);
+      width: 20px;
+      border-radius: 999px;
+    }
+
     .contact-panel {
       margin: 24px 16px 0;
       background: var(--card);
@@ -906,7 +1305,7 @@
       border-radius: 22px;
       overflow: hidden;
       box-shadow: 0 10px 28px -16px rgba(15, 42, 74, 0.25);
-      animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+      animation: bannerIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
     }
 
     .contact-panel-head {
@@ -1075,6 +1474,11 @@
       flex-shrink: 0;
     }
 
+    .sheet-header-text {
+      flex: 1;
+      min-width: 0;
+    }
+
     .sheet-header-text h2 {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 1.25rem; font-weight: 800;
@@ -1089,6 +1493,32 @@
       color: var(--text-light);
       line-height: 1.45;
     }
+
+    .sheet-share-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      border: 1px solid var(--border-strong);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0;
+      margin-left: auto;
+      align-self: flex-start;
+      padding: 0;
+    }
+    .sheet-share-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: scale(1.06);
+    }
+    .sheet-share-btn:active { transform: scale(0.92); }
 
     .sheet-items {
       display: flex; flex-direction: column; gap: 10px;
@@ -1295,6 +1725,10 @@
       .contact-cell-value { font-size: 0.75rem; }
       .quick-pill { padding: 9px 13px; font-size: 0.72rem; }
       .journal-title { font-size: 0.92rem; }
+      .review-quote { font-size: 0.88rem; }
+      .review-card { padding: 28px 20px 18px; min-height: 200px; }
+      .announcement-title { font-size: 0.95rem; }
+      .announcement-message { font-size: 0.78rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1428,6 +1862,38 @@
       </div>
     </section>
 
+    <!-- REVIEWS SLIDER -->
+    <section class="reviews-section" id="reviews">
+      <div class="chart-header">
+        <h2><i class="fas fa-star"></i> Patient Reviews</h2>
+        <span>Real voices</span>
+      </div>
+
+      <div class="reviews-slider-wrap">
+        <button class="reviews-nav reviews-nav-prev" id="reviewsPrev" aria-label="Previous review">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+
+        <div class="reviews-viewport" id="reviewsViewport">
+          <div class="reviews-track" id="publicReviewsTrack">
+            <div class="reviews-loading">Loading reviews…</div>
+          </div>
+        </div>
+
+        <button class="reviews-nav reviews-nav-next" id="reviewsNext" aria-label="Next review">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      <div class="reviews-dots" id="reviewsDots"></div>
+    </section>
+
+    <!-- ANNOUNCEMENTS / ADS BANNER -->
+    <section class="announcement-section" id="announcementSection">
+      <div id="announcementBanner"></div>
+      <div class="announcement-nav" id="announcementNav"></div>
+    </section>
+
     <section class="contact-panel">
       <div class="contact-panel-head">
         <h3>Get in Touch</h3>
@@ -1481,6 +1947,9 @@
         <h2 id="sheetTitle">Title</h2>
         <p id="sheetSubtitle">Subtitle</p>
       </div>
+      <button class="sheet-share-btn" id="sheetShareBtn" title="Share" style="display:none;">
+        <i class="fas fa-share-nodes"></i>
+      </button>
     </div>
     <div id="articleHeroWrap"></div>
     <div class="sheet-items" id="sheetItems"></div>
@@ -1496,9 +1965,6 @@
     (function() {
       'use strict';
 
-      /* ============================================================
-         SUPABASE CONFIG
-      ============================================================ */
       var SUPABASE_URL = 'https://ebsibawoeirdaroppisc.supabase.co';
       var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVic2liYXdvZWlyZGFyb3BwaXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5ODE3NDQsImV4cCI6MjEwNzU1Nzc0NH0.yAxq67ToicxV94_hLANoQk9F5J2sFyKpl5wPuxFJIiA';
       var STORE_KEY = 'prosper_public_cache_v1';
@@ -1507,9 +1973,6 @@
         ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
         : null;
 
-      /* ============================================================
-         DEFAULT DATA — same fallback as admin
-      ============================================================ */
       var DEFAULTS = {
         profile: {
           name: 'Prosper Bassey', initials: 'PB', role: 'BSN, RN · Critical Care Nurse',
@@ -1581,11 +2044,7 @@
         ]
       };
 
-      /* ============================================================
-         LOAD FROM CLOUD (with cache fallback)
-      ============================================================ */
       async function loadData() {
-        // Try cache first for instant render
         var cached = null;
         try {
           var raw = localStorage.getItem(STORE_KEY);
@@ -1604,7 +2063,6 @@
           ]);
 
           var profileRes = results[0], qaRes = results[1], journalRes = results[2];
-          // If any error, fall through to cache/defaults
           if (profileRes.error || qaRes.error || journalRes.error) {
             console.warn('Supabase errors:', profileRes.error, qaRes.error, journalRes.error);
             return cached || JSON.parse(JSON.stringify(DEFAULTS));
@@ -1652,9 +2110,6 @@
         }
       }
 
-      /* ============================================================
-         HELPERS
-      ============================================================ */
       function setText(id, val) {
         var el = document.getElementById(id);
         if (el && val != null) el.textContent = val;
@@ -1693,9 +2148,6 @@
         return raw;
       }
 
-      /* ============================================================
-         RENDER FUNCTIONS
-      ============================================================ */
       var state = JSON.parse(JSON.stringify(DEFAULTS));
 
       function renderNav() {
@@ -1756,92 +2208,88 @@
       }
 
       function openQuickActionSheet(qa) {
-  clearArticleHero();
-  document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + escapeHtml(qa.icon) + '"></i>';
-  document.getElementById('sheetTitle').textContent = qa.sheetTitle;
-  document.getElementById('sheetSubtitle').textContent = qa.sheetSubtitle;
-  var itemsEl = document.getElementById('sheetItems');
-  itemsEl.style.display = 'flex';
-  document.getElementById('articleBody').style.display = 'none';
-  document.getElementById('articleBody').innerHTML = '';
+        clearArticleHero();
+        document.getElementById('sheetIcon').innerHTML = '<i class="fas ' + escapeHtml(qa.icon) + '"></i>';
+        document.getElementById('sheetTitle').textContent = qa.sheetTitle;
+        document.getElementById('sheetSubtitle').textContent = qa.sheetSubtitle;
+        var itemsEl = document.getElementById('sheetItems');
+        itemsEl.style.display = 'flex';
+        document.getElementById('articleBody').style.display = 'none';
+        document.getElementById('articleBody').innerHTML = '';
 
-  itemsEl.innerHTML = qa.rows.map(function(row, idx) {
-    var inner = escapeHtml(row.value);
-    // Rows with a real link render as <a>
-    if (row.link) {
-      inner = '<a href="' + escapeHtml(row.link) + '"' +
-              (row.link.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') + '>' +
-              inner + '</a>';
-    }
-    return '<div class="sheet-item" data-row-idx="' + idx + '"' + (row.link ? ' data-href="' + escapeHtml(row.link) + '"' : '') + '>' +
-      '<div class="sheet-item-icon"><i class="fas ' + escapeHtml(row.icon) + '"></i></div>' +
-      '<div class="sheet-item-body"><h4>' + escapeHtml(row.label) + '</h4><p>' + inner + '</p></div>' +
-    '</div>';
-  }).join('');
+        itemsEl.innerHTML = qa.rows.map(function(row, idx) {
+          var inner = escapeHtml(row.value);
+          if (row.link) {
+            inner = '<a href="' + escapeHtml(row.link) + '"' +
+                    (row.link.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') + '>' +
+                    inner + '</a>';
+          }
+          return '<div class="sheet-item" data-row-idx="' + idx + '"' + (row.link ? ' data-href="' + escapeHtml(row.link) + '"' : '') + '>' +
+            '<div class="sheet-item-icon"><i class="fas ' + escapeHtml(row.icon) + '"></i></div>' +
+            '<div class="sheet-item-body"><h4>' + escapeHtml(row.label) + '</h4><p>' + inner + '</p></div>' +
+          '</div>';
+        }).join('');
 
-  // Wire up real actions on each row
-  itemsEl.querySelectorAll('.sheet-item').forEach(function(el) {
-    var href = el.getAttribute('data-href');
-    if (href) {
-      el.style.cursor = 'pointer';
-      el.addEventListener('click', function(e) {
-        if (e.target.tagName === 'A') return; // let native <a> handle it
-        window.open(href, href.indexOf('http') === 0 ? '_blank' : '_self');
-      });
-    } else {
-      // No link — check the row label to decide what to do
-      var labelEl = el.querySelector('h4');
-      var label = labelEl ? labelEl.textContent.trim().toLowerCase() : '';
-      if (label.indexOf('copy') !== -1 && label.indexOf('link') !== -1) {
-        el.style.cursor = 'pointer';
-        el.addEventListener('click', function() {
-          var url = window.location.origin + window.location.pathname;
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(url).then(function() {
-              showToast('Link copied to clipboard', 'fas fa-check-circle');
-            }).catch(function() {
-              showToast('Could not copy', 'fas fa-triangle-exclamation');
+        itemsEl.querySelectorAll('.sheet-item').forEach(function(el) {
+          var href = el.getAttribute('data-href');
+          if (href) {
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', function(e) {
+              if (e.target.tagName === 'A') return;
+              window.open(href, href.indexOf('http') === 0 ? '_blank' : '_self');
             });
           } else {
-            // Fallback
-            var ta = document.createElement('textarea');
-            ta.value = url;
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand('copy'); showToast('Link copied', 'fas fa-check-circle'); }
-            catch (err) { showToast('Could not copy', 'fas fa-triangle-exclamation'); }
-            document.body.removeChild(ta);
+            var labelEl = el.querySelector('h4');
+            var label = labelEl ? labelEl.textContent.trim().toLowerCase() : '';
+            if (label.indexOf('copy') !== -1 && label.indexOf('link') !== -1) {
+              el.style.cursor = 'pointer';
+              el.addEventListener('click', function() {
+                var url = window.location.origin + window.location.pathname;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  navigator.clipboard.writeText(url).then(function() {
+                    showToast('Link copied to clipboard', 'fas fa-check-circle');
+                  }).catch(function() {
+                    showToast('Could not copy', 'fas fa-triangle-exclamation');
+                  });
+                } else {
+                  var ta = document.createElement('textarea');
+                  ta.value = url;
+                  document.body.appendChild(ta);
+                  ta.select();
+                  try { document.execCommand('copy'); showToast('Link copied', 'fas fa-check-circle'); }
+                  catch (err) { showToast('Could not copy', 'fas fa-triangle-exclamation'); }
+                  document.body.removeChild(ta);
+                }
+              });
+            } else if (label.indexOf('share') !== -1) {
+              el.style.cursor = 'pointer';
+              el.addEventListener('click', function() {
+                var url = window.location.origin + window.location.pathname;
+                var shareData = {
+                  title: 'Prosper Bassey, RN — Critical Care Nurse',
+                  text: 'Check out my nursing portfolio',
+                  url: url
+                };
+                if (navigator.share) {
+                  navigator.share(shareData).catch(function() {});
+                } else if (navigator.clipboard && navigator.clipboard.writeText) {
+                  navigator.clipboard.writeText(url).then(function() {
+                    showToast('Link copied', 'fas fa-check-circle');
+                  });
+                } else {
+                  showToast('Sharing not supported on this browser', 'fas fa-triangle-exclamation');
+                }
+              });
+            }
           }
         });
-      } else if (label.indexOf('share') !== -1) {
-        el.style.cursor = 'pointer';
-        el.addEventListener('click', function() {
-          var url = window.location.origin + window.location.pathname;
-          var shareData = {
-            title: 'Prosper Bassey, RN — Critical Care Nurse',
-            text: 'Check out my nursing portfolio',
-            url: url
-          };
-          if (navigator.share) {
-            navigator.share(shareData).catch(function() { /* user cancelled */ });
-          } else if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(url).then(function() {
-              showToast('Link copied', 'fas fa-check-circle');
-            });
-          } else {
-            showToast('Sharing not supported on this browser', 'fas fa-triangle-exclamation');
-          }
-        });
+
+        document.getElementById('sheetCloseBtn').innerHTML = '<i class="fas fa-check"></i> Got it';
+        document.getElementById('bottomSheet').classList.add('active');
+        document.getElementById('modalOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        document.getElementById('bottomSheet').scrollTop = 0;
       }
-    }
-  });
-
-  document.getElementById('sheetCloseBtn').innerHTML = '<i class="fas fa-check"></i> Got it';
-  document.getElementById('bottomSheet').classList.add('active');
-  document.getElementById('modalOverlay').classList.add('active');
-  document.body.style.overflow = 'hidden';
-  document.getElementById('bottomSheet').scrollTop = 0;
-}
 
       function renderCompetencies() {
         var grid = document.getElementById('matrixGrid');
@@ -1997,6 +2445,46 @@
         document.getElementById('sheetTitle').textContent = entry.title;
         document.getElementById('sheetSubtitle').textContent = (entry.date || '') + (entry.readtime ? ' · ' + entry.readtime : '');
 
+        // Show and wire the share button
+        var shareBtn = document.getElementById('sheetShareBtn');
+        shareBtn.style.display = 'flex';
+        var newShareBtn = shareBtn.cloneNode(true);
+        shareBtn.parentNode.replaceChild(newShareBtn, shareBtn);
+        newShareBtn.addEventListener('click', async function(e) {
+          e.stopPropagation();
+
+          var shareText = entry.title;
+          if (entry.excerpt) shareText += '\n\n' + entry.excerpt;
+          shareText += '\n\n— Prosper Bassey, RN';
+
+          var url = window.location.origin + window.location.pathname + '#article-' + entry.id;
+
+          var shareData = {
+            title: entry.title,
+            text: shareText,
+            url: url
+          };
+
+          if (navigator.share) {
+            try {
+              await navigator.share(shareData);
+            } catch (err) {
+              if (err.name !== 'AbortError') {
+                showToast('Share cancelled', 'fas fa-circle-info');
+              }
+            }
+          } else if (navigator.clipboard && navigator.clipboard.writeText) {
+            try {
+              await navigator.clipboard.writeText(shareText + '\n' + url);
+              showToast('Copied to clipboard', 'fas fa-check-circle');
+            } catch (err) {
+              showToast('Could not copy', 'fas fa-triangle-exclamation');
+            }
+          } else {
+            showToast('Sharing not supported here', 'fas fa-triangle-exclamation');
+          }
+        });
+
         var heroWrap = document.getElementById('articleHeroWrap');
         if (entry.photo) {
           heroWrap.innerHTML = '<div class="article-hero"><img src="' + escapeHtml(entry.photo) + '" alt=""></div>';
@@ -2028,6 +2516,336 @@
         setText('testimonialRole', p.testimonialRole);
       }
 
+      /* ============================================================
+         REVIEWS SLIDER LOGIC
+      ============================================================ */
+      var reviewsTrack = null;
+      var reviewsViewport = null;
+      var reviewsDotsWrap = null;
+      var reviewsPrevBtn = null;
+      var reviewsNextBtn = null;
+      var reviewIndex = 0;
+      var reviewCount = 0;
+      var reviewsAutoplay = null;
+      var reviewsPaused = false;
+      var REVIEWS_INTERVAL_MS = 6000;
+
+      function reviewGoTo(index, animate) {
+        if (!reviewsTrack || reviewCount === 0) return;
+        if (index < 0) index = reviewCount - 1;
+        if (index >= reviewCount) index = 0;
+        reviewIndex = index;
+
+        reviewsTrack.style.transition = (animate === false)
+          ? 'none'
+          : 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+        reviewsTrack.style.transform = 'translateX(-' + (reviewIndex * 100) + '%)';
+
+        if (reviewsDotsWrap) {
+          reviewsDotsWrap.querySelectorAll('.reviews-dot').forEach(function(d, i) {
+            d.classList.toggle('active', i === reviewIndex);
+          });
+        }
+      }
+
+      function reviewNext() { reviewGoTo(reviewIndex + 1); }
+      function reviewPrev() { reviewGoTo(reviewIndex - 1); }
+
+      function reviewsStartAutoplay() {
+        reviewsStopAutoplay();
+        if (reviewCount <= 1) return;
+        reviewsAutoplay = setInterval(function() {
+          if (!reviewsPaused) reviewNext();
+        }, REVIEWS_INTERVAL_MS);
+      }
+      function reviewsStopAutoplay() {
+        if (reviewsAutoplay) { clearInterval(reviewsAutoplay); reviewsAutoplay = null; }
+      }
+
+      async function renderReviews() {
+        reviewsTrack = document.getElementById('publicReviewsTrack');
+        reviewsViewport = document.getElementById('reviewsViewport');
+        reviewsDotsWrap = document.getElementById('reviewsDots');
+        reviewsPrevBtn = document.getElementById('reviewsPrev');
+        reviewsNextBtn = document.getElementById('reviewsNext');
+
+        if (!reviewsTrack || !sb) {
+          if (reviewsTrack) reviewsTrack.innerHTML = '<div class="reviews-empty">Reviews are unavailable right now.</div>';
+          return;
+        }
+
+        try {
+          var res = await sb.from('testimonials').select('*').order('created_at', { ascending: false });
+          if (res.error) throw res.error;
+          var reviews = res.data || [];
+
+          if (!reviews.length) {
+            reviewsTrack.innerHTML = '<div class="reviews-empty">No reviews yet — check back soon.</div>';
+            if (reviewsDotsWrap) reviewsDotsWrap.innerHTML = '';
+            if (reviewsPrevBtn) reviewsPrevBtn.style.display = 'none';
+            if (reviewsNextBtn) reviewsNextBtn.style.display = 'none';
+            return;
+          }
+
+          reviewCount = reviews.length;
+
+          if (reviewCount <= 1) {
+            if (reviewsPrevBtn) reviewsPrevBtn.style.display = 'none';
+            if (reviewsNextBtn) reviewsNextBtn.style.display = 'none';
+          }
+
+          reviewsTrack.innerHTML = reviews.map(function(r) {
+            return '<div class="review-slide">' +
+              '<article class="review-card">' +
+                '<p class="review-quote">"' + escapeHtml(r.quote) + '"</p>' +
+                '<div class="review-footer">' +
+                  '<div class="review-avatar">' + escapeHtml(r.initials || '?') + '</div>' +
+                  '<div class="review-author">' +
+                    '<strong>' + escapeHtml(r.author) + '</strong>' +
+                    '<span>' + escapeHtml(r.role || 'Verified Review') + '</span>' +
+                  '</div>' +
+                '</div>' +
+              '</article>' +
+            '</div>';
+          }).join('');
+
+          if (reviewsDotsWrap) {
+            if (reviewCount > 1) {
+              reviewsDotsWrap.innerHTML = reviews.map(function(_, i) {
+                return '<button class="reviews-dot' + (i === 0 ? ' active' : '') + '" data-index="' + i + '" aria-label="Go to review ' + (i + 1) + '"></button>';
+              }).join('');
+              reviewsDotsWrap.querySelectorAll('.reviews-dot').forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                  reviewGoTo(parseInt(this.getAttribute('data-index'), 10));
+                  reviewsPaused = true;
+                  setTimeout(function() { reviewsPaused = false; }, 4000);
+                });
+              });
+            } else {
+              reviewsDotsWrap.innerHTML = '';
+            }
+          }
+
+          reviewGoTo(0, false);
+          reviewsStartAutoplay();
+
+          if (reviewsViewport) {
+            var tStart = 0, tEnd = 0, dragging = false;
+            reviewsViewport.addEventListener('touchstart', function(e) {
+              tStart = e.changedTouches[0].screenX;
+              dragging = true;
+              reviewsPaused = true;
+            }, { passive: true });
+            reviewsViewport.addEventListener('touchmove', function(e) {
+              if (dragging) tEnd = e.changedTouches[0].screenX;
+            }, { passive: true });
+            reviewsViewport.addEventListener('touchend', function() {
+              if (!dragging) return;
+              dragging = false;
+              var diff = tStart - tEnd;
+              if (Math.abs(diff) > 40) {
+                if (diff > 0) reviewNext(); else reviewPrev();
+              }
+              setTimeout(function() { reviewsPaused = false; }, 3000);
+            }, { passive: true });
+
+            reviewsViewport.addEventListener('mouseenter', function() { reviewsPaused = true; });
+            reviewsViewport.addEventListener('mouseleave', function() { reviewsPaused = false; });
+          }
+
+          if (reviewsPrevBtn) reviewsPrevBtn.addEventListener('click', function() {
+            reviewPrev(); reviewsPaused = true;
+            setTimeout(function() { reviewsPaused = false; }, 4000);
+          });
+          if (reviewsNextBtn) reviewsNextBtn.addEventListener('click', function() {
+            reviewNext(); reviewsPaused = true;
+            setTimeout(function() { reviewsPaused = false; }, 4000);
+          });
+
+        } catch (err) {
+          console.error('Reviews load failed:', err);
+          if (reviewsTrack) reviewsTrack.innerHTML = '<div class="reviews-empty">Reviews are unavailable right now.</div>';
+        }
+      }
+
+      /* ============================================================
+         ANNOUNCEMENTS BANNER
+      ============================================================ */
+      var allAnnouncements = [];
+      var annIndex = 0;
+      var annTimer = null;
+      var ANN_INTERVAL_MS = 7000;
+      var ANN_LABELS = {
+        gold: 'Announcement',
+        blue: 'Update',
+        green: 'Good News',
+        red: 'Important'
+      };
+
+      function isAdLive(ad) {
+        if (!ad.active) return false;
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (ad.start_date) {
+          var start = new Date(ad.start_date);
+          if (start > today) return false;
+        }
+        if (ad.end_date) {
+          var end = new Date(ad.end_date);
+          end.setHours(23, 59, 59, 999);
+          if (end < today) return false;
+        }
+        return true;
+      }
+
+      async function renderAnnouncements() {
+        var section = document.getElementById('announcementSection');
+        var bannerEl = document.getElementById('announcementBanner');
+        var navEl = document.getElementById('announcementNav');
+        if (!section || !bannerEl || !sb) return;
+
+        try {
+          var res = await sb.from('announcements').select('*').order('created_at', { ascending: false });
+          if (res.error) throw res.error;
+          var ads = res.data || [];
+
+          allAnnouncements = ads.filter(isAdLive);
+
+          if (!allAnnouncements.length) {
+            section.classList.remove('visible');
+            return;
+          }
+
+          section.classList.add('visible');
+          renderAnnouncementSlide(0);
+
+          if (allAnnouncements.length > 1) {
+            navEl.innerHTML = allAnnouncements.map(function(_, i) {
+              return '<button class="announcement-nav-dot' + (i === 0 ? ' active' : '') + '" data-ann="' + i + '"></button>';
+            }).join('');
+            navEl.querySelectorAll('.announcement-nav-dot').forEach(function(dot) {
+              dot.addEventListener('click', function() {
+                renderAnnouncementSlide(parseInt(this.getAttribute('data-ann'), 10));
+                resetAnnTimer();
+              });
+            });
+            startAnnTimer();
+          } else {
+            navEl.innerHTML = '';
+          }
+
+        } catch (err) {
+          console.error('Announcements load failed:', err);
+          section.classList.remove('visible');
+        }
+      }
+
+      function renderAnnouncementSlide(index) {
+        if (!allAnnouncements.length) return;
+        if (index < 0) index = allAnnouncements.length - 1;
+        if (index >= allAnnouncements.length) index = 0;
+        annIndex = index;
+
+        var a = allAnnouncements[index];
+        var accent = a.accent || 'gold';
+        var label = ANN_LABELS[accent] || 'Announcement';
+        var bannerEl = document.getElementById('announcementBanner');
+
+        var photoHtml = '';
+        if (a.image) {
+          var sponsorTag = a.sponsored
+            ? '<span class="announcement-sponsor-tag"><i class="fas fa-star"></i> Sponsored</span>'
+            : '';
+          photoHtml =
+            '<div class="announcement-photo">' +
+              '<img src="' + escapeHtml(a.image) + '" alt="' + escapeHtml(a.title) + '">' +
+              sponsorTag +
+              '<button class="announcement-share-btn" data-ann-share="' + annIndex + '" aria-label="Share">' +
+                '<i class="fas fa-share-nodes"></i>' +
+              '</button>' +
+            '</div>';
+        }
+
+        var ctaHtml = '';
+        if (a.cta_label && a.cta_link) {
+          var isExternal = a.cta_link.indexOf('http') === 0;
+          ctaHtml = '<a class="announcement-cta" href="' + escapeHtml(a.cta_link) + '"' +
+                    (isExternal ? ' target="_blank" rel="noopener"' : '') + '>' +
+                    escapeHtml(a.cta_label) + ' <i class="fas fa-arrow-right"></i></a>';
+        }
+
+        var msgHtml = a.message
+          ? '<p class="announcement-message">' + escapeHtml(a.message) + '</p>'
+          : '';
+
+        bannerEl.innerHTML =
+          '<div class="announcement-banner accent-' + escapeHtml(accent) + '">' +
+            photoHtml +
+            '<div class="announcement-body">' +
+              '<div class="announcement-label">' + escapeHtml(label) + '</div>' +
+              '<div class="announcement-title">' + escapeHtml(a.title) + '</div>' +
+              msgHtml +
+              ctaHtml +
+            '</div>' +
+          '</div>';
+
+        var shareBtn = bannerEl.querySelector('[data-ann-share]');
+        if (shareBtn) {
+          shareBtn.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            var shareText = a.title;
+            if (a.message) shareText += '\n\n' + a.message;
+            shareText += '\n\n— Prosper Bassey, RN';
+            var url = window.location.origin + window.location.pathname;
+
+            var shareData = {
+              title: a.title,
+              text: shareText,
+              url: url
+            };
+
+            if (navigator.share) {
+              try {
+                await navigator.share(shareData);
+              } catch (err) {
+                if (err.name !== 'AbortError') {
+                  showToast('Share cancelled', 'fas fa-circle-info');
+                }
+              }
+            } else if (navigator.clipboard && navigator.clipboard.writeText) {
+              try {
+                await navigator.clipboard.writeText(shareText + '\n' + url);
+                showToast('Copied to clipboard', 'fas fa-check-circle');
+              } catch (err) {
+                showToast('Could not copy', 'fas fa-triangle-exclamation');
+              }
+            } else {
+              showToast('Sharing not supported here', 'fas fa-triangle-exclamation');
+            }
+          });
+        }
+
+        var navDots = document.querySelectorAll('#announcementNav .announcement-nav-dot');
+        navDots.forEach(function(d, i) {
+          d.classList.toggle('active', i === annIndex);
+        });
+      }
+
+      function startAnnTimer() {
+        stopAnnTimer();
+        if (allAnnouncements.length <= 1) return;
+        annTimer = setInterval(function() {
+          renderAnnouncementSlide(annIndex + 1);
+        }, ANN_INTERVAL_MS);
+      }
+      function stopAnnTimer() {
+        if (annTimer) { clearInterval(annTimer); annTimer = null; }
+      }
+      function resetAnnTimer() {
+        stopAnnTimer();
+        startAnnTimer();
+      }
+
       function renderContact() {
         var p = state.profile;
         var status = p.availability || 'On Duty';
@@ -2046,9 +2864,6 @@
         setText('footerName', p.name + ', RN');
       }
 
-      /* ============================================================
-         SHEET / MODAL CONTROL
-      ============================================================ */
       var sheetEl = document.getElementById('bottomSheet');
       var overlay = document.getElementById('modalOverlay');
 
@@ -2057,6 +2872,8 @@
         overlay.classList.remove('active');
         document.body.style.overflow = '';
         sheetEl.style.transform = '';
+        var shareBtn = document.getElementById('sheetShareBtn');
+        if (shareBtn) shareBtn.style.display = 'none';
       }
 
       document.querySelectorAll('[data-close]').forEach(function(el) {
@@ -2126,9 +2943,6 @@
         });
       });
 
-      /* ============================================================
-         BOOT
-      ============================================================ */
       (async function boot() {
         state = await loadData();
         renderNav();
@@ -2138,6 +2952,9 @@
         renderJournal();
         renderTestimonial();
         renderContact();
+
+        renderReviews();
+        renderAnnouncements();
 
         window.addEventListener('load', function() {
           setTimeout(animateBars, 400);
