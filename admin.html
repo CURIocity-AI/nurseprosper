@@ -24,6 +24,9 @@
       --danger: #ef4444;
       --warning: #f59e0b;
       --offline: #94a3b8;
+      --gold: #d4a574;
+      --gold-light: #fef3c7;
+      --gold-dark: #92400e;
       --text: #0f172a;
       --text-light: #475569;
       --text-muted: #94a3b8;
@@ -45,9 +48,6 @@
       min-height: 100vh;
     }
 
-    /* ============================
-       LOGIN SCREEN
-    ============================ */
     .login-screen {
       position: fixed; inset: 0;
       z-index: 500;
@@ -190,9 +190,6 @@
       line-height: 1.5;
     }
 
-    /* ============================
-       MAIN ADMIN
-    ============================ */
     .admin-shell { display: none; }
     .admin-shell.visible { display: block; }
 
@@ -488,6 +485,87 @@
     .btn-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
     .btn-row .btn { flex: 1; min-width: 120px; }
 
+    .list-item {
+      background: #f8fbfe;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s;
+      margin-bottom: 10px;
+    }
+    .list-item.inactive { opacity: 0.55; }
+    .list-item-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      transition: background 0.25s;
+    }
+    .list-item-thumb {
+      width: 44px; height: 44px;
+      border-radius: 11px;
+      overflow: hidden;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      border: 1px solid var(--border-strong);
+    }
+    .list-item-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .list-item-thumb.gold { background: var(--gold-light); color: var(--gold-dark); border-color: #fcd34d; }
+    .list-item-thumb.blue { background: var(--primary-light); color: var(--primary-dark); }
+    .list-item-thumb.green { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+    .list-item-thumb.red { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+
+    .list-item-info { flex: 1; min-width: 0; }
+    .list-item-info strong {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+      display: block;
+      line-height: 1.25;
+    }
+    .list-item-info span {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: block;
+      margin-top: 1px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .list-item-info .badge-sponsor {
+      display: inline-block;
+      font-size: 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #fef3c7;
+      color: #92400e;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+    .list-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .icon-btn {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--border-strong);
+      background: #fff;
+      color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .icon-btn:hover { background: var(--primary-light); border-color: var(--primary); }
+    .icon-btn.danger { color: var(--danger); border-color: #fecaca; }
+    .icon-btn.danger:hover { background: var(--danger); color: white; border-color: var(--danger); }
+    .icon-btn.share { color: var(--success); border-color: #bbf7d0; }
+    .icon-btn.share:hover { background: var(--success); color: white; border-color: var(--success); }
+
     .comp-list { display: flex; flex-direction: column; gap: 10px; }
     .comp-item {
       background: #f8fbfe;
@@ -726,6 +804,14 @@
     }
     .photo-input-hidden { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
+    .crop-hint {
+      font-size: 0.68rem;
+      color: var(--primary);
+      margin-top: 6px;
+      font-weight: 600;
+      display: flex; align-items: center; gap: 5px;
+    }
+
     .journal-item {
       display: flex; align-items: flex-start; justify-content: space-between;
       gap: 14px;
@@ -780,20 +866,6 @@
       overflow: hidden;
     }
     .journal-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
-    .icon-btn {
-      width: 34px; height: 34px;
-      border-radius: 10px;
-      border: 1px solid var(--border-strong);
-      background: #fff;
-      color: var(--primary);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.25s;
-    }
-    .icon-btn:hover { background: var(--primary-light); border-color: var(--primary); }
-    .icon-btn.danger { color: var(--danger); border-color: #fecaca; }
-    .icon-btn.danger:hover { background: var(--danger); color: white; border-color: var(--danger); }
 
     .composer-overlay {
       position: fixed; inset: 0;
@@ -862,6 +934,190 @@
     }
     .composer-foot .btn { flex: 1; }
 
+    .toggle-wrap {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 14px;
+      background: #f8fbfe;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    .toggle-wrap label {
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--navy);
+      text-transform: none;
+      letter-spacing: 0;
+      margin: 0;
+    }
+    .toggle-wrap .toggle-help {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 48px; height: 28px;
+      background: var(--border-strong);
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background 0.3s;
+      flex-shrink: 0;
+    }
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 22px; height: 22px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .toggle-switch.on { background: var(--success); }
+    .toggle-switch.on::after { transform: translateX(20px); }
+
+    .accent-picker {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .accent-option {
+      padding: 12px 8px;
+      border-radius: 12px;
+      border: 2px solid var(--border-strong);
+      background: #f8fbfe;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem; font-weight: 700;
+      color: var(--text-light);
+    }
+    .accent-option .accent-dot {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: block;
+    }
+    .accent-option.gold .accent-dot { background: linear-gradient(135deg, #d4a574, #e8c39e); }
+    .accent-option.blue .accent-dot { background: linear-gradient(135deg, var(--primary), var(--sky)); }
+    .accent-option.green .accent-dot { background: linear-gradient(135deg, #22c55e, #86efac); }
+    .accent-option.red .accent-dot { background: linear-gradient(135deg, #ef4444, #fca5a5); }
+    .accent-option.active {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px var(--primary-light);
+      color: var(--navy);
+    }
+
+    /* Cropper */
+    .cropper-wrap {
+      position: fixed; inset: 0;
+      background: rgba(15, 42, 74, 0.95);
+      z-index: 400;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .cropper-wrap.active { display: flex; }
+    .cropper-canvas-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      touch-action: none;
+      cursor: grab;
+    }
+    .cropper-canvas-wrap:active { cursor: grabbing; }
+    .cropper-canvas-wrap canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .cropper-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.15) 1px, transparent 1px);
+      background-size: 33.33% 33.33%;
+    }
+    .cropper-instructions {
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-align: center;
+      margin: 18px 0;
+      opacity: 0.85;
+      line-height: 1.5;
+      max-width: 400px;
+    }
+    .cropper-slider-wrap {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .cropper-slider-wrap i {
+      color: white;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+    .cropper-slider {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.2);
+      outline: none;
+    }
+    .cropper-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .cropper-slider::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .cropper-actions {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .cropper-actions .btn { flex: 1; }
+    .cropper-actions .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border-color: rgba(255,255,255,0.2);
+    }
+    .cropper-actions .btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.3);
+    }
+
     .toast {
       position: fixed;
       bottom: 90px; left: 50%;
@@ -896,9 +1152,6 @@
 </head>
 <body>
 
-  <!-- ============================
-       LOGIN SCREEN
-  ============================ -->
   <div class="login-screen" id="loginScreen">
     <div class="login-card">
       <div class="login-logo">PB</div>
@@ -924,9 +1177,6 @@
     </div>
   </div>
 
-  <!-- ============================
-       MAIN ADMIN
-  ============================ -->
   <div class="admin-shell" id="adminShell">
 
     <header class="admin-topbar">
@@ -964,6 +1214,12 @@
         </button>
         <button class="admin-tab" data-tab="journal" role="tab">
           <i class="fas fa-book-medical"></i> Journal
+        </button>
+        <button class="admin-tab" data-tab="testimonials" role="tab">
+          <i class="fas fa-star"></i> Reviews
+        </button>
+        <button class="admin-tab" data-tab="ads" role="tab">
+          <i class="fas fa-bullhorn"></i> Ads
         </button>
         <button class="admin-tab" data-tab="traffic" role="tab">
           <i class="fas fa-chart-line"></i> Traffic
@@ -1064,8 +1320,8 @@
 
         <div class="admin-card">
           <div class="admin-card-head">
-            <h2><i class="fas fa-comment-dots"></i> Testimonial</h2>
-            <span class="head-hint">Featured quote</span>
+            <h2><i class="fas fa-comment-dots"></i> Featured Testimonial</h2>
+            <span class="head-hint">Hero quote</span>
           </div>
           <div class="admin-card-body">
             <div class="field"><label for="p-testimonial">Quote</label><textarea id="p-testimonial" data-bind="profile.testimonial"></textarea></div>
@@ -1191,9 +1447,38 @@
         </div>
       </section>
 
+      <!-- TESTIMONIALS -->
+      <section class="admin-panel" data-panel="testimonials">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-star"></i> Patient Reviews</h2>
+            <span class="head-hint" id="testimonialCount">0 reviews</span>
+          </div>
+          <div class="admin-card-body">
+            <button class="btn btn-primary btn-block" id="newTestimonialBtn"><i class="fas fa-plus"></i> Add Review</button>
+            <div id="testimonialList" style="margin-top: 18px;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADS / ANNOUNCEMENTS -->
+      <section class="admin-panel" data-panel="ads">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h2><i class="fas fa-bullhorn"></i> Ads / Announcements</h2>
+            <span class="head-hint" id="adsCount">0 active</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="field-help" style="margin-bottom:14px;">Product promos, sponsored content, and announcements. Multiple active ads rotate on the portfolio. Each ad can have a photo, sponsor tag, and scheduled window.</div>
+            <button class="btn btn-primary btn-block" id="newAdBtn"><i class="fas fa-plus"></i> Add Announcement</button>
+            <div id="adsList" style="margin-top: 18px;"></div>
+          </div>
+        </div>
+      </section>
+
     </main>
 
-    <!-- COMPOSER -->
+    <!-- JOURNAL COMPOSER -->
     <div class="composer-overlay" id="composerOverlay"></div>
     <div class="composer" id="composer">
       <div class="composer-head">
@@ -1212,6 +1497,7 @@
             <div class="photo-picker-text" id="photoPickerText">Add cover photo</div>
             <div class="photo-picker-hint" id="photoPickerHint">Tap to choose from your device</div>
           </div>
+          <div class="crop-hint" id="journalCropHint" style="display:none;"><i class="fas fa-crop-simple"></i> Crop tool opens after you pick a photo</div>
           <div class="photo-status" id="photoStatus" style="display:none;"><i class="fas fa-check-circle"></i><span id="photoStatusText"></span></div>
         </div>
         <div class="field-row">
@@ -1247,7 +1533,155 @@
       </div>
     </div>
 
-  </div><!-- /admin-shell -->
+    <!-- TESTIMONIAL COMPOSER -->
+    <div class="composer-overlay" id="testimonialOverlay"></div>
+    <div class="composer" id="testimonialComposer">
+      <div class="composer-head">
+        <div class="composer-head-text">
+          <span class="kicker" id="testimonialKicker">New Review</span>
+          <h2 id="testimonialTitle">Add patient review</h2>
+        </div>
+        <button class="composer-close" id="testimonialClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="composer-body">
+        <div class="field">
+          <label for="t-quote">Quote</label>
+          <textarea id="t-quote" class="tall" placeholder="Write the testimonial here..."></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="t-author">Author Name</label><input type="text" id="t-author" placeholder="e.g., Ekemini N."></div>
+          <div class="field"><label for="t-role">Author Relation</label><input type="text" id="t-role" placeholder="e.g., Family of Patient"></div>
+        </div>
+        <div class="field">
+          <label for="t-initials">Author Initials</label>
+          <input type="text" id="t-initials" maxlength="3" placeholder="e.g., EN">
+        </div>
+      </div>
+      <div class="composer-foot">
+        <button class="btn btn-secondary" id="testimonialCancel">Cancel</button>
+        <button class="btn btn-primary" id="testimonialSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
+      </div>
+    </div>
+
+    <!-- AD COMPOSER -->
+    <div class="composer-overlay" id="adOverlay"></div>
+    <div class="composer" id="adComposer">
+      <div class="composer-head">
+        <div class="composer-head-text">
+          <span class="kicker" id="adKicker">New Announcement</span>
+          <h2 id="adTitle">Create announcement</h2>
+        </div>
+        <button class="composer-close" id="adClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="composer-body">
+        <div class="field">
+          <label>Product Photo <span style="text-transform:none; font-weight:500; letter-spacing:0; color:var(--text-muted);">(optional but recommended)</span></label>
+          <div class="photo-picker" id="adPhotoPicker">
+            <input type="file" accept="image/*" class="photo-input-hidden" id="adPhotoInput">
+            <div class="photo-picker-icon"><i class="fas fa-image"></i></div>
+            <div class="photo-picker-text">Add product photo</div>
+            <div class="photo-picker-hint">Tap to choose from your device</div>
+          </div>
+          <div class="crop-hint" id="adCropHint" style="display:none;"><i class="fas fa-crop-simple"></i> Crop tool opens after you pick a photo</div>
+          <div class="photo-status" id="adPhotoStatus" style="display:none;"><i class="fas fa-check-circle"></i><span id="adPhotoStatusText"></span></div>
+        </div>
+
+        <div class="field">
+          <label for="ad-title-input">Title <span style="color:var(--danger)">*</span></label>
+          <input type="text" id="ad-title-input" placeholder="e.g., Check out this supplement…">
+        </div>
+        <div class="field">
+          <label for="ad-message-input">Message</label>
+          <textarea id="ad-message-input" placeholder="Short description..."></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="ad-cta-label">CTA Button Label</label><input type="text" id="ad-cta-label" placeholder="e.g., Buy Now"></div>
+          <div class="field">
+            <label for="ad-cta-link">CTA Link</label>
+            <input type="text" id="ad-cta-link" placeholder="https://wa.me/234... or tel:... or mailto:...">
+            <div class="field-help" style="font-size:0.62rem;">Use full URLs. WhatsApp: <code>https://wa.me/234...</code> · Call: <code>tel:...</code> · Email: <code>mailto:...</code></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="ad-icon-input">Icon (Font Awesome class)</label>
+          <input type="text" id="ad-icon-input" placeholder="fa-bullhorn" value="fa-bullhorn">
+        </div>
+        <div class="field">
+          <label>Accent Color</label>
+          <div class="accent-picker" id="accentPicker">
+            <button type="button" class="accent-option gold active" data-accent="gold">
+              <span class="accent-dot"></span>
+              Gold
+            </button>
+            <button type="button" class="accent-option blue" data-accent="blue">
+              <span class="accent-dot"></span>
+              Blue
+            </button>
+            <button type="button" class="accent-option green" data-accent="green">
+              <span class="accent-dot"></span>
+              Green
+            </button>
+            <button type="button" class="accent-option red" data-accent="red">
+              <span class="accent-dot"></span>
+              Red
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="toggle-wrap">
+            <div>
+              <label>Sponsored</label>
+              <div class="toggle-help">Show "Sponsored" tag on the banner</div>
+            </div>
+            <div class="toggle-switch on" id="adSponsoredToggle"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="toggle-wrap">
+            <div>
+              <label>Active</label>
+              <div class="toggle-help">Only active ads display on the portfolio</div>
+            </div>
+            <div class="toggle-switch on" id="adActiveToggle"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Schedule <span style="text-transform:none; font-weight:500; letter-spacing:0; color:var(--text-muted);">(optional)</span></label>
+          <div class="field-row">
+            <div class="field" style="margin-bottom:0;"><input type="date" id="ad-start-date"><div class="field-help">Start date</div></div>
+            <div class="field" style="margin-bottom:0;"><input type="date" id="ad-end-date"><div class="field-help">End date</div></div>
+          </div>
+          <div class="field-help" style="margin-top:6px;">Leave blank to run indefinitely. Ads outside their window won't display.</div>
+        </div>
+      </div>
+      <div class="composer-foot">
+        <button class="btn btn-secondary" id="adCancel">Cancel</button>
+        <button class="btn btn-primary" id="adSave"><i class="fas fa-cloud-arrow-up"></i> Save to Cloud</button>
+      </div>
+    </div>
+
+    <!-- CROPPER (modal) -->
+    <div class="cropper-wrap" id="cropperWrap">
+      <div class="cropper-canvas-wrap" id="cropperCanvasWrap">
+        <canvas id="cropperCanvas"></canvas>
+        <div class="cropper-grid"></div>
+      </div>
+      <p class="cropper-instructions">Drag to move · Pinch or use the slider to zoom</p>
+      <div class="cropper-slider-wrap">
+        <i class="fas fa-magnifying-glass-minus"></i>
+        <input type="range" class="cropper-slider" id="cropperZoom" min="1" max="3" step="0.01" value="1">
+        <i class="fas fa-magnifying-glass-plus"></i>
+      </div>
+      <div class="cropper-actions">
+        <button class="btn btn-secondary" id="cropperCancel">Cancel</button>
+        <button class="btn btn-primary" id="cropperApply"><i class="fas fa-check"></i> Apply</button>
+      </div>
+    </div>
+
+  </div>
 
   <div class="toast" id="toast"><i class="fas fa-circle-info"></i><span id="toastText"></span></div>
 
@@ -1255,27 +1689,18 @@
     (function() {
       'use strict';
 
-      /* ============================================================
-         SUPABASE CONFIG
-      ============================================================ */
       var SUPABASE_URL = 'https://ebsibawoeirdaroppisc.supabase.co';
       var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVic2liYXdvZWlyZGFyb3BwaXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5ODE3NDQsImV4cCI6MjEwNzU1Nzc0NH0.yAxq67ToicxV94_hLANoQk9F5J2sFyKpl5wPuxFJIiA';
       var PHOTO_BUCKET = 'journal-photos';
       var STORE_KEY = 'prosper_admin_data_v1';
 
-      /* ============================================================
-         GOATCOUNTER CONFIG
-      ============================================================ */
       var GC_SITE = 'nurseprosper';
       var GC_ENDPOINT = 'https://nurseprosper.goatcounter.com';
       var GC_TOKEN = 'f1yexh9obvpf224uhhbkikpw31nck7mqs5txw91i66jqmycu49g';
       var GC_PROXY = 'https://corsproxy.io/?url=';
-      
+
       if (!window.supabase || typeof window.supabase.createClient !== 'function') {
-        document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#991b1b;background:#fee2e2;border:1px solid #fecaca;border-radius:12px;margin:20px;">' +
-          '<h2 style="margin:0 0 10px;font-size:1.1rem;">Supabase SDK failed to load</h2>' +
-          '<p style="font-size:.9rem;line-height:1.5;">Reload the page. If the issue persists, check your network.</p>' +
-          '</div>';
+        document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#991b1b;background:#fee2e2;border:1px solid #fecaca;border-radius:12px;margin:20px;"><h2 style="margin:0 0 10px;font-size:1.1rem;">Supabase SDK failed to load</h2><p style="font-size:.9rem;line-height:1.5;">Reload the page. If the issue persists, check your network.</p></div>';
         return;
       }
 
@@ -1283,9 +1708,6 @@
       var cloudOnline = false;
       var currentUser = null;
 
-      /* ============================================================
-         DEFAULT DATA
-      ============================================================ */
       var DEFAULTS = {
         profile: {
           name: 'Prosper Bassey', initials: 'PB', role: 'BSN, RN · Critical Care Nurse',
@@ -1357,9 +1779,6 @@
         ]
       };
 
-      /* ============================================================
-         LOGIN
-      ============================================================ */
       var loginScreen = document.getElementById('loginScreen');
       var adminShell = document.getElementById('adminShell');
       var loginForm = document.getElementById('loginForm');
@@ -1420,9 +1839,6 @@
         location.reload();
       });
 
-      /* ============================================================
-         AUTH CHECK ON LOAD
-      ============================================================ */
       async function checkSession() {
         try {
           var res = await sb.auth.getSession();
@@ -1445,9 +1861,6 @@
         }
       });
 
-      /* ============================================================
-         CLOUD STATUS
-      ============================================================ */
       function setCloudStatus(statusState, text) {
         var el = document.getElementById('cloudStatus');
         var textEl = document.getElementById('cloudStatusText');
@@ -1457,9 +1870,6 @@
         cloudOnline = (statusState === 'live');
       }
 
-      /* ============================================================
-         CLOUD LOAD / SAVE
-      ============================================================ */
       async function loadFromCloud() {
         setCloudStatus('checking', 'Loading your content…');
         try {
@@ -1581,9 +1991,6 @@
         return pub.data.publicUrl;
       }
 
-      /* ============================================================
-         STATE + TOAST
-      ============================================================ */
       var state = JSON.parse(JSON.stringify(DEFAULTS));
 
       var toastTimer = null;
@@ -1598,9 +2005,6 @@
         toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2600);
       }
 
-      /* ============================================================
-         TABS
-      ============================================================ */
       document.querySelectorAll('.admin-tab').forEach(function(tab) {
         tab.addEventListener('click', function() {
           var target = this.getAttribute('data-tab');
@@ -1632,9 +2036,6 @@
           .replace(/</g, '&lt;').replace(/>/g, '&gt;');
       }
 
-      /* ============================================================
-         PROFILE FORM
-      ============================================================ */
       function fillProfileForm() {
         document.querySelectorAll('[data-bind]').forEach(function(el) {
           var val = getByPath(state, el.getAttribute('data-bind'));
@@ -1673,9 +2074,6 @@
         });
       });
 
-      /* ============================================================
-         COMPETENCY EDITOR
-      ============================================================ */
       function renderCompetencyEditor() {
         var wrap = document.getElementById('compList');
         wrap.innerHTML = state.profile.competencies.map(function(c, i) {
@@ -1796,9 +2194,6 @@
         showToast('Profile reset locally', 'fas fa-rotate-left');
       });
 
-      /* ============================================================
-         QUICK ACTIONS
-      ============================================================ */
       function renderQuickActions() {
         var wrap = document.getElementById('qaList');
         wrap.innerHTML = state.quickActions.map(function(qa, i) {
@@ -1914,9 +2309,6 @@
         showToast('Quick actions reset locally', 'fas fa-rotate-left');
       });
 
-      /* ============================================================
-         JOURNAL
-      ============================================================ */
       function sortedJournal() {
         return state.journal.slice().sort(function(a, b) { return (b.createdAt || 0) - (a.createdAt || 0); });
       }
@@ -1948,11 +2340,52 @@
               '<div class="journal-item-meta" style="margin-top:6px;">' + escapeAttr(item.date || '') + '</div>' +
             '</div>' +
             '<div class="journal-item-actions">' +
+              '<button class="icon-btn share" data-share="' + escapeAttr(item.id) + '" title="Share"><i class="fas fa-share-nodes"></i></button>' +
               '<button class="icon-btn" data-edit="' + escapeAttr(item.id) + '"><i class="fas fa-pen"></i></button>' +
               '<button class="icon-btn danger" data-delete="' + escapeAttr(item.id) + '"><i class="fas fa-trash"></i></button>' +
             '</div>' +
           '</div>';
         }).join('');
+
+        wrap.querySelectorAll('[data-share]').forEach(function(btn) {
+          btn.addEventListener('click', async function() {
+            var id = this.getAttribute('data-share');
+            var entry = state.journal.find(function(e) { return e.id === id; });
+            if (!entry) return;
+
+            var shareText = entry.title;
+            if (entry.excerpt) shareText += '\n\n' + entry.excerpt;
+            shareText += '\n\n— Prosper Bassey, RN';
+
+            var url = window.location.origin + window.location.pathname;
+
+            var shareData = {
+              title: entry.title,
+              text: shareText,
+              url: url
+            };
+
+            if (navigator.share) {
+              try {
+                await navigator.share(shareData);
+                showToast('Shared!', 'fas fa-check-circle');
+              } catch (err) {
+                if (err.name !== 'AbortError') {
+                  showToast('Share cancelled', 'fas fa-circle-info');
+                }
+              }
+            } else if (navigator.clipboard && navigator.clipboard.writeText) {
+              try {
+                await navigator.clipboard.writeText(shareText + '\n' + url);
+                showToast('Copied to clipboard', 'fas fa-check-circle');
+              } catch (err) {
+                showToast('Could not copy', 'fas fa-triangle-exclamation');
+              }
+            } else {
+              showToast('Sharing not supported here', 'fas fa-triangle-exclamation');
+            }
+          });
+        });
 
         wrap.querySelectorAll('[data-edit]').forEach(function(btn) {
           btn.addEventListener('click', function() {
@@ -1977,14 +2410,527 @@
         });
       }
 
-      /* ============================================================
-         PHOTO HANDLING
-      ============================================================ */
-      var currentPhoto = '';
-      var photoInput = document.getElementById('photoInput');
-      var photoPicker = document.getElementById('photoPicker');
-      var photoStatusEl = document.getElementById('photoStatus');
+      var testimonialComposer = document.getElementById('testimonialComposer');
+      var testimonialOverlay = document.getElementById('testimonialOverlay');
+      var editingTestimonialId = null;
+      var allTestimonials = [];
 
+      async function loadTestimonials() {
+        try {
+          var res = await sb.from('testimonials').select('*').order('created_at', { ascending: false });
+          if (res.error) throw res.error;
+          allTestimonials = res.data || [];
+          renderTestimonialList();
+        } catch (err) {
+          console.error('Failed to load testimonials:', err);
+          var listEl = document.getElementById('testimonialList');
+          if (listEl) listEl.innerHTML = '<div style="color:var(--danger);text-align:center;padding:20px;font-size:0.8rem;">Could not load reviews. Make sure the "testimonials" table exists in Supabase.</div>';
+        }
+      }
+
+      function renderTestimonialList() {
+        var wrap = document.getElementById('testimonialList');
+        var countEl = document.getElementById('testimonialCount');
+        if (!wrap || !countEl) return;
+        
+        countEl.textContent = allTestimonials.length + (allTestimonials.length === 1 ? ' review' : ' reviews');
+
+        if (!allTestimonials.length) {
+          wrap.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);"><i class="fas fa-star" style="font-size:2.4rem;color:var(--border-strong);display:block;margin-bottom:14px;"></i><p style="font-size:.85rem;font-weight:500;">No reviews yet.</p></div>';
+          return;
+        }
+
+        wrap.innerHTML = allTestimonials.map(function(item) {
+          return '<div class="journal-item" data-id="' + escapeAttr(item.id) + '">' +
+            '<div class="journal-item-thumb" style="background:linear-gradient(135deg, #fef3c7, #fde68a); border-color:#fcd34d;">' +
+              '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:1rem;font-weight:800;color:#92400e;">' + escapeAttr(item.initials || '?') + '</span>' +
+            '</div>' +
+            '<div class="journal-item-body">' +
+              '<div class="journal-item-tags"><span class="journal-item-tag" style="background:#fef3c7;color:#92400e;border-color:#fcd34d;">Review</span></div>' +
+              '<h3 style="font-size:0.9rem;">' + escapeAttr(item.author) + '</h3>' +
+              '<p style="font-style:italic;">"' + escapeAttr(item.quote) + '"</p>' +
+              '<div class="journal-item-meta" style="margin-top:6px;">' + escapeAttr(item.role || '') + '</div>' +
+            '</div>' +
+            '<div class="journal-item-actions">' +
+              '<button class="icon-btn" data-testimonial-edit="' + escapeAttr(item.id) + '"><i class="fas fa-pen"></i></button>' +
+              '<button class="icon-btn danger" data-testimonial-delete="' + escapeAttr(item.id) + '"><i class="fas fa-trash"></i></button>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+
+        wrap.querySelectorAll('[data-testimonial-edit]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var id = this.getAttribute('data-testimonial-edit');
+            var entry = allTestimonials.find(function(e) { return e.id === id; });
+            if (entry) openTestimonialComposer(entry);
+          });
+        });
+
+        wrap.querySelectorAll('[data-testimonial-delete]').forEach(function(btn) {
+          btn.addEventListener('click', async function() {
+            var id = this.getAttribute('data-testimonial-delete');
+            if (!confirm('Delete this review?')) return;
+            try {
+              var res = await sb.from('testimonials').delete().eq('id', id);
+              if (res.error) throw res.error;
+              allTestimonials = allTestimonials.filter(function(e) { return e.id !== id; });
+              renderTestimonialList();
+              showToast('Review deleted', 'fas fa-trash');
+            } catch (err) {
+              showToast('Delete failed: ' + (err.message || ''), 'fas fa-triangle-exclamation');
+            }
+          });
+        });
+      }
+
+      function openTestimonialComposer(entry) {
+        editingTestimonialId = entry ? entry.id : null;
+        document.getElementById('testimonialKicker').textContent = entry ? 'Edit Review' : 'New Review';
+        document.getElementById('testimonialTitle').textContent = entry ? 'Edit patient review' : 'Add patient review';
+        document.getElementById('t-quote').value = entry ? entry.quote : '';
+        document.getElementById('t-author').value = entry ? entry.author : '';
+        document.getElementById('t-role').value = entry ? (entry.role || '') : '';
+        document.getElementById('t-initials').value = entry ? (entry.initials || '') : '';
+        testimonialComposer.classList.add('active');
+        testimonialOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        testimonialComposer.scrollTop = 0;
+      }
+
+      function closeTestimonialComposer() {
+        testimonialComposer.classList.remove('active');
+        testimonialOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        editingTestimonialId = null;
+      }
+
+      document.getElementById('testimonialClose').addEventListener('click', closeTestimonialComposer);
+      document.getElementById('testimonialCancel').addEventListener('click', closeTestimonialComposer);
+      testimonialOverlay.addEventListener('click', closeTestimonialComposer);
+      document.getElementById('newTestimonialBtn').addEventListener('click', function() { openTestimonialComposer(null); });
+
+      document.getElementById('testimonialSave').addEventListener('click', async function() {
+        var btn = this;
+        var quote = document.getElementById('t-quote').value.trim();
+        var author = document.getElementById('t-author').value.trim();
+        
+        if (!quote) { showToast('Quote is required', 'fas fa-triangle-exclamation'); return; }
+        if (!author) { showToast('Author name is required', 'fas fa-triangle-exclamation'); return; }
+
+        var payload = {
+          quote: quote,
+          author: author,
+          role: document.getElementById('t-role').value.trim(),
+          initials: document.getElementById('t-initials').value.trim().toUpperCase()
+        };
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving…';
+
+        try {
+          if (editingTestimonialId) {
+            var res = await sb.from('testimonials').update(payload).eq('id', editingTestimonialId);
+            if (res.error) throw res.error;
+          } else {
+            payload.id = 't-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
+            var res2 = await sb.from('testimonials').insert(payload);
+            if (res2.error) throw res2.error;
+          }
+
+          showToast(editingTestimonialId ? 'Review updated' : 'Review added', 'fas fa-check-circle');
+          closeTestimonialComposer();
+          await loadTestimonials();
+        } catch (err) {
+          showToast('Save failed: ' + (err.message || ''), 'fas fa-triangle-exclamation');
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Save to Cloud';
+      });
+
+      /* ============================================================
+         ADS / ANNOUNCEMENTS
+      ============================================================ */
+      var adComposer = document.getElementById('adComposer');
+      var adOverlay = document.getElementById('adOverlay');
+      var editingAdId = null;
+      var allAds = [];
+      var selectedAccent = 'gold';
+      var adActiveState = true;
+      var adSponsoredState = true;
+
+      var adCurrentPhoto = '';
+      var adPhotoInput = document.getElementById('adPhotoInput');
+      var adPhotoPicker = document.getElementById('adPhotoPicker');
+      var adPhotoStatus = document.getElementById('adPhotoStatus');
+      var adCropHint = document.getElementById('adCropHint');
+
+      async function loadAds() {
+        try {
+          var res = await sb.from('announcements').select('*').order('created_at', { ascending: false });
+          if (res.error) throw res.error;
+          allAds = res.data || [];
+          renderAdsList();
+        } catch (err) {
+          console.error('Failed to load ads:', err);
+          var listEl = document.getElementById('adsList');
+          if (listEl) listEl.innerHTML = '<div style="color:var(--danger);text-align:center;padding:20px;font-size:0.8rem;">Could not load announcements. Run the SQL to add columns.</div>';
+        }
+      }
+
+      function isAdLive(ad) {
+        if (!ad.active) return false;
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (ad.start_date) {
+          var start = new Date(ad.start_date);
+          if (start > today) return false;
+        }
+        if (ad.end_date) {
+          var end = new Date(ad.end_date);
+          end.setHours(23, 59, 59, 999);
+          if (end < today) return false;
+        }
+        return true;
+      }
+
+      function renderAdsList() {
+        var wrap = document.getElementById('adsList');
+        var countEl = document.getElementById('adsCount');
+        if (!wrap || !countEl) return;
+
+        var activeCount = allAds.filter(isAdLive).length;
+        countEl.textContent = activeCount + ' live · ' + allAds.length + ' total';
+
+        if (!allAds.length) {
+          wrap.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);"><i class="fas fa-bullhorn" style="font-size:2.4rem;color:var(--border-strong);display:block;margin-bottom:14px;"></i><p style="font-size:.85rem;font-weight:500;">No announcements yet.</p></div>';
+          return;
+        }
+
+        wrap.innerHTML = allAds.map(function(item) {
+          var accentClass = item.accent || 'gold';
+          var thumb = item.image
+            ? '<div class="list-item-thumb"><img src="' + escapeAttr(item.image) + '" alt=""></div>'
+            : '<div class="list-item-thumb ' + accentClass + '"><i class="fas ' + escapeAttr(item.icon || 'fa-bullhorn') + '"></i></div>';
+          var sponsorTag = item.sponsored ? '<span class="badge-sponsor">Sponsored</span>' : '';
+          var scheduleText = '';
+          if (item.start_date || item.end_date) {
+            var s = item.start_date ? item.start_date : 'now';
+            var e = item.end_date ? item.end_date : 'forever';
+            scheduleText = ' · ' + s + ' → ' + e;
+          }
+          var statusText = isAdLive(item) ? 'Live' : (item.active ? 'Scheduled / Expired' : 'Hidden');
+
+          return '<div class="list-item ' + (isAdLive(item) ? '' : 'inactive') + '" data-id="' + escapeAttr(item.id) + '">' +
+            '<div class="list-item-head">' +
+              thumb +
+              '<div class="list-item-info">' +
+                '<strong>' + sponsorTag + escapeAttr(item.title) + '</strong>' +
+                '<span>' + statusText + ' · ' + escapeAttr(item.cta_label || 'No CTA') + scheduleText + '</span>' +
+              '</div>' +
+              '<div class="list-item-actions">' +
+                '<button class="icon-btn share" data-ad-share="' + escapeAttr(item.id) + '" title="Share"><i class="fas fa-share-nodes"></i></button>' +
+                '<button class="icon-btn" data-ad-toggle="' + escapeAttr(item.id) + '" title="' + (item.active ? 'Deactivate' : 'Activate') + '">' +
+                  '<i class="fas ' + (item.active ? 'fa-toggle-on' : 'fa-toggle-off') + '"></i>' +
+                '</button>' +
+                '<button class="icon-btn" data-ad-edit="' + escapeAttr(item.id) + '"><i class="fas fa-pen"></i></button>' +
+                '<button class="icon-btn danger" data-ad-delete="' + escapeAttr(item.id) + '"><i class="fas fa-trash"></i></button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+
+        wrap.querySelectorAll('[data-ad-share]').forEach(function(btn) {
+          btn.addEventListener('click', async function() {
+            var id = this.getAttribute('data-ad-share');
+            var ad = allAds.find(function(a) { return a.id === id; });
+            if (!ad) return;
+
+            var shareText = ad.title;
+            if (ad.message) shareText += '\n\n' + ad.message;
+            shareText += '\n\n— Prosper Bassey, RN';
+            var url = window.location.origin + window.location.pathname;
+
+            var shareData = {
+              title: ad.title,
+              text: shareText,
+              url: url
+            };
+
+            if (navigator.share) {
+              try {
+                await navigator.share(shareData);
+                showToast('Shared!', 'fas fa-check-circle');
+              } catch (err) {
+                if (err.name !== 'AbortError') {
+                  showToast('Share cancelled', 'fas fa-circle-info');
+                }
+              }
+            } else if (navigator.clipboard) {
+              var fullText = shareText + '\n' + url;
+              try {
+                await navigator.clipboard.writeText(fullText);
+                showToast('Copied to clipboard', 'fas fa-check-circle');
+              } catch (e) {
+                showToast('Could not copy', 'fas fa-triangle-exclamation');
+              }
+            } else {
+              showToast('Sharing not supported here', 'fas fa-triangle-exclamation');
+            }
+          });
+        });
+
+        wrap.querySelectorAll('[data-ad-toggle]').forEach(function(btn) {
+          btn.addEventListener('click', async function() {
+            var id = this.getAttribute('data-ad-toggle');
+            var ad = allAds.find(function(a) { return a.id === id; });
+            if (!ad) return;
+            var newState = !ad.active;
+            try {
+              var res = await sb.from('announcements').update({ active: newState }).eq('id', id);
+              if (res.error) throw res.error;
+              ad.active = newState;
+              renderAdsList();
+              showToast(newState ? 'Announcement activated' : 'Announcement hidden', 'fas fa-check-circle');
+            } catch (err) {
+              showToast('Update failed: ' + (err.message || ''), 'fas fa-triangle-exclamation');
+            }
+          });
+        });
+
+        wrap.querySelectorAll('[data-ad-edit]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var id = this.getAttribute('data-ad-edit');
+            var ad = allAds.find(function(a) { return a.id === id; });
+            if (ad) openAdComposer(ad);
+          });
+        });
+
+        wrap.querySelectorAll('[data-ad-delete]').forEach(function(btn) {
+          btn.addEventListener('click', async function() {
+            var id = this.getAttribute('data-ad-delete');
+            var ad = allAds.find(function(a) { return a.id === id; });
+            if (!ad) return;
+            if (!confirm('Delete "' + ad.title + '"?')) return;
+            try {
+              var res = await sb.from('announcements').delete().eq('id', id);
+              if (res.error) throw res.error;
+              allAds = allAds.filter(function(a) { return a.id !== id; });
+              renderAdsList();
+              showToast('Announcement deleted', 'fas fa-trash');
+            } catch (err) {
+              showToast('Delete failed: ' + (err.message || ''), 'fas fa-triangle-exclamation');
+            }
+          });
+        });
+      }
+
+      function renderAdPhotoPicker() {
+        if (adCurrentPhoto) {
+          adPhotoPicker.classList.add('has-photo');
+          adPhotoPicker.innerHTML = '<img class="photo-preview" src="' + adCurrentPhoto + '" alt="">' +
+            '<div class="photo-overlay">' +
+              '<span class="photo-overlay-text">Product photo</span>' +
+              '<div class="photo-overlay-actions">' +
+                '<button type="button" class="photo-action-btn" id="adPhotoCrop" title="Crop"><i class="fas fa-crop-simple"></i></button>' +
+                '<button type="button" class="photo-action-btn" id="adPhotoReplace" title="Replace"><i class="fas fa-arrows-rotate"></i></button>' +
+                '<button type="button" class="photo-action-btn danger" id="adPhotoRemove" title="Remove"><i class="fas fa-trash"></i></button>' +
+              '</div>' +
+            '</div>';
+          adPhotoStatus.style.display = 'flex';
+          if (adCurrentPhoto.indexOf('http') === 0) {
+            document.getElementById('adPhotoStatusText').textContent = 'Photo in cloud storage';
+          } else {
+            document.getElementById('adPhotoStatusText').textContent = 'Ready · ' + formatKB(bytesFromDataUrl(adCurrentPhoto)) + ' (uploads on save)';
+          }
+          adCropHint.style.display = 'flex';
+
+          document.getElementById('adPhotoCrop').addEventListener('click', function(e) {
+            e.stopPropagation();
+            openCropper(adCurrentPhoto, function(newDataUrl) {
+              adCurrentPhoto = newDataUrl;
+              renderAdPhotoPicker();
+              showToast('Photo cropped', 'fas fa-check-circle');
+            });
+          });
+          document.getElementById('adPhotoReplace').addEventListener('click', function(e) {
+            e.stopPropagation();
+            adPhotoInput.click();
+          });
+          document.getElementById('adPhotoRemove').addEventListener('click', function(e) {
+            e.stopPropagation();
+            adCurrentPhoto = '';
+            renderAdPhotoPicker();
+            showToast('Photo removed', 'fas fa-trash');
+          });
+        } else {
+          adPhotoPicker.classList.remove('has-photo');
+          adPhotoPicker.innerHTML = '<input type="file" accept="image/*" class="photo-input-hidden" id="adPhotoInput">' +
+            '<div class="photo-picker-icon"><i class="fas fa-image"></i></div>' +
+            '<div class="photo-picker-text">Add product photo</div>' +
+            '<div class="photo-picker-hint">Tap to choose from your device</div>';
+          adPhotoInput = document.getElementById('adPhotoInput');
+          bindAdPhotoInput();
+          adPhotoStatus.style.display = 'none';
+          adCropHint.style.display = 'none';
+        }
+      }
+
+      function bindAdPhotoInput() {
+        adPhotoInput.addEventListener('change', function() {
+          var file = this.files && this.files[0];
+          if (!file) return;
+          if (!file.type.match(/^image\//)) {
+            showToast('Please choose an image file', 'fas fa-triangle-exclamation');
+            return;
+          }
+          showToast('Processing photo…', 'fas fa-spinner');
+          compressImage(file, function(err, dataUrl) {
+            if (err) { showToast('Could not process image', 'fas fa-triangle-exclamation'); return; }
+            openCropper(dataUrl, function(croppedDataUrl) {
+              adCurrentPhoto = croppedDataUrl;
+              renderAdPhotoPicker();
+              showToast('Photo ready · will upload on save', 'fas fa-check-circle');
+            });
+          });
+        });
+      }
+
+      adPhotoPicker.addEventListener('click', function(e) {
+        if (e.target.closest('.photo-action-btn')) return;
+        if (!adCurrentPhoto && adPhotoInput) adPhotoInput.click();
+      });
+
+      function openAdComposer(ad) {
+        editingAdId = ad ? ad.id : null;
+        document.getElementById('adKicker').textContent = ad ? 'Edit Announcement' : 'New Announcement';
+        document.getElementById('adTitle').textContent = ad ? 'Edit announcement' : 'Create announcement';
+        document.getElementById('ad-title-input').value = ad ? ad.title : '';
+        document.getElementById('ad-message-input').value = ad ? (ad.message || '') : '';
+        document.getElementById('ad-cta-label').value = ad ? (ad.cta_label || '') : '';
+        document.getElementById('ad-cta-link').value = ad ? (ad.cta_link || '') : '';
+        document.getElementById('ad-icon-input').value = ad ? (ad.icon || 'fa-bullhorn') : 'fa-bullhorn';
+        document.getElementById('ad-start-date').value = ad ? (ad.start_date || '') : '';
+        document.getElementById('ad-end-date').value = ad ? (ad.end_date || '') : '';
+        selectedAccent = ad ? (ad.accent || 'gold') : 'gold';
+        adActiveState = ad ? !!ad.active : true;
+        adSponsoredState = ad ? (ad.sponsored !== false) : true;
+        adCurrentPhoto = ad ? (ad.image || '') : '';
+        renderAccentPicker();
+        renderAdToggle();
+        renderSponsoredToggle();
+        renderAdPhotoPicker();
+        adComposer.classList.add('active');
+        adOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        adComposer.scrollTop = 0;
+      }
+
+      function closeAdComposer() {
+        adComposer.classList.remove('active');
+        adOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        editingAdId = null;
+        adCurrentPhoto = '';
+      }
+
+      function renderAccentPicker() {
+        document.querySelectorAll('#accentPicker .accent-option').forEach(function(btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-accent') === selectedAccent);
+        });
+      }
+
+      function renderAdToggle() {
+        document.getElementById('adActiveToggle').classList.toggle('on', adActiveState);
+      }
+      function renderSponsoredToggle() {
+        document.getElementById('adSponsoredToggle').classList.toggle('on', adSponsoredState);
+      }
+
+      document.querySelectorAll('#accentPicker .accent-option').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          selectedAccent = this.getAttribute('data-accent');
+          renderAccentPicker();
+        });
+      });
+
+      document.getElementById('adActiveToggle').addEventListener('click', function() {
+        adActiveState = !adActiveState;
+        renderAdToggle();
+      });
+      document.getElementById('adSponsoredToggle').addEventListener('click', function() {
+        adSponsoredState = !adSponsoredState;
+        renderSponsoredToggle();
+      });
+
+      document.getElementById('adClose').addEventListener('click', closeAdComposer);
+      document.getElementById('adCancel').addEventListener('click', closeAdComposer);
+      adOverlay.addEventListener('click', closeAdComposer);
+      document.getElementById('newAdBtn').addEventListener('click', function() { openAdComposer(null); });
+
+      document.getElementById('adSave').addEventListener('click', async function() {
+        var btn = this;
+        var title = document.getElementById('ad-title-input').value.trim();
+        if (!title) { showToast('Title is required', 'fas fa-triangle-exclamation'); return; }
+
+        var adId = editingAdId || ('ad-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7));
+        var photoUrl = adCurrentPhoto;
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving…';
+
+        if (photoUrl && photoUrl.indexOf('http') !== 0) {
+          try {
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Uploading photo…';
+            photoUrl = await uploadPhotoToCloud(photoUrl, adId);
+          } catch (err) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Save to Cloud';
+            showToast('Photo upload failed: ' + (err.message || ''), 'fas fa-triangle-exclamation');
+            return;
+          }
+        }
+
+        var payload = {
+          id: adId,
+          title: title,
+          message: document.getElementById('ad-message-input').value.trim(),
+          cta_label: document.getElementById('ad-cta-label').value.trim(),
+          cta_link: document.getElementById('ad-cta-link').value.trim(),
+          icon: document.getElementById('ad-icon-input').value.trim() || 'fa-bullhorn',
+          accent: selectedAccent,
+          active: adActiveState,
+          sponsored: adSponsoredState,
+          image: photoUrl,
+          start_date: document.getElementById('ad-start-date').value || null,
+          end_date: document.getElementById('ad-end-date').value || null
+        };
+
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving…';
+
+        try {
+          if (editingAdId) {
+            var res = await sb.from('announcements').update(payload).eq('id', editingAdId);
+            if (res.error) throw res.error;
+          } else {
+            var res2 = await sb.from('announcements').insert(payload);
+            if (res2.error) throw res2.error;
+          }
+
+          showToast(editingAdId ? 'Announcement updated' : 'Announcement added', 'fas fa-check-circle');
+          closeAdComposer();
+          await loadAds();
+        } catch (err) {
+          showToast('Save failed: ' + (err.message || ''), 'fas fa-triangle-exclamation');
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Save to Cloud';
+      });
+
+      /* ============================================================
+         PHOTO HELPERS
+      ============================================================ */
       var MAX_WIDTH = 1600;
       var JPEG_QUALITY = 0.82;
 
@@ -2021,6 +2967,171 @@
         return (kb / 1024).toFixed(1) + ' MB';
       }
 
+      /* ============================================================
+         CROPPER (16:9 with pan + zoom)
+      ============================================================ */
+      var cropWrap = document.getElementById('cropperWrap');
+      var cropCanvas = document.getElementById('cropperCanvas');
+      var cropCtx = cropCanvas.getContext('2d');
+      var cropImage = new Image();
+      var cropZoom = 1;
+      var cropOffsetX = 0;
+      var cropOffsetY = 0;
+      var cropDragging = false;
+      var cropLastX = 0;
+      var cropLastY = 0;
+      var cropCallback = null;
+      var cropPinchStartDist = 0;
+      var cropPinchStartZoom = 1;
+
+      function openCropper(dataUrl, onApply) {
+        cropImage = new Image();
+        cropImage.onload = function() {
+          cropZoom = 1;
+          cropOffsetX = 0;
+          cropOffsetY = 0;
+          document.getElementById('cropperZoom').value = 1;
+          cropWrap.classList.add('active');
+          document.body.style.overflow = 'hidden';
+          resizeCropCanvas();
+          drawCrop();
+        };
+        cropImage.src = dataUrl;
+        cropCallback = onApply;
+      }
+
+      function closeCropper() {
+        cropWrap.classList.remove('active');
+        document.body.style.overflow = '';
+        cropCallback = null;
+      }
+
+      function resizeCropCanvas() {
+        var wrapEl = document.getElementById('cropperCanvasWrap');
+        var rect = wrapEl.getBoundingClientRect();
+        var dpr = window.devicePixelRatio || 1;
+        cropCanvas.width = rect.width * dpr;
+        cropCanvas.height = rect.height * dpr;
+        cropCanvas.style.width = rect.width + 'px';
+        cropCanvas.style.height = rect.height + 'px';
+        cropCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function getBaseScale() {
+        var rect = cropCanvas.getBoundingClientRect();
+        var scaleX = rect.width / cropImage.width;
+        var scaleY = rect.height / cropImage.height;
+        return Math.max(scaleX, scaleY);
+      }
+
+      function drawCrop() {
+        var rect = cropCanvas.getBoundingClientRect();
+        cropCtx.clearRect(0, 0, rect.width, rect.height);
+        cropCtx.fillStyle = '#000';
+        cropCtx.fillRect(0, 0, rect.width, rect.height);
+
+        var baseScale = getBaseScale();
+        var finalScale = baseScale * cropZoom;
+        var w = cropImage.width * finalScale;
+        var h = cropImage.height * finalScale;
+
+        var cx = rect.width / 2 + cropOffsetX;
+        var cy = rect.height / 2 + cropOffsetY;
+
+        cropCtx.drawImage(cropImage, cx - w / 2, cy - h / 2, w, h);
+      }
+
+      var cropWrapEl = document.getElementById('cropperCanvasWrap');
+      cropWrapEl.addEventListener('pointerdown', function(e) {
+        cropDragging = true;
+        cropLastX = e.clientX;
+        cropLastY = e.clientY;
+        cropWrapEl.setPointerCapture(e.pointerId);
+      });
+      cropWrapEl.addEventListener('pointermove', function(e) {
+        if (!cropDragging) return;
+        cropOffsetX += e.clientX - cropLastX;
+        cropOffsetY += e.clientY - cropLastY;
+        cropLastX = e.clientX;
+        cropLastY = e.clientY;
+        drawCrop();
+      });
+      cropWrapEl.addEventListener('pointerup', function() { cropDragging = false; });
+      cropWrapEl.addEventListener('pointercancel', function() { cropDragging = false; });
+
+      cropWrapEl.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 2) {
+          cropPinchStartDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          cropPinchStartZoom = cropZoom;
+        }
+      }, { passive: true });
+      cropWrapEl.addEventListener('touchmove', function(e) {
+        if (e.touches.length === 2 && cropPinchStartDist > 0) {
+          var dist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          var ratio = dist / cropPinchStartDist;
+          cropZoom = Math.max(1, Math.min(3, cropPinchStartZoom * ratio));
+          document.getElementById('cropperZoom').value = cropZoom;
+          drawCrop();
+        }
+      }, { passive: true });
+
+      document.getElementById('cropperZoom').addEventListener('input', function() {
+        cropZoom = parseFloat(this.value);
+        drawCrop();
+      });
+
+      document.getElementById('cropperCancel').addEventListener('click', closeCropper);
+      document.getElementById('cropperApply').addEventListener('click', function() {
+        var outW = 1600;
+        var outH = 900;
+        var outCanvas = document.createElement('canvas');
+        outCanvas.width = outW;
+        outCanvas.height = outH;
+        var outCtx = outCanvas.getContext('2d');
+
+        var viewRect = cropCanvas.getBoundingClientRect();
+        var viewW = viewRect.width;
+
+        var scaleToOutput = outW / viewW;
+        var baseScale = getBaseScale();
+        var finalScale = baseScale * cropZoom * scaleToOutput;
+        var drawW = cropImage.width * finalScale;
+        var drawH = cropImage.height * finalScale;
+
+        var cxOut = outW / 2 + cropOffsetX * scaleToOutput;
+        var cyOut = outH / 2 + cropOffsetY * scaleToOutput;
+
+        outCtx.fillStyle = '#000';
+        outCtx.fillRect(0, 0, outW, outH);
+        outCtx.drawImage(cropImage, cxOut - drawW / 2, cyOut - drawH / 2, drawW, drawH);
+
+        var dataUrl = outCanvas.toDataURL('image/jpeg', 0.85);
+        if (cropCallback) cropCallback(dataUrl);
+        closeCropper();
+      });
+
+      window.addEventListener('resize', function() {
+        if (cropWrap.classList.contains('active')) {
+          resizeCropCanvas();
+          drawCrop();
+        }
+      });
+
+      /* ============================================================
+         JOURNAL COMPOSER + PHOTO
+      ============================================================ */
+      var currentPhoto = '';
+      var photoInput = document.getElementById('photoInput');
+      var photoPicker = document.getElementById('photoPicker');
+      var photoStatusEl = document.getElementById('photoStatus');
+      var journalCropHint = document.getElementById('journalCropHint');
+
       function renderPhotoPicker() {
         if (currentPhoto) {
           photoPicker.classList.add('has-photo');
@@ -2029,12 +3140,23 @@
             '<div class="photo-overlay">' +
               '<span class="photo-overlay-text">Cover photo</span>' +
               '<div class="photo-overlay-actions">' +
+                '<button type="button" class="photo-action-btn" id="photoCropBtn" title="Crop"><i class="fas fa-crop-simple"></i></button>' +
                 '<button type="button" class="photo-action-btn" id="photoReplaceBtn" title="Replace"><i class="fas fa-arrows-rotate"></i></button>' +
                 '<button type="button" class="photo-action-btn danger" id="photoRemoveBtn" title="Remove"><i class="fas fa-trash"></i></button>' +
               '</div>' +
             '</div>';
           photoInput = document.getElementById('photoInput');
           bindPhotoInput();
+          journalCropHint.style.display = 'flex';
+
+          document.getElementById('photoCropBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            openCropper(currentPhoto, function(newDataUrl) {
+              currentPhoto = newDataUrl;
+              renderPhotoPicker();
+              showToast('Photo cropped', 'fas fa-check-circle');
+            });
+          });
           document.getElementById('photoReplaceBtn').addEventListener('click', function(e) {
             e.stopPropagation();
             photoInput.click();
@@ -2060,6 +3182,7 @@
           photoInput = document.getElementById('photoInput');
           bindPhotoInput();
           photoStatusEl.style.display = 'none';
+          journalCropHint.style.display = 'none';
         }
       }
 
@@ -2074,9 +3197,11 @@
           showToast('Processing photo…', 'fas fa-spinner');
           compressImage(file, function(err, dataUrl) {
             if (err) { showToast('Could not process image', 'fas fa-triangle-exclamation'); return; }
-            currentPhoto = dataUrl;
-            renderPhotoPicker();
-            showToast('Photo ready · will upload on save', 'fas fa-check-circle');
+            openCropper(dataUrl, function(croppedDataUrl) {
+              currentPhoto = croppedDataUrl;
+              renderPhotoPicker();
+              showToast('Photo ready · will upload on save', 'fas fa-check-circle');
+            });
           });
         });
       }
@@ -2086,9 +3211,6 @@
         if (!currentPhoto && photoInput) photoInput.click();
       });
 
-      /* ============================================================
-         COMPOSER
-      ============================================================ */
       var composer = document.getElementById('composer');
       var composerOverlay = document.getElementById('composerOverlay');
       var editingId = null;
@@ -2124,7 +3246,12 @@
       document.getElementById('composerCancel').addEventListener('click', closeComposer);
       composerOverlay.addEventListener('click', closeComposer);
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && composer.classList.contains('active')) closeComposer();
+        if (e.key === 'Escape') {
+          if (composer.classList.contains('active')) closeComposer();
+          if (testimonialComposer.classList.contains('active')) closeTestimonialComposer();
+          if (adComposer.classList.contains('active')) closeAdComposer();
+          if (cropWrap.classList.contains('active')) closeCropper();
+        }
       });
 
       document.getElementById('newEntryBtn').addEventListener('click', function() { openComposer(null); });
@@ -2203,27 +3330,6 @@
         return y + '-' + m + '-' + dd;
       }
 
-     async function gcFetch(path, params) {
-  var target = GC_ENDPOINT + '/api/v0' + path;
-  if (params) {
-    var qs = Object.keys(params).map(function(k) {
-      return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
-    }).join('&');
-    target += '?' + qs;
-  }
-  var url = GC_PROXY + encodeURIComponent(target);
-  var res = await fetch(url, {
-    headers: {
-      'Authorization': 'Bearer ' + GC_TOKEN,
-      'Content-Type': 'application/json'
-    }
-  });
-  if (!res.ok) {
-    var errText = await res.text();
-    throw new Error('GoatCounter ' + res.status + ': ' + errText);
-  }
-  return await res.json();
-}
       function gcShowError(msg) {
         var el = document.getElementById('trafficError');
         el.textContent = msg;
@@ -2246,25 +3352,25 @@
         var start30 = new Date(today); start30.setDate(today.getDate() - 29);
 
         try {
-  var fnRes = await sb.functions.invoke('traffic', {
-    body: {
-      today: gcDateISO(today),
-      start7: gcDateISO(start7),
-      start30: gcDateISO(start30)
-    }
-  });
-  
-  if (fnRes.error) throw new Error(fnRes.error.message || 'Edge function error');
-  var data = fnRes.data;
-  if (!data) throw new Error('No data returned');
-  if (data.error) throw new Error(data.error);
-  
-  var todayHits = data.today;
-  var weekHits = data.week;
-  var monthHits = data.month;
-  var dailyHits = data.daily;
-  var topPages = data.pages;
-  var topRefs = data.referrers;
+          var fnRes = await sb.functions.invoke('traffic', {
+            body: {
+              today: gcDateISO(today),
+              start7: gcDateISO(start7),
+              start30: gcDateISO(start30)
+            }
+          });
+          
+          if (fnRes.error) throw new Error(fnRes.error.message || 'Edge function error');
+          var data = fnRes.data;
+          if (!data) throw new Error('No data returned');
+          if (data.error) throw new Error(data.error);
+          
+          var todayHits = data.today;
+          var weekHits = data.week;
+          var monthHits = data.month;
+          var dailyHits = data.daily;
+          var topPages = data.pages;
+          var topRefs = data.referrers;
 
           document.getElementById('trafficToday').textContent      = gcNum(todayHits.total);
           document.getElementById('trafficTodayPages').textContent  = gcNum(todayHits.total_events) + ' views';
@@ -2342,9 +3448,6 @@
         }
       }
 
-      /* ============================================================
-         BOOT (only called when signed in)
-      ============================================================ */
       async function bootAdmin() {
         try {
           state = await loadFromCloud();
@@ -2352,6 +3455,8 @@
           renderQuickActions();
           renderJournalList();
           renderPhotoPicker();
+          loadTestimonials();
+          loadAds();
         } catch (err) {
           console.error('BOOT FAILED:', err);
           setCloudStatus('offline', 'Boot error: ' + (err.message || err));
@@ -2360,12 +3465,11 @@
           renderQuickActions();
           renderJournalList();
           renderPhotoPicker();
+          loadTestimonials();
+          loadAds();
         }
       }
 
-      /* ============================================================
-         START
-      ============================================================ */
       checkSession();
 
     })();
