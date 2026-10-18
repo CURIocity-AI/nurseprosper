@@ -4,7 +4,7 @@ Personal portfolio website for a Registered Nurse — showcasing experience, ski
 
 ## 🌐 Live Site
 
-👉 **[https://CURlocity-AI.github.io/nurseprosper/](https://CURlocity-AI.github.io/nurseprosper/)**
+👉 **[https://CURiocity-AI.github.io/nurseprosper/](https://CURlocity-AI.github.io/nurseprosper/)**
 
 ## 📖 About
 
